@@ -1,11 +1,31 @@
-# Trainee AI/ML Engineer — Fresher Interview Preparation Guide
+# AI/ML Fresher Roadmap
 
-Welcome! 👋  
-This repository is a **complete interview preparation kit for freshers and trainees** applying for AI/ML Engineering roles.
+## Trainee AI/ML Engineer — Fresher Interview Preparation Guide
 
-The goal is simple: learn the fundamentals, understand why things work, practice implementation, and become confident explaining AI/ML concepts in interviews.
+Welcome! 👋
 
-Everything is explained in a fresher-friendly way, with simple examples, practical scenarios, coding exercises, and interview-focused questions.
+This repository is a structured interview preparation and learning guide for freshers and trainees applying for **AI/ML Engineering roles**.
+
+The goal is to build a strong foundation in Python, mathematics, machine learning, deep learning, NLP, computer vision, Generative AI, RAG, MLOps, and practical AI engineering.
+
+The material is intentionally written in a simple, practical way, with examples, interview questions, coding exercises, and real-world scenarios.
+
+---
+
+## 🗺️ Learning Path
+
+```mermaid
+flowchart LR
+    A[Python & Data] --> B[Math & Statistics]
+    B --> C[Classical ML]
+    C --> D[Deep Learning]
+    D --> E[NLP & Computer Vision]
+    E --> F[Generative AI & LLMs]
+    F --> G[RAG]
+    G --> H[MLOps & Engineering]
+    H --> I[Practical Projects]
+    I --> J[Interview Preparation]
+```
 
 ---
 
@@ -28,7 +48,7 @@ Everything is explained in a fresher-friendly way, with simple examples, practic
 
 These are the concepts you should be able to explain clearly in your own words, not just memorize definitions.
 
-### Tier 1 — MUST KNOW (Asked in 90%+ of interviews)
+### Tier 1 — Must Know (Asked in 90%+ of interviews)
 - [ ] What is AI, ML, and Deep Learning? What's the difference?
 - [ ] What is Supervised vs Unsupervised vs Reinforcement Learning?
 - [ ] What is Classification vs Regression? Give examples.
@@ -47,7 +67,7 @@ These are the concepts you should be able to explain clearly in your own words, 
 - [ ] What is RAG?
 - [ ] What is an Embedding?
 
-### Tier 2 — GOOD TO KNOW (Asked in ~60% of interviews)
+### Tier 2 — Good to Know (Asked in ~60% of interviews)
 - [ ] What is Random Forest and why can it outperform a single Decision Tree?
 - [ ] What is Train-Test Split? Why is it necessary?
 - [ ] What is Data Leakage?
@@ -85,37 +105,52 @@ One of the most common areas of confusion for beginners is treating tokens, embe
 **They are not.**
 
 ### Text
-```
-"I love machine learning" 
-    ↓ Tokenizer 
-["I", "love", "machine", "learning"] 
-    ↓ Model representation 
-Numerical vectors
+```text
+"I love machine learning"
+            │
+        Tokenizer
+            │
+["I", "love", "machine", "learning"]
+            │
+   Model representation
+            │
+    Numerical vectors
 ```
 - A **token** is a unit of text produced by a tokenizer.
 - A token can represent a complete word, part of a word, punctuation, or another piece of text.
-- For example:
-  ```
-  "unhappiness" → ["un", "happi", "ness"]
-  ```
-  *(These are subword tokens)*
+
+For example:
+```text
+"unhappiness"
+      │
+["un", "happi", "ness"]
+```
+*(These are subword tokens)*
 
 ### Embedding
 An **embedding** is a vector of numbers designed to represent useful properties or relationships of data.
-```
-"machine learning" 
-    ↓ Embedding model 
+
+```text
+"machine learning"
+        │
+  Embedding model
+        │
 [0.21, -0.73, 0.45, 0.18, ...]
 ```
 
 ### Image
 Images are processed differently:
+
+```text
+Image
+  │
+Vision Encoder / Image Processor
+  │
+Image patches / visual representations
+  │
+Numerical representation
 ```
-Image 
-    ↓ Vision Encoder / Image Processor 
-Image patches / visual representations 
-    ↓ Numerical representation
-```
+
 A multimodal model may internally use visual tokens, but these are not the same thing as text subword tokens.
 
 > [!NOTE]  
@@ -123,52 +158,124 @@ A multimodal model may internally use visual tokens, but these are not the same 
 
 ---
 
+## 🌐 Multimodal AI
+
+Different modalities can be processed using different representations.
+
+```mermaid
+flowchart TD
+    A[User Input] --> B{Modality}
+
+    B -->|Text| C[Text Tokenizer]
+    C --> D[Text Tokens]
+
+    B -->|Image| E[Vision Encoder]
+    E --> F[Visual Representation]
+
+    B -->|Audio| G[Audio Encoder]
+    G --> H[Audio Representation]
+
+    B -->|Video| I[Video Encoder]
+    I --> J[Video Representation]
+
+    D --> K[Multimodal Model]
+    F --> K
+    H --> K
+    J --> K
+
+    K --> L[Text Output]
+    K --> M[Image Output]
+    K --> N[Audio / Video Output]
+```
+
+### The Important Takeaway:
+- **Text** is commonly represented using text tokens.
+- **Other modalities** use model-specific representations, which may sometimes also be called tokens.
+- A generated image is therefore **not** necessarily a sequence of text tokens. An image-generation system uses its own image-generation and decoding process (such as diffusion or autoregressive patch modeling).
+
+---
+
+## ⚙️ Typical Machine Learning Workflow
+
+```mermaid
+flowchart TD
+    A[Problem Definition] --> B[Collect Data]
+    B --> C[Explore Data]
+    C --> D[Preprocess Data]
+    D --> E[Train / Validation / Test Split]
+    E --> F[Train Model]
+    F --> G[Evaluate]
+    G --> H{Good Performance?}
+    H -->|No| I[Improve Data / Features / Model]
+    I --> F
+    H -->|Yes| J[Deploy]
+    J --> K[Monitor]
+```
+
+---
+
+## 🔍 RAG Workflow (Retrieval-Augmented Generation)
+
+```mermaid
+flowchart LR
+    A[User Question] --> B[Create Query Representation]
+    B --> C[Vector / Semantic Search]
+    C --> D[Relevant Documents]
+    D --> E[Retrieved Context]
+    A --> E
+    E --> F[LLM]
+    F --> G[Generated Answer]
+```
+
+---
+
 ## 🗺️ Recommended 4-Week Study Plan
 
 ### Week 1 — Python + Math Foundations
-- **Days 1–3: [Module 01 — Python & Data Stack](./01_python_and_data_stack.md)**
+- **Days 1–3: [Module 01 - Python & Data Stack](./01_python_and_data_stack.md)**
   - Focus on: Python fundamentals, Lists, tuples, dictionaries, NumPy, Pandas, Missing values
-- **Days 4–7: [Module 02 — Math & Statistics](./02_math_and_statistics.md)**
+- **Days 4–7: [Module 02 - Math & Statistics](./02_math_and_statistics.md)**
   - Focus on: Vectors, Dot Product, Cosine Similarity, Probability, Mean/Median, Correlation, Normal Distribution, Basic hypothesis testing
 
 ### Week 2 — Classical Machine Learning
-- **Days 1–4: [Module 03 — Classical Machine Learning](./03_classical_machine_learning.md)**
+- **Days 1–4: [Module 03 - Classical Machine Learning](./03_classical_machine_learning.md)**
   - Focus especially on: Classification vs Regression, Train/Test Split, Overfitting, Confusion Matrix, Precision, Recall, F1-Score, Decision Trees, Random Forest
 - **Days 5–7: Practice building models with Scikit-learn using beginner-friendly datasets.**
-  - Focus on understanding:
-    ```
-    Data → EDA → Preprocessing → Train/Test Split → Model Training → Prediction → Evaluation
-    ```
 
 ### Week 3 — Deep Learning + NLP + Computer Vision
-- **Days 1–4: [Module 04 — Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)**
+- **Days 1–4: [Module 04 - Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)**
   - Learn: Neural Networks, Neurons, Activation Functions, Loss Functions, Gradient Descent, Backpropagation, Epochs, Batches, Overfitting, Dropout
-- **Days 5–7: [Module 05 — NLP & Computer Vision](./05_nlp_and_computer_vision.md)**
+- **Days 5–7: [Module 05 - NLP & Computer Vision](./05_nlp_and_computer_vision.md)**
   - Learn: Tokenization, Subword tokens, Embeddings, Sentiment Analysis, NER, CNNs, Transfer Learning, Image Classification, Object Detection, Segmentation
 
 ### Week 4 — GenAI + RAG + MLOps + Practice
-- **Days 1–3: [Module 06 — Generative AI, LLMs & RAG](./06_genai_llms_and_rag.md) 🔥**
+- **Days 1–3: [Module 06 - Generative AI, LLMs & RAG](./06_genai_llms_and_rag.md) 🔥**
   - Focus on: Generative AI, LLMs, Tokens, Prompt Engineering, Hallucination, Embeddings, Vector Search, RAG, Context Windows, Fine-Tuning, Quantization
-- **Days 4–5: [Module 07 — MLOps & Engineering](./07_mlops_and_engineering_practices.md)**
+- **Days 4–5: [Module 07 - MLOps & Engineering](./07_mlops_and_engineering_practices.md)**
   - Focus on: APIs, FastAPI, Docker, Git, MLflow, Deployment, Data Drift, CI/CD
-- **Days 6–7: [Module 08 — Practical Scenarios & Coding](./08_practical_scenarios_and_coding.md)**
-  - Practice: ML system/problem-solving questions, Coding, Data preprocessing, Metrics, Model evaluation, LLM API integration
+- **Days 6–7: [Module 08 - Practical Scenarios & Coding](./08_practical_scenarios_and_coding.md)**
+  - Practice: ML problem-solving, Coding, Data preprocessing, Metrics, Model evaluation, LLM API integration
 
 ---
 
 ## 💡 Interview Tips for Freshers
 
 ### How to Structure Your Answer
-When you don't know the complete answer, don't panic. Use this structure:
-1. **Start with what you know** — Give the basic definition first.
-2. **Explain the intuition** — Use a simple analogy or example (*"Think of it like..."*).
-3. **Give a practical example** — Connect the concept to a real-world ML problem.
-4. **Be honest about your experience** — For example: *"I understand the concept, but I haven't implemented it in production yet."* This is much better than pretending to have hands-on experience.
-5. **Go deeper if the interviewer asks** — Don't start with advanced mathematics unless the interviewer asks for it.
+When you don't know the complete answer, don't panic.
+1. **Start with what you know.**  
+   Give the basic definition first.
+2. **Explain the intuition.**  
+   Use a simple analogy or example (*"Think of it like..."*).
+3. **Give a practical example.**  
+   Connect the concept to a real-world ML problem.
+4. **Be honest about your experience.**  
+   For example: *"I understand the concept, but I haven't implemented it in production yet."*
+5. **Go deeper if the interviewer asks.**  
+   Don't start with advanced mathematics unless the interviewer asks for it.
 
 ### ⚠️ Common Mistakes to Avoid
 - ❌ Saying "99% accuracy" without checking class imbalance.
-- ❌ Preprocessing the entire dataset before splitting into train/test when that causes data leakage.
+- ❌ Preprocessing the entire dataset before splitting when that causes data leakage.
 - ❌ Using a complex model before establishing a simple baseline.
 - ❌ Confusing parameters and hyperparameters.
 - ❌ Confusing tokens with embeddings.
@@ -217,20 +324,21 @@ When you don't know the complete answer, don't panic. Use this structure:
 
 By the end of this roadmap, you should be able to:
 
-```
-Understand AI/ML Fundamentals
-  ↓ Write Python + Data Processing Code
-  ↓ Train and Evaluate ML Models
-  ↓ Understand Neural Networks
-  ↓ Work with NLP + Computer Vision
-  ↓ Understand LLMs + Generative AI
-  ↓ Build a Basic RAG Application
-  ↓ Understand APIs + Docker + MLOps
-  ↓ Solve Practical AI/ML Problems
-  ↓ Confidently Explain Your Approach in an Interview
+```mermaid
+flowchart LR
+    A[AI/ML Fundamentals] --> B[Python & Data]
+    B --> C[ML Models]
+    C --> D[Deep Learning]
+    D --> E[NLP & Computer Vision]
+    E --> F[LLMs & Generative AI]
+    F --> G[RAG Applications]
+    G --> H[MLOps & Deployment]
+    H --> I[Practical Problem Solving]
+    I --> J[Interview Ready]
 ```
 
-> **Don't aim to memorize everything.** Aim to understand the fundamentals well enough to explain them, implement them, and reason about when to use them.
+> **The goal is not to memorize everything.**  
+> The goal is to understand the fundamentals well enough to explain them, implement them, and reason about when to use them.
 
 ---
 
