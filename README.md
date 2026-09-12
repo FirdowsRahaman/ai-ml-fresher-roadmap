@@ -2,6 +2,50 @@
 
 # AI/ML Fresher Roadmap
 
+### From Python Fundamentals to AI Engineering
+
+A structured, practical learning path for aspiring AI/ML engineers.
+
+Learn the fundamentals. Build real projects.
+Understand modern Generative AI. Prepare for interviews.
+
+Python • Machine Learning • Deep Learning • NLP • Computer Vision
+Generative AI • LLMs • RAG • MLOps
+
+---
+
+## Roadmap at a Glance
+
+FOUNDATIONS
+Python → Math & Statistics
+
+             ↓
+
+MACHINE LEARNING
+Classical ML → Deep Learning
+
+             ↓
+
+AI SPECIALIZATION
+NLP → Computer Vision
+
+             ↓
+
+GENERATIVE AI & AGENTS
+LLMs → RAG → Agent → Tools → Orchestration → Multi-Agent → MCP
+
+             ↓
+
+ENGINEERING & PRODUCTION
+Evaluation → Safety → APIs → Docker → CI/CD
+
+             ↓
+
+CAREER READY
+Projects → Coding → System Thinking → Interviews
+
+---
+
 ## What You Will Learn
 
 ```mermaid
@@ -10,10 +54,13 @@ flowchart LR
     B --> C[Machine Learning]
     C --> D[Deep Learning]
     D --> E[NLP & Computer Vision]
-    E --> F[Generative AI]
-    F --> G[RAG]
-    G --> H[MLOps]
-    H --> I[Projects & Interviews]
+    E --> F[Generative AI, LLMs & RAG]
+    F --> G[AI Agents]
+    G --> H[Tools & Orchestration]
+    H --> I[Multi-Agent & MCP]
+    I --> J[Evaluation & Production]
+    J --> K[MLOps & Engineering]
+    K --> L[Projects & Interviews]
 ```
 
 ---
@@ -50,28 +97,51 @@ The most in-demand AI skills today.
 `LLMs` `Prompting` `Embeddings` `RAG` `Fine-Tuning`
 [Start Module →](./06_genai_llms_and_rag.md)
 
-### 07 — MLOps & Engineering
+### 07 — AI Agents Fundamentals
+Understand the difference between an LLM and an Agent.
+`ReAct` `Agent Loop` `Memory` `Planning`
+[Start Module →](./07_ai_agents_fundamentals.md)
+
+### 08 — Tools, Function Calling & Orchestration
+Learn how agents interact with the outside world.
+`Function Calling` `Tool Schemas` `LangChain` `LangGraph`
+[Start Module →](./08_tools_and_orchestration.md)
+
+### 09 — Multi-Agent Systems & MCP
+Collaborative AI systems and secure tool integration.
+`CrewAI` `AutoGen` `Supervisor Architecture` `MCP`
+[Start Module →](./09_multi_agent_systems_and_mcp.md)
+
+### 10 — Agent Evaluation, Safety & Production
+Building safe, reliable, and observable agents.
+`LLM-as-a-judge` `Tracing` `Prompt Injection` `Guardrails`
+[Start Module →](./10_agent_evaluation_and_safety.md)
+
+### 11 — MLOps & AI Engineering
 Learn how to deploy and manage models in production.
 `APIs` `FastAPI` `Docker` `MLflow` `CI/CD`
-[Start Module →](./07_mlops_and_engineering_practices.md)
+[Start Module →](./11_mlops_and_ai_engineering.md)
 
-### 08 — Practical Scenarios & Coding
+### 12 — Practical Scenarios & Coding
 Hands-on coding exercises and real-world problem solving.
 `Data Leakage` `Preprocessing` `Model Evaluation` `System Thinking`
-[Start Module →](./08_practical_scenarios_and_coding.md)
+[Start Module →](./12_practical_scenarios_and_coding.md)
 
 ---
 
 ## What You'll Build
 
-| Project | Skills |
-|---|---|
-| Customer Churn Predictor | Classical ML |
-| Image Classifier | CNN / Transfer Learning |
-| Sentiment Analyzer | NLP |
-| PDF RAG Assistant | Embeddings / Vector Search / LLM |
-| AI Assistant | LLM / Prompt Engineering |
-| ML API | FastAPI / Docker |
+| Level | Project | What it teaches |
+|---|---|---|
+| Beginner | Tool-Calling AI Assistant | Function calling |
+| Beginner | Web Research Agent | Search + reasoning |
+| Intermediate | SQL Data Analyst Agent | Tools + SQL |
+| Intermediate | PDF Research Agent | RAG + agents |
+| Intermediate | Code Execution Agent | Tool execution |
+| Advanced | Multi-Agent Research System | Agent orchestration |
+| Advanced | MCP-Powered AI Assistant | MCP + tools |
+| Advanced | Agent Evaluation Framework | Evals + tracing |
+| Capstone | Enterprise AI Agent Platform | Agents + RAG + MCP + security + MLOps |
 
 ---
 
@@ -106,7 +176,15 @@ No advanced ML experience is required.
 - [ ] RAG
 - [ ] Fine-Tuning
 
-### Engineering
+### AI Agents & Engineering
+- [ ] AI Agent Fundamentals
+- [ ] Tools & Function Calling
+- [ ] Multi-Agent Systems
+- [ ] Model Context Protocol (MCP)
+- [ ] Agent Evaluation & Tracing
+- [ ] Guardrails & Safety
+
+### MLOps
 - [ ] APIs
 - [ ] Docker
 - [ ] MLflow
@@ -114,39 +192,43 @@ No advanced ML experience is required.
 - [ ] Deployment
 
 ### Projects
-- [ ] ML Project
-- [ ] Computer Vision Project
-- [ ] RAG Project
-- [ ] LLM Application
+- [ ] Tool-Calling AI Assistant
+- [ ] Web Research Agent
+- [ ] SQL Data Analyst Agent
+- [ ] PDF Research Agent
+- [ ] Code Execution Agent
+- [ ] Multi-Agent Research System
+- [ ] MCP-Powered AI Assistant
+- [ ] Agent Evaluation Framework
+- [ ] Enterprise AI Agent Platform
 
 ---
 
-## Recommended 4-Week Study Plan
+## Recommended 6-Week Study Plan
 
 ### Week 1 — Python + Math Foundations
 - **Days 1–3: [Module 01 - Python & Data Stack](./01_python_and_data_stack.md)**
-  - Focus on: Python fundamentals, Lists, tuples, dictionaries, NumPy, Pandas, Missing values
 - **Days 4–7: [Module 02 - Math & Statistics](./02_math_and_statistics.md)**
-  - Focus on: Vectors, Dot Product, Cosine Similarity, Probability, Mean/Median, Correlation, Normal Distribution, Basic hypothesis testing
 
-### Week 2 — Classical Machine Learning
+### Week 2 — Classical Machine Learning & Deep Learning
 - **Days 1–4: [Module 03 - Classical Machine Learning](./03_classical_machine_learning.md)**
-  - Focus especially on: Classification vs Regression, Train/Test Split, Overfitting, Confusion Matrix, Precision, Recall, F1-Score, Decision Trees, Random Forest
-- **Days 5–7: Practice building models with Scikit-learn using beginner-friendly datasets.**
+- **Days 5–7: [Module 04 - Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)**
 
-### Week 3 — Deep Learning + NLP + Computer Vision
-- **Days 1–4: [Module 04 - Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)**
-  - Learn: Neural Networks, Neurons, Activation Functions, Loss Functions, Gradient Descent, Backpropagation, Epochs, Batches, Overfitting, Dropout
-- **Days 5–7: [Module 05 - NLP & Computer Vision](./05_nlp_and_computer_vision.md)**
-  - Learn: Tokenization, Subword tokens, Embeddings, Sentiment Analysis, NER, CNNs, Transfer Learning, Image Classification, Object Detection, Segmentation
+### Week 3 — NLP, CV & Generative AI
+- **Days 1–3: [Module 05 - NLP & Computer Vision](./05_nlp_and_computer_vision.md)**
+- **Days 4–7: [Module 06 - Generative AI, LLMs & RAG](./06_genai_llms_and_rag.md)**
 
-### Week 4 — GenAI + RAG + MLOps + Practice
-- **Days 1–3: [Module 06 - Generative AI, LLMs & RAG](./06_genai_llms_and_rag.md)**
-  - Focus on: Generative AI, LLMs, Tokens, Prompt Engineering, Hallucination, Embeddings, Vector Search, RAG, Context Windows, Fine-Tuning, Quantization
-- **Days 4–5: [Module 07 - MLOps & Engineering](./07_mlops_and_engineering_practices.md)**
-  - Focus on: APIs, FastAPI, Docker, Git, MLflow, Deployment, Data Drift, CI/CD
-- **Days 6–7: [Module 08 - Practical Scenarios & Coding](./08_practical_scenarios_and_coding.md)**
-  - Practice: ML problem-solving, Coding, Data preprocessing, Metrics, Model evaluation, LLM API integration
+### Week 4 — Agents, Tools & Orchestration
+- **Days 1–3: [Module 07 - AI Agents Fundamentals](./07_ai_agents_fundamentals.md)**
+- **Days 4–7: [Module 08 - Tools, Function Calling & Orchestration](./08_tools_and_orchestration.md)**
+
+### Week 5 — Multi-Agent Systems, MCP & Evaluation
+- **Days 1–4: [Module 09 - Multi-Agent Systems & MCP](./09_multi_agent_systems_and_mcp.md)**
+- **Days 5–7: [Module 10 - Agent Evaluation, Safety & Production](./10_agent_evaluation_and_safety.md)**
+
+### Week 6 — MLOps, Projects & Interview Prep
+- **Days 1–3: [Module 11 - MLOps & AI Engineering](./11_mlops_and_ai_engineering.md)**
+- **Days 4–7: [Module 12 - Practical Scenarios & Coding](./12_practical_scenarios_and_coding.md)**
 
 ---
 
@@ -216,11 +298,12 @@ flowchart LR
     B --> C[ML Models]
     C --> D[Deep Learning]
     D --> E["NLP & Computer Vision"]
-    E --> F["LLMs & Generative AI"]
-    F --> G[RAG Applications]
-    G --> H[MLOps & Deployment]
-    H --> I[Practical Problem Solving]
-    I --> J[Interview Ready]
+    E --> F["Generative AI & LLMs"]
+    F --> G[AI Agents & Tools]
+    G --> H[Multi-Agent Systems]
+    H --> I[Evaluation & Deployment]
+    I --> J[Practical Problem Solving]
+    J --> K[Interview Ready]
 ```
 
 > **The goal is not to memorize everything.** 
@@ -231,7 +314,7 @@ flowchart LR
 ## Start Here
 
 - **If you're completely new to AI/ML:** 
- `Python` → `Math` → `Classical ML` → `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `MLOps` → `Practical Projects`
+ `Python` → `Math` → `Classical ML` → `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `AI Agents` → `Multi-Agent/MCP` → `MLOps` → `Practical Projects`
 
 - **If you already know Python and basic ML:** 
- `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `MLOps` → `Projects` → `Interview Practice`
+ `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `AI Agents` → `Multi-Agent/MCP` → `MLOps` → `Projects` → `Interview Practice`
