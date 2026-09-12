@@ -38,11 +38,11 @@ A **Token** is the smallest meaningful unit that a language model processes. A t
 
 Sentence: "I love machine learning!"
 
-Word Tokenization:       ["I", "love", "machine", "learning", "!"]
+Word Tokenization:    ["I", "love", "machine", "learning", "!"]
 
-Subword Tokenization:    ["I", "love", "mach", "##ine", "learn", "##ing", "!"]
+Subword Tokenization:  ["I", "love", "mach", "##ine", "learn", "##ing", "!"]
 
-Character Tokenization:  ["I", " ", "l", "o", "v", "e", ...]
+Character Tokenization: ["I", " ", "l", "o", "v", "e", ...]
 
 ```
 
@@ -62,9 +62,9 @@ tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
 tokens = tokenizer.tokenize("Machine learning is fascinating!")
 
-print(tokens)  # ['machine', 'learning', 'is', 'fascinating', '!']
+print(tokens) # ['machine', 'learning', 'is', 'fascinating', '!']
 
-print(f"Number of tokens: {len(tokens)}")  # 5
+print(f"Number of tokens: {len(tokens)}") # 5
 
 ```
 
@@ -96,7 +96,7 @@ Possible tokens:
 But a word can also be split into subwords:
 
 "unhappiness"
-      ↓
+   ↓
 ["un", "happi", "ness"]
 
 This is called **subword tokenization**.
@@ -107,17 +107,17 @@ Different modalities are processed differently.
 
 TEXT
 "What is in this image?"
-        ↓
-   Text Tokenizer
-        ↓
-    Text Tokens
+    ↓
+  Text Tokenizer
+    ↓
+  Text Tokens
 
 
 IMAGE
 [photo of a cat]
-        ↓
+    ↓
 Vision Encoder / Image Processor
-        ↓
+    ↓
 Image patches / visual representations
 
 The multimodal model can then combine these representations.
@@ -141,9 +141,9 @@ The output depends on what the model is generating.
 For a text-generation model:
 
 Model
-  ↓
+ ↓
 Output text tokens
-  ↓
+ ↓
 "Artificial Intelligence is..."
 
 The model generates text tokens, typically one token at a time.
@@ -153,11 +153,11 @@ This is called **autoregressive generation**.
 But if the model generates an image:
 
 Model
-  ↓
+ ↓
 Image-generation process
-  ↓
+ ↓
 Image representation
-  ↓
+ ↓
 🖼️ Generated image
 
 The final output is an image, not a sequence of text tokens.
@@ -166,22 +166,22 @@ Similarly, a speech-generation system can produce audio, and a video-generation 
 
 Some multimodal models may internally use terms such as **image tokens**, **audio tokens**, or **visual tokens**. These are model-specific representations and should not be confused with text subword tokens.
 
-💡 Simple Mental Model
+ Simple Mental Model
 
-                 ┌── Text tokenizer ──→ Text tokens
-                 │
+         ┌── Text tokenizer ──→ Text tokens
+         │
 INPUT ───────────┼── Vision encoder ──→ Visual representation
-                 │
-                 ├── Audio encoder ──→ Audio representation
-                 │
-                 └── Video encoder ──→ Video representation
-                                      ↓
-                                Multimodal Model
-                                      ↓
-                         ┌────────────┼────────────┐
-                         ↓            ↓            ↓
-                    Text output   Image output  Audio/Video
-                    (text tokens)  (image)      (generated media)
+         │
+         ├── Audio encoder ──→ Audio representation
+         │
+         └── Video encoder ──→ Video representation
+                   ↓
+                Multimodal Model
+                   ↓
+             ┌────────────┼────────────┐
+             ↓      ↓      ↓
+          Text output  Image output Audio/Video
+          (text tokens) (image)   (generated media)
 
 **Key idea:**
 
@@ -197,12 +197,12 @@ For example:
 
 Your prompt:
 "Summarize this document..."
-        ↓
+    ↓
 Input text tokens
 
 Model generates:
 "The document explains..."
-        ↓
+    ↓
 Output text tokens
 
 Providers can also have model-specific usage or pricing rules for images, audio, and video.
@@ -242,17 +242,17 @@ If asked whether an image is "a token," say:
 
 ```
 
-You type:  "Describe this image → [photo attached]"
+You type: "Describe this image → [photo attached]"
 
-            ↓                         ↓
+      ↓             ↓
 
-       Text Tokens            Image Patch Tokens
+    Text Tokens      Image Patch Tokens
 
-       (\~5 tokens)               (\~500 tokens)
+    (\~5 tokens)        (\~500 tokens)
 
-            ↓
+      ↓
 
-     Total Input = \~505 tokens fed into the model
+   Total Input = \~505 tokens fed into the model
 
 ```
 
@@ -278,43 +278,43 @@ You type:  "Describe this image → [photo attached]"
 
 Model generates: "Artificial Intelligence is the simulation..."
 
-                      ↓
+           ↓
 
-      Output Text Tokens — produced ONE BY ONE, left to right
+   Output Text Tokens — produced ONE BY ONE, left to right
 
-      "Artificial" → "Intel" → "ligence" → "is" → ...
+   "Artificial" → "Intel" → "ligence" → "is" → ...
 
-      (Called AUTOREGRESSIVE generation — one token at a time)
+   (Called AUTOREGRESSIVE generation — one token at a time)
 
 ```
 
 ---
 
-#### 💡 Universal Mental Model (Works for ALL Modalities)
+#### Universal Mental Model (Works for ALL Modalities)
 
 ```
 
 ┌──────────────────────────────────────────────────────────────┐
 
-│                      ANY AI MODEL                            │
+│           ANY AI MODEL              │
 
-│                                                              │
+│                               │
 
-│   INPUT (Any type)              OUTPUT (Any type)            │
+│  INPUT (Any type)       OUTPUT (Any type)      │
 
-│   ──────────────────            ──────────────────           │
+│  ──────────────────      ──────────────────      │
 
-│   Text   → Tokens ──┐          ┌── Tokens → Text             │
+│  Text  → Tokens ──┐     ┌── Tokens → Text       │
 
-│   Image  → Tokens ──┤          ├── Tokens → Image            │
+│  Image → Tokens ──┤     ├── Tokens → Image      │
 
-│   Audio  → Tokens ──┤  MODEL   ├── Tokens → Audio            │
+│  Audio → Tokens ──┤ MODEL  ├── Tokens → Audio      │
 
-│   Video  → Tokens ──┘  ─────►  └── Tokens → Video            │
+│  Video → Tokens ──┘ ─────► └── Tokens → Video      │
 
-│                                                              │
+│                               │
 
-│  Everything becomes tokens IN. Everything comes out as tokens│
+│ Everything becomes tokens IN. Everything comes out as tokens│
 
 └──────────────────────────────────────────────────────────────┘
 
@@ -330,23 +330,23 @@ When you call any LLM API (OpenAI, Gemini, Claude), **you pay per token** — in
 
 Example API call to GPT-4o:
 
-Your prompt:    "Summarize this document..."  →  1,500 input tokens
+Your prompt:  "Summarize this document..." → 1,500 input tokens
 
-Attached image: [chart photo]                →    500 input tokens
+Attached image: [chart photo]        →  500 input tokens
 
-Model's reply:  "The document covers..."     →    300 output tokens
+Model's reply: "The document covers..."   →  300 output tokens
 
-                                          ────────────────────
+                     ────────────────────
 
-Total billed:                                 2,300 tokens
+Total billed:                 2,300 tokens
 
 Cost (approximate):
 
-Input : 2,000 tokens × $5/million  = $0.010
+Input : 2,000 tokens × $5/million = $0.010
 
-Output:   300 tokens × $15/million = $0.005
+Output:  300 tokens × $15/million = $0.005
 
-Total :                              \~$0.015 per call
+Total :               \~$0.015 per call
 
 ```
 
@@ -372,15 +372,15 @@ An **Embedding** is a numerical **vector representation** of data—such as text
 
 ```
 
-"King"   → [0.8,  0.2, -0.5, 0.9, ...]
+"King"  → [0.8, 0.2, -0.5, 0.9, ...]
 
-"Queen"  → [0.75, 0.3, -0.4, 0.85, ...]   ← Similar to King!
+"Queen" → [0.75, 0.3, -0.4, 0.85, ...]  ← Similar to King!
 
-"Apple"  → [-0.3, 0.9,  0.1, -0.5, ...]   ← Very different from King/Queen
+"Apple" → [-0.3, 0.9, 0.1, -0.5, ...]  ← Very different from King/Queen
 
 ```
 
-**Famous example:**  `King - Man + Woman ≈ Queen`
+**Famous example:** `King - Man + Woman ≈ Queen`
 
 **Popular embedding models:**
 
@@ -412,11 +412,11 @@ An image encoder (like a CNN or Vision Transformer) looks at the entire image an
 
 ```
 
-[Photo of a Cat] → Image Encoder → [0.82, -0.3, 0.55, 0.91, ...]  (512 numbers)
+[Photo of a Cat] → Image Encoder → [0.82, -0.3, 0.55, 0.91, ...] (512 numbers)
 
-[Photo of a Dog] → Image Encoder → [0.79, -0.2, 0.51, 0.88, ...]  (512 numbers) ← Close to cat!
+[Photo of a Dog] → Image Encoder → [0.79, -0.2, 0.51, 0.88, ...] (512 numbers) ← Close to cat!
 
-[Photo of a Car] → Image Encoder → [-0.4, 0.8, -0.2, -0.6, ...]  (512 numbers) ← Far from cat/dog
+[Photo of a Car] → Image Encoder → [-0.4, 0.8, -0.2, -0.6, ...] (512 numbers) ← Far from cat/dog
 
 ```
 
@@ -436,11 +436,11 @@ Audio is first converted into a visual representation (spectrogram), then an enc
 
 ```
 
-[Audio: "Hello, how are you?"]  → Audio Encoder → [0.3, 0.7, -0.1, ...]
+[Audio: "Hello, how are you?"] → Audio Encoder → [0.3, 0.7, -0.1, ...]
 
-[Audio: "Hello, how are you?"]  → Audio Encoder → [0.31, 0.68, -0.12, ...] ← Same phrase, same speaker → similar!
+[Audio: "Hello, how are you?"] → Audio Encoder → [0.31, 0.68, -0.12, ...] ← Same phrase, same speaker → similar!
 
-[Audio: Dog barking]            → Audio Encoder → [-0.5, 0.2, 0.9, ...]   ← Very different!
+[Audio: Dog barking]      → Audio Encoder → [-0.5, 0.2, 0.9, ...]  ← Very different!
 
 ```
 
@@ -464,9 +464,9 @@ Video is a sequence of image frames over time. Video encoders process both the *
 
 [Video: Person waving hello] → Video Encoder → [0.5, 0.3, 0.8, -0.2, ...]
 
-[Video: Person waving bye]   → Video Encoder → [0.48, 0.31, 0.77, -0.18, ...] ← Similar gesture!
+[Video: Person waving bye]  → Video Encoder → [0.48, 0.31, 0.77, -0.18, ...] ← Similar gesture!
 
-[Video: Car crash]           → Video Encoder → [-0.3, 0.9, -0.5, 0.6, ...]   ← Very different!
+[Video: Car crash]      → Video Encoder → [-0.3, 0.9, -0.5, 0.6, ...]  ← Very different!
 
 ```
 
@@ -480,17 +480,17 @@ Video is a sequence of image frames over time. Video encoders process both the *
 
 ---
 
-#### 📊 The Big Picture — Multimodal Embeddings (Everything in One Space!)
+#### The Big Picture — Multimodal Embeddings (Everything in One Space!)
 
 The most important modern development is that some multimodal embedding models, such as **CLIP**, are trained to align representations from different modalities in a shared vector space.
 
 ```
 
-Text:  "a dog playing fetch"  → [0.7, 0.3, -0.2, 0.8, ...]
+Text: "a dog playing fetch" → [0.7, 0.3, -0.2, 0.8, ...]
 
-Image: [Photo of dog + ball]  → [0.69, 0.31, -0.21, 0.79, ...] ← Very close! 🎯
+Image: [Photo of dog + ball] → [0.69, 0.31, -0.21, 0.79, ...] ← Very close! 🎯
 
-Text:  "a red sports car"    → [0.1, -0.5, 0.9, 0.2, ...]
+Text: "a red sports car"  → [0.1, -0.5, 0.9, 0.2, ...]
 
 Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close! 🎯
 
@@ -498,7 +498,7 @@ Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close!
 
 **This enables:**
 
-- 🔍 **Text-to-Image search** — Type "sunset over mountains" → Find all matching photos in your database.
+- **Text-to-Image search** — Type "sunset over mountains" → Find all matching photos in your database.
 
 - 🖼️ **Image-to-Text search** — Upload a photo of a shoe → Find similar products on an e-commerce site.
 
@@ -548,11 +548,11 @@ sentiment = pipeline("sentiment-analysis")
 
 result = sentiment("I absolutely loved this product, it works perfectly!")
 
-print(result)  # [{'label': 'POSITIVE', 'score': 0.9998}]
+print(result) # [{'label': 'POSITIVE', 'score': 0.9998}]
 
 result2 = sentiment("The delivery was delayed and the product was broken.")
 
-print(result2)  # [{'label': 'NEGATIVE', 'score': 0.9993}]
+print(result2) # [{'label': 'NEGATIVE', 'score': 0.9993}]
 
 ```
 
@@ -568,17 +568,17 @@ NER identifies and classifies **named entities** (real-world objects) in text su
 
 ```
 
-Input:  "Apple Inc. was founded by Steve Jobs in Cupertino in 1976."
+Input: "Apple Inc. was founded by Steve Jobs in Cupertino in 1976."
 
 NER Output:
 
-Apple Inc.  → ORGANIZATION
+Apple Inc. → ORGANIZATION
 
-Steve Jobs  → PERSON
+Steve Jobs → PERSON
 
-Cupertino   → LOCATION
+Cupertino  → LOCATION
 
-1976        → DATE
+1976    → DATE
 
 ```
 
@@ -616,19 +616,19 @@ Input Image
 
  ↓
 
-[Convolutional Layer]  ← Detects edges and basic patterns
+[Convolutional Layer] ← Detects edges and basic patterns
 
  ↓
 
-[Pooling Layer]        ← Reduces size, keeps important info
+[Pooling Layer]    ← Reduces size, keeps important info
 
  ↓
 
-[Convolutional Layer]  ← Detects more complex patterns
+[Convolutional Layer] ← Detects more complex patterns
 
  ↓
 
-[Fully Connected]      ← Makes the final classification
+[Fully Connected]   ← Makes the final classification
 
  ↓
 
@@ -716,9 +716,9 @@ Bag of Words is one of the simplest ways to convert text into numbers for ML. It
 
 Vocabulary: ["good", "bad", "movie", "great", "acting"]
 
-Sentence 1: "good movie great acting"  → [1, 0, 1, 1, 1]
+Sentence 1: "good movie great acting" → [1, 0, 1, 1, 1]
 
-Sentence 2: "bad movie bad acting"     → [0, 2, 1, 0, 1]
+Sentence 2: "bad movie bad acting"   → [0, 2, 1, 0, 1]
 
 ```
 

@@ -15,15 +15,15 @@ This module covers the basic math and statistics concepts freshers should know f
 import numpy as np
 
 # Vector (1D): one data point with 3 features
-vector = np.array([5.1, 3.5, 1.4])   # e.g., height, weight, age
+vector = np.array([5.1, 3.5, 1.4])  # e.g., height, weight, age
 
 # Matrix (2D): 4 data points, 3 features each
 matrix = np.array([[5.1, 3.5, 1.4],
-                   [4.9, 3.0, 1.5],
-                   [6.2, 3.4, 5.4],
-                   [5.5, 2.6, 4.4]])
+          [4.9, 3.0, 1.5],
+          [6.2, 3.4, 5.4],
+          [5.5, 2.6, 4.4]])
 
-print(matrix.shape)   # (4, 3) → 4 rows, 3 columns
+print(matrix.shape)  # (4, 3) → 4 rows, 3 columns
 ```
 
 ---
@@ -40,7 +40,7 @@ The dot product multiplies corresponding elements of two vectors and sums the re
 import numpy as np
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
-print(np.dot(a, b))  # 32
+print(np.dot(a, b)) # 32
 ```
 
 **Use in ML:**
@@ -60,22 +60,22 @@ Cosine Similarity measures **how similar the direction** of two vectors is, rega
 import numpy as np
 
 def cosine_similarity(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+  return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 # Two text embeddings
-king   = np.array([0.8, 0.3])
-queen  = np.array([0.75, 0.35])
-apple  = np.array([-0.5, 0.9])
+king  = np.array([0.8, 0.3])
+queen = np.array([0.75, 0.35])
+apple = np.array([-0.5, 0.9])
 
-print(f"king ↔ queen: {cosine_similarity(king, queen):.3f}")  # High similarity
-print(f"king ↔ apple: {cosine_similarity(king, apple):.3f}")  # Low similarity
+print(f"king ↔ queen: {cosine_similarity(king, queen):.3f}") # High similarity
+print(f"king ↔ apple: {cosine_similarity(king, apple):.3f}") # Low similarity
 ```
 
 **Used In:** Text similarity search, RAG (finding relevant documents), recommendation systems.
 
 ---
 
-## 📊 Section 2: Statistics Basics
+## Section 2: Statistics Basics
 
 ### Q4: What is Mean, Median, and Mode? When do you use each?
 **Answer:**
@@ -87,11 +87,11 @@ print(f"king ↔ apple: {cosine_similarity(king, apple):.3f}")  # Low similarity
 import numpy as np
 from scipy import stats
 
-data = [10, 12, 13, 14, 200]   # 200 is an outlier
+data = [10, 12, 13, 14, 200]  # 200 is an outlier
 
-print(f"Mean:   {np.mean(data):.1f}")    # 49.8 — pulled up by outlier
-print(f"Median: {np.median(data):.1f}")  # 13.0 — not affected!
-print(f"Mode:   {stats.mode(data)[0]}")  # 10 (first value if all appear once)
+print(f"Mean:  {np.mean(data):.1f}")  # 49.8 — pulled up by outlier
+print(f"Median: {np.median(data):.1f}") # 13.0 — not affected!
+print(f"Mode:  {stats.mode(data)[0]}") # 10 (first value if all appear once)
 ```
 
 > **Rule of Thumb:** Use **Median** for house prices, salaries, or any data with outliers. Use **Mean** for normally distributed data like test scores.
@@ -106,11 +106,11 @@ print(f"Mode:   {stats.mode(data)[0]}")  # 10 (first value if all appear once)
 ```python
 import numpy as np
 
-scores_A = [85, 86, 87, 88, 89]   # All close → Low spread
-scores_B = [60, 70, 87, 95, 100]  # Very varied → High spread
+scores_A = [85, 86, 87, 88, 89]  # All close → Low spread
+scores_B = [60, 70, 87, 95, 100] # Very varied → High spread
 
-print(f"Class A Std Dev: {np.std(scores_A):.2f}")  # ~1.41
-print(f"Class B Std Dev: {np.std(scores_B):.2f}")  # ~14.5
+print(f"Class A Std Dev: {np.std(scores_A):.2f}") # ~1.41
+print(f"Class B Std Dev: {np.std(scores_B):.2f}") # ~14.5
 ```
 
 ---
@@ -125,9 +125,9 @@ Correlation measures how strongly two variables move together. Range: -1 to +1.
 ```python
 import pandas as pd
 df = pd.DataFrame({'study_hours': [1, 2, 3, 4, 5],
-                   'exam_score':  [55, 65, 70, 80, 90]})
+          'exam_score': [55, 65, 70, 80, 90]})
 
-print(df.corr())   # Shows correlation matrix
+print(df.corr())  # Shows correlation matrix
 # study_hours ↔ exam_score: ~0.99 (strong positive correlation)
 ```
 
@@ -163,8 +163,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-data = np.random.normal(mean=170, scale=10, size=1000)  # Heights in cm
-print(f"Mean:   {np.mean(data):.1f} cm")
+data = np.random.normal(mean=170, scale=10, size=1000) # Heights in cm
+print(f"Mean:  {np.mean(data):.1f} cm")
 print(f"Std Dev:{np.std(data):.1f} cm")
 ```
 
@@ -179,4 +179,4 @@ The p-value tells you whether your result happened by **pure chance or by a real
 **Simple Example:**
 You test a new drug. Patients who took it recovered 2 days faster. Is it the drug, or just luck?
 - p = 0.001 → Very unlikely to be luck → Drug actually works!
-- p = 0.4   → Could easily be random → Drug may not work.
+- p = 0.4  → Could easily be random → Drug may not work.

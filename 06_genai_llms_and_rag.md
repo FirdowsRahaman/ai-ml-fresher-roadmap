@@ -4,7 +4,7 @@ This is the most exciting and in-demand area in AI today. Every fresher intervie
 
 ---
 
-## 🤖 Section 1: What is Generative AI?
+## Section 1: What is Generative AI?
 
 ### Q1: What is Generative AI?
 **Answer:**
@@ -62,15 +62,15 @@ In LLMs, a **token** is the basic unit of text that the model reads and generate
 ```
 Sentence: "Artificial intelligence is transforming every industry."
 
-Tokens:   ["Art", "ificial", " intelligence", " is", " transform", "ing", " every", " industry", "."]
-Count:     9 tokens (approximately)
+Tokens:  ["Art", "ificial", " intelligence", " is", " transform", "ing", " every", " industry", "."]
+Count:   9 tokens (approximately)
 ```
 
 **Why does it matter?**
 - LLMs have a **context window** (maximum token limit they can read at once).
-  - GPT-3.5: 4,096 tokens (~3,000 words)
-  - GPT-4 Turbo: 128,000 tokens (~96,000 words)
-  - Gemini 1.5 Pro: 1,000,000 tokens!
+ - GPT-3.5: 4,096 tokens (~3,000 words)
+ - GPT-4 Turbo: 128,000 tokens (~96,000 words)
+ - Gemini 1.5 Pro: 1,000,000 tokens!
 - **You pay for API calls by tokens** (both input + output tokens count).
 
 ---
@@ -86,10 +86,10 @@ Images are split into small fixed-size squares called **patches** — typically 
 
 ```
 Full Image (384 × 384 pixels)
-        ↓ Split into 16×16 patches
-[Patch1][Patch2][Patch3] ... [PatchN]   → 576 visual tokens
-    ↓           ↓                ↓
- Vector 1     Vector 2        Vector N   (each becomes a "token" for the model)
+    ↓ Split into 16×16 patches
+[Patch1][Patch2][Patch3] ... [PatchN]  → 576 visual tokens
+  ↓      ↓        ↓
+ Vector 1   Vector 2    Vector N  (each becomes a "token" for the model)
 ```
 
 **Used In:**
@@ -108,11 +108,11 @@ Video is a sequence of images (frames). Models process videos by:
 
 ```
 Video (10 seconds @ 1 fps = 10 frames)
-   Frame 1 → 576 patches
-   Frame 2 → 576 patches
-   ...
-   Frame 10 → 576 patches
-   Total ≈ 5,760 video tokens  (very expensive!)
+  Frame 1 → 576 patches
+  Frame 2 → 576 patches
+  ...
+  Frame 10 → 576 patches
+  Total ≈ 5,760 video tokens (very expensive!)
 ```
 
 **Used In:** Gemini 1.5 Pro (can process up to 1 hour of video), Google VideoPoet.
@@ -124,11 +124,11 @@ Audio cannot be processed as raw sound waves directly. It is first converted int
 
 ```
 Audio Waveform (speech)
-       ↓
+    ↓
 Convert to Mel Spectrogram (frequency vs time image)
-       ↓
+    ↓
 Split into time windows (e.g., 20ms chunks)
-       ↓
+    ↓
 Each chunk → Audio Token Vector → Fed to Transformer
 ```
 
@@ -141,7 +141,7 @@ Each chunk → Audio Token Vector → Fed to Transformer
 
 ---
 
-#### 📊 Summary Table: "Tokens" Across All Modalities
+#### Summary Table: "Tokens" Across All Modalities
 
 | Modality | Basic Unit | Actual Name | Typical Size |
 |---|---|---|---|
@@ -166,15 +166,15 @@ A **Prompt** is the text instruction you give to an LLM to get a response. The q
 **Zero-Shot Prompting** — No examples, just a direct instruction:
 ```
 Prompt: "Classify this review as Positive or Negative: 'The food was awful.'"
-LLM:    "Negative"
+LLM:  "Negative"
 ```
 
 **Few-Shot Prompting** — Provide a few examples before the actual task:
 ```
 Prompt:
-  Review: "The service was excellent!" → Positive
-  Review: "Worst experience ever."     → Negative
-  Review: "I will never come back."    → ?
+ Review: "The service was excellent!" → Positive
+ Review: "Worst experience ever."   → Negative
+ Review: "I will never come back."  → ?
 
 LLM: "Negative"
 ```
@@ -182,8 +182,8 @@ LLM: "Negative"
 **Chain-of-Thought (CoT) Prompting** — Ask the model to reason step by step:
 ```
 Prompt: "Q: John has 5 apples. He gives 2 to Mary and buys 3 more. How many does he have?
-         Think step by step."
-LLM:    "Step 1: John starts with 5. Step 2: Gives 2 → 5-2=3. Step 3: Buys 3 → 3+3=6. Answer: 6"
+     Think step by step."
+LLM:  "Step 1: John starts with 5. Step 2: Gives 2 → 5-2=3. Step 3: Buys 3 → 3+3=6. Answer: 6"
 ```
 
 ---
@@ -191,10 +191,10 @@ LLM:    "Step 1: John starts with 5. Step 2: Gives 2 → 5-2=3. Step 3: Buys 3 �
 ### Q6: What is the difference between a Foundation Model and a Fine-Tuned Model?
 **Answer:**
 - **Foundation Model:** A large, general-purpose model pre-trained on broad internet data. Can do many tasks but isn't specialized at any single one.
-  - *Example:* LLaMA 3 (can write poetry, summarize news, answer questions, generate code).
+ - *Example:* LLaMA 3 (can write poetry, summarize news, answer questions, generate code).
 - **Fine-Tuned Model:** A foundation model that has been **further trained on a specific domain or task** with additional labeled data, making it much better at that specific task.
-  - *Example:* LLaMA 3 + Medical research papers → Better at answering clinical questions.
-  - *Example:* GPT-4 + customer service conversations → Better chatbot for your company.
+ - *Example:* LLaMA 3 + Medical research papers → Better at answering clinical questions.
+ - *Example:* GPT-4 + customer service conversations → Better chatbot for your company.
 
 ---
 
@@ -219,7 +219,7 @@ LLM:    "Step 1: John starts with 5. Step 2: Gives 2 → 5-2=3. Step 3: Buys 3 �
 
 ---
 
-## 🔍 Section 2: RAG — Retrieval-Augmented Generation
+## Section 2: RAG — Retrieval-Augmented Generation
 
 ### Q8: What is RAG (Retrieval-Augmented Generation)?
 **Answer:**
@@ -233,17 +233,17 @@ RAG is a technique that **combines a search/retrieval system with an LLM** to gi
 **How RAG Works (Step by Step):**
 ```
 1. PREPARATION (Done once):
-   Your Documents → Split into chunks → Convert to Embeddings → Store in Vector Database
+  Your Documents → Split into chunks → Convert to Embeddings → Store in Vector Database
 
 2. USER ASKS A QUESTION:
-   User: "What is our company's refund policy?"
-         ↓
+  User: "What is our company's refund policy?"
+     ↓
 3. RETRIEVE relevant chunks from Vector DB (similar to user's question)
-         ↓
+     ↓
 4. INJECT retrieved chunks into the LLM's prompt as context:
-   Prompt = "Based on the following context: [POLICY TEXT HERE]
-             Answer the user's question: 'What is the refund policy?'"
-         ↓
+  Prompt = "Based on the following context: [POLICY TEXT HERE]
+       Answer the user's question: 'What is the refund policy?'"
+     ↓
 5. LLM GENERATES a grounded, accurate answer
 ```
 
@@ -282,7 +282,7 @@ A **Vector Database** is a special type of database that stores data as **embedd
 
 ---
 
-## 💡 Section 3: Key Concepts & Terminology
+## Section 3: Key Concepts & Terminology
 
 ### Q11: What is Context Window? Why does it matter?
 **Answer:**
@@ -294,9 +294,9 @@ The **Context Window** is the maximum amount of text (measured in tokens) that a
 
 ```
 Context Window Examples:
-  GPT-3.5-Turbo:   4,096 tokens  (~3,000 words)
-  GPT-4o:         128,000 tokens (~96,000 words)
-  Gemini 1.5 Pro: 1,000,000 tokens (~750,000 words)!
+ GPT-3.5-Turbo:  4,096 tokens (~3,000 words)
+ GPT-4o:     128,000 tokens (~96,000 words)
+ Gemini 1.5 Pro: 1,000,000 tokens (~750,000 words)!
 ```
 
 ---
@@ -311,10 +311,10 @@ Context Window Examples:
 
 ```
 Common Model Sizes:
-  7B  parameters  → Runs on consumer GPU (RTX 3090/4090 with 24GB VRAM)
-  13B parameters  → Needs ~2 GPUs or high-end workstation
-  70B parameters  → Needs professional GPU cluster or quantization
-  1.8T parameters → GPT-4 (requires massive data centers)
+ 7B parameters → Runs on consumer GPU (RTX 3090/4090 with 24GB VRAM)
+ 13B parameters → Needs ~2 GPUs or high-end workstation
+ 70B parameters → Needs professional GPU cluster or quantization
+ 1.8T parameters → GPT-4 (requires massive data centers)
 ```
 
 ---

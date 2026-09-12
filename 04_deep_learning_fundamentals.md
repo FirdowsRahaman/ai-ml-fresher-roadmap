@@ -4,7 +4,7 @@ This module covers the basics of Deep Learning — how neural networks work, why
 
 ---
 
-## 🧠 Section 1: What is Deep Learning?
+## Section 1: What is Deep Learning?
 
 ### Q1: What is Deep Learning? How is it different from Machine Learning?
 **Answer:**
@@ -34,23 +34,23 @@ Each neuron:
 4. Passes the result through an **activation function** to decide what signal to output.
 
 ```
-          Input 1 (x₁) ──── weight₁ ──┐
-          Input 2 (x₂) ──── weight₂ ──┤──[ Sum + Bias ]──[ Activation ]──→ Output
-          Input 3 (x₃) ──── weight₃ ──┘
+     Input 1 (x₁) ──── weight₁ ──┐
+     Input 2 (x₂) ──── weight₂ ──┤──[ Sum + Bias ]──[ Activation ]──→ Output
+     Input 3 (x₃) ──── weight₃ ──┘
 ```
 
 ```python
 import numpy as np
 
 def neuron(inputs, weights, bias):
-    raw = np.dot(inputs, weights) + bias  # Weighted sum
-    return max(0, raw)  # ReLU activation
+  raw = np.dot(inputs, weights) + bias # Weighted sum
+  return max(0, raw) # ReLU activation
 
-inputs  = np.array([0.5, 0.8, 0.2])
+inputs = np.array([0.5, 0.8, 0.2])
 weights = np.array([0.4, 0.6, 0.9])
-bias    = 0.1
+bias  = 0.1
 
-print(neuron(inputs, weights, bias))  # 0.7 → neuron fires
+print(neuron(inputs, weights, bias)) # 0.7 → neuron fires
 ```
 
 ---
@@ -61,7 +61,7 @@ A neural network is organized into three types of layers:
 
 ```
 [ Input Layer ] → [ Hidden Layer 1 ] → [ Hidden Layer 2 ] → [ Output Layer ]
- (Raw data in)      (Learns features)     (Learns complex)    (Prediction out)
+ (Raw data in)   (Learns features)   (Learns complex)  (Prediction out)
 ```
 
 - **Input Layer:** Accepts the raw data (e.g., pixel values of an image).
@@ -94,19 +94,19 @@ Think of it this way: without activation functions, a deep network is just a fan
 import numpy as np
 
 def relu(x):
-    return np.maximum(0, x)
+  return np.maximum(0, x)
 
 def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+  return 1 / (1 + np.exp(-x))
 
 x = np.array([-2, -1, 0, 1, 2])
-print("ReLU:   ", relu(x))     # [0,  0,  0, 1, 2]
-print("Sigmoid:", sigmoid(x))  # [0.12, 0.27, 0.5, 0.73, 0.88]
+print("ReLU:  ", relu(x))   # [0, 0, 0, 1, 2]
+print("Sigmoid:", sigmoid(x)) # [0.12, 0.27, 0.5, 0.73, 0.88]
 ```
 
 ---
 
-## 📉 Section 3: Training a Neural Network
+## Section 3: Training a Neural Network
 
 ### Q6: What is a Loss Function (Cost Function)? Give examples.
 **Answer:**
@@ -123,12 +123,12 @@ import numpy as np
 
 # MSE: average of squared differences
 def mse(y_true, y_pred):
-    return np.mean((y_true - y_pred) ** 2)
+  return np.mean((y_true - y_pred) ** 2)
 
 y_true = np.array([3.0, 5.0, 2.0])
 y_pred = np.array([2.5, 5.5, 2.0])
 
-print(f"MSE: {mse(y_true, y_pred):.3f}")  # 0.167
+print(f"MSE: {mse(y_true, y_pred):.3f}") # 0.167
 ```
 
 ---
@@ -142,11 +142,11 @@ Gradient Descent is the algorithm that trains a neural network by **adjusting we
 ```
 Loss
  ^
+ |  *
  |   *
+ |    *  ← Each step reduces loss (gradient descent)
  |     *
- |       *   ← Each step reduces loss (gradient descent)
- |         *
- |           *
+ |      *
  +─────────────────> Epochs (Training iterations)
 ```
 
@@ -184,10 +184,10 @@ import torch.nn as nn
 
 # Dropout example in PyTorch
 model = nn.Sequential(
-    nn.Linear(128, 64),
-    nn.ReLU(),
-    nn.Dropout(p=0.5),   # 50% neurons randomly disabled during training
-    nn.Linear(64, 10)
+  nn.Linear(128, 64),
+  nn.ReLU(),
+  nn.Dropout(p=0.5),  # 50% neurons randomly disabled during training
+  nn.Linear(64, 10)
 )
 ```
 
@@ -211,13 +211,13 @@ Batch Size = 100
 
 ```python
 # Typical training loop in PyTorch
-for epoch in range(50):           # 50 epochs
-    for batch in dataloader:      # Each batch = batch_size samples
-        optimizer.zero_grad()
-        outputs = model(batch['X'])
-        loss = criterion(outputs, batch['y'])
-        loss.backward()           # Backpropagation
-        optimizer.step()          # Update weights
+for epoch in range(50):      # 50 epochs
+  for batch in dataloader:   # Each batch = batch_size samples
+    optimizer.zero_grad()
+    outputs = model(batch['X'])
+    loss = criterion(outputs, batch['y'])
+    loss.backward()      # Backpropagation
+    optimizer.step()     # Update weights
 ```
 
 ---

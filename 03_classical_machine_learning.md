@@ -4,7 +4,7 @@ This module covers the core machine learning concepts and algorithms asked in ev
 
 ---
 
-## 🤖 Section 1: What is Machine Learning?
+## Section 1: What is Machine Learning?
 
 ### Q1: What is Artificial Intelligence (AI)?
 **Answer:**
@@ -36,44 +36,44 @@ Artificial Intelligence (AI) is the ability of a computer or machine to perform 
 ### Q3: What are the three main types of Machine Learning?
 **Answer:**
 1. **Supervised Learning** – You provide labeled data (input + correct answer).
-   - *Example:* Email (input) → Spam or Not Spam (label)
-   - *Algorithms:* Linear Regression, Logistic Regression, Decision Trees, Random Forest
+  - *Example:* Email (input) → Spam or Not Spam (label)
+  - *Algorithms:* Linear Regression, Logistic Regression, Decision Trees, Random Forest
 
 2. **Unsupervised Learning** – You only provide inputs; the algorithm finds hidden patterns itself.
-   - *Example:* Customer shopping data → Groups customers by behavior automatically
-   - *Algorithms:* K-Means Clustering, PCA
+  - *Example:* Customer shopping data → Groups customers by behavior automatically
+  - *Algorithms:* K-Means Clustering, PCA
 
 3. **Reinforcement Learning** – An agent learns by trial and error to maximize a reward.
-   - *Example:* A robot learns to walk by trying different movements and getting rewarded for not falling.
+  - *Example:* A robot learns to walk by trying different movements and getting rewarded for not falling.
 
 ---
 
 ### Q4: What is the difference between Classification and Regression?
 **Answer:**
 - **Classification**: Predicts a **category / class label**.
-  - *Examples:* Spam or Not Spam, Cat or Dog, Fraud or Legitimate
+ - *Examples:* Spam or Not Spam, Cat or Dog, Fraud or Legitimate
 - **Regression**: Predicts a **continuous numerical value**.
-  - *Examples:* House price (₹52,00,000), temperature tomorrow (34°C), stock price
+ - *Examples:* House price (₹52,00,000), temperature tomorrow (34°C), stock price
 
 ```python
 # Classification Example (Predicts 0 or 1)
 from sklearn.linear_model import LogisticRegression
-model = LogisticRegression()  # Spam Classifier
+model = LogisticRegression() # Spam Classifier
 
 # Regression Example (Predicts any number)
 from sklearn.linear_model import LinearRegression
-model = LinearRegression()    # House Price Predictor
+model = LinearRegression()  # House Price Predictor
 ```
 
 ---
 
-## 📈 Section 2: Common Algorithms
+## Section 2: Common Algorithms
 
 ### Q5: What is Linear Regression? Give an example.
 **Answer:**
 Linear Regression finds the best straight line that fits your data to predict a continuous value.
 
-**Formula:** `Prediction = m × (Input) + b`  
+**Formula:** `Prediction = m × (Input) + b` 
 - `m` = slope (how steep the line is)
 - `b` = y-intercept (where the line crosses y-axis)
 
@@ -91,7 +91,7 @@ model = LinearRegression()
 model.fit(hours, scores)
 
 # Predict score for 6 hours
-print(model.predict([[6]]))  # Output: ~100
+print(model.predict([[6]])) # Output: ~100
 ```
 
 ---
@@ -104,12 +104,12 @@ Logistic Regression predicts the **probability** that something belongs to a cla
 from sklearn.linear_model import LogisticRegression
 
 # Predict if a student passes (1) or fails (0) based on study hours
-X = [[2], [4], [6], [8]]  # hours studied
-y = [0, 0, 1, 1]          # pass/fail
+X = [[2], [4], [6], [8]] # hours studied
+y = [0, 0, 1, 1]     # pass/fail
 
 model = LogisticRegression()
 model.fit(X, y)
-print(model.predict([[5]]))      # → [1] (Pass)
+print(model.predict([[5]]))   # → [1] (Pass)
 print(model.predict_proba([[5]]))# → Probability of failing and passing
 ```
 
@@ -120,15 +120,15 @@ print(model.predict_proba([[5]]))# → Probability of failing and passing
 A Decision Tree is a flowchart-like model that makes decisions by asking a series of yes/no questions about the data features, splitting data at each step.
 
 ```
-                 [ Hours Studied > 4? ]
-                /                     \
-             No (≤4)                Yes (>4)
-               |                       |
-    [ Slept 8 hrs? ]          → Predict: PASS ✅
-       /          \
-      No           Yes
-       |             |
-  → FAIL ❌      → PASS ✅
+         [ Hours Studied > 4? ]
+        /           \
+       No (≤4)        Yes (>4)
+        |            |
+  [ Slept 8 hrs? ]     → Predict: PASS 
+    /     \
+   No      Yes
+    |       |
+ → FAIL    → PASS 
 ```
 
 ```python
@@ -146,13 +146,13 @@ predictions = model.predict(X_test)
 Random Forest creates a **large collection (forest) of many Decision Trees**, each trained on a random subset of data. The final prediction is based on the **majority vote** of all trees.
 
 ```
-         Data
-          ↓
-  ┌─────────────────┐
-  │ Tree 1 → SPAM   │
-  │ Tree 2 → SPAM   │  → Majority Vote → SPAM ✅
-  │ Tree 3 → NOT    │
-  └─────────────────┘
+     Data
+     ↓
+ ┌─────────────────┐
+ │ Tree 1 → SPAM  │
+ │ Tree 2 → SPAM  │ → Majority Vote → SPAM 
+ │ Tree 3 → NOT  │
+ └─────────────────┘
 ```
 
 **Why better than a single tree?**
@@ -161,7 +161,7 @@ Random Forest creates a **large collection (forest) of many Decision Trees**, ea
 
 ---
 
-## 📊 Section 3: Model Evaluation Metrics
+## Section 3: Model Evaluation Metrics
 
 ### Q9: What is Overfitting and Underfitting?
 **Answer:**
@@ -169,9 +169,9 @@ Random Forest creates a **large collection (forest) of many Decision Trees**, ea
 - **Underfitting**: The model is too simple — it fails to capture the patterns even in training data. Both training and test performance are poor.
 
 ```
-Underfitting:  Training = 60%, Test = 58%   (Both bad)
-Good Fit:      Training = 92%, Test = 90%   (Both good)
-Overfitting:   Training = 99%, Test = 55%   (Training great, Test terrible)
+Underfitting: Training = 60%, Test = 58%  (Both bad)
+Good Fit:   Training = 92%, Test = 90%  (Both good)
+Overfitting:  Training = 99%, Test = 55%  (Training great, Test terrible)
 ```
 
 **Fix for Overfitting:** Get more data, simplify the model, use regularization.
@@ -184,25 +184,25 @@ Overfitting:   Training = 99%, Test = 55%   (Training great, Test terrible)
 A Confusion Matrix is a table that summarizes how well a classification model performed.
 
 ```
-                     Predicted: SPAM  | Predicted: NOT SPAM
-Actual: SPAM    |   TP (True Positive) |  FN (False Negative)
-Actual: NOT SPAM|   FP (False Positive)|  TN (True Negative)
+           Predicted: SPAM | Predicted: NOT SPAM
+Actual: SPAM  |  TP (True Positive) | FN (False Negative)
+Actual: NOT SPAM|  FP (False Positive)| TN (True Negative)
 ```
 
-- **TP (True Positive)**: Model said Spam, it IS Spam. ✅ Correct!
-- **TN (True Negative)**: Model said Not Spam, it IS NOT Spam. ✅ Correct!
-- **FP (False Positive)**: Model said Spam, but it IS NOT Spam. ❌ Wrong! (Important email sent to spam)
-- **FN (False Negative)**: Model said Not Spam, but it IS Spam. ❌ Wrong! (Spam got through)
+- **TP (True Positive)**: Model said Spam, it IS Spam. Correct!
+- **TN (True Negative)**: Model said Not Spam, it IS NOT Spam. Correct!
+- **FP (False Positive)**: Model said Spam, but it IS NOT Spam. Wrong! (Important email sent to spam)
+- **FN (False Negative)**: Model said Not Spam, but it IS Spam. Wrong! (Spam got through)
 
 ---
 
 ### Q11: What is Accuracy, Precision, Recall, and F1-Score?
 **Answer:**
 ```
-Accuracy  = (TP + TN) / Total                  → Overall correct predictions
-Precision = TP / (TP + FP)                     → Of all PREDICTED spam, how many were actually spam?
-Recall    = TP / (TP + FN)                     → Of all ACTUAL spam, how many did we catch?
-F1-Score  = 2 × (Precision × Recall) / (Precision + Recall)  → Balance of Precision and Recall
+Accuracy = (TP + TN) / Total         → Overall correct predictions
+Precision = TP / (TP + FP)           → Of all PREDICTED spam, how many were actually spam?
+Recall  = TP / (TP + FN)           → Of all ACTUAL spam, how many did we catch?
+F1-Score = 2 × (Precision × Recall) / (Precision + Recall) → Balance of Precision and Recall
 ```
 
 **When to use what:**
@@ -222,8 +222,8 @@ We split data into training and testing sets to evaluate how well the model gene
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+  X, y, test_size=0.2, random_state=42
 )
 print(f"Training samples: {len(X_train)}")
-print(f"Testing samples:  {len(X_test)}")
+print(f"Testing samples: {len(X_test)}")
 ```

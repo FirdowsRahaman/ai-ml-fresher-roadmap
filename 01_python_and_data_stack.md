@@ -27,10 +27,10 @@ Python is a high-level, easy-to-read programming language. It is popular in AI/M
 
 ```python
 my_list = [1, 2, 3]
-my_list[0] = 99   # ✅ Works fine
+my_list[0] = 99  # Works fine
 
 my_tuple = (1, 2, 3)
-my_tuple[0] = 99  # ❌ TypeError: 'tuple' object does not support item assignment
+my_tuple[0] = 99 # TypeError: 'tuple' object does not support item assignment
 ```
 
 ---
@@ -44,11 +44,11 @@ my_tuple[0] = 99  # ❌ TypeError: 'tuple' object does not support item assignme
 a = [1, 2, 3]
 b = [1, 2, 3]
 
-print(a == b)   # True  → same values
-print(a is b)   # False → different objects in memory
+print(a == b)  # True → same values
+print(a is b)  # False → different objects in memory
 
 c = a
-print(a is c)   # True  → same object
+print(a is c)  # True → same object
 ```
 
 ---
@@ -60,16 +60,16 @@ A generator is a special function that produces values one at a time using the `
 ```python
 # Normal function — loads everything into memory at once
 def get_all_numbers(n):
-    return [i * 2 for i in range(n)]  # Stores entire list
+  return [i * 2 for i in range(n)] # Stores entire list
 
 # Generator — produces values one-by-one (memory efficient!)
 def generate_numbers(n):
-    for i in range(n):
-        yield i * 2  # Returns one value at a time, pauses until next call
+  for i in range(n):
+    yield i * 2 # Returns one value at a time, pauses until next call
 
-gen = generate_numbers(1000000)  # Takes almost zero memory
-print(next(gen))  # 0
-print(next(gen))  # 2
+gen = generate_numbers(1000000) # Takes almost zero memory
+print(next(gen)) # 0
+print(next(gen)) # 2
 ```
 
 > **Why it matters in ML:** When loading millions of images or rows of data, generators allow you to process one batch at a time without running out of RAM.
@@ -83,7 +83,7 @@ A lambda is a small, anonymous (nameless) function written in a single line. Use
 ```python
 # Normal function
 def square(x):
-    return x ** 2
+  return x ** 2
 
 # Lambda equivalent
 square = lambda x: x ** 2
@@ -104,11 +104,11 @@ df['age_group'] = df['age'].apply(lambda x: 'Young' if x < 30 else 'Senior')
 ```python
 a = [1, 2, 3]
 a.append([4, 5])
-print(a)  # [1, 2, 3, [4, 5]]  ← The list [4,5] is added as ONE element
+print(a) # [1, 2, 3, [4, 5]] ← The list [4,5] is added as ONE element
 
 b = [1, 2, 3]
 b.extend([4, 5])
-print(b)  # [1, 2, 3, 4, 5]   ← 4 and 5 are added individually
+print(b) # [1, 2, 3, 4, 5]  ← 4 and 5 are added individually
 ```
 
 ---
@@ -123,11 +123,11 @@ NumPy (Numerical Python) is a library that provides fast mathematical operations
 import numpy as np
 
 # Without NumPy (slow Python loop)
-result = [x * 2 for x in range(1_000_000)]  # Slow
+result = [x * 2 for x in range(1_000_000)] # Slow
 
 # With NumPy (fast)
 arr = np.arange(1_000_000)
-result = arr * 2  # About 30x faster
+result = arr * 2 # About 30x faster
 ```
 
 ---
@@ -140,14 +140,14 @@ Shape describes the dimensions of an array — like rows and columns in a table.
 import numpy as np
 
 a = np.array([1, 2, 3])
-print(a.shape)  # (3,) → 1D array with 3 elements
+print(a.shape) # (3,) → 1D array with 3 elements
 
 b = np.array([[1, 2, 3], [4, 5, 6]])
-print(b.shape)  # (2, 3) → 2 rows, 3 columns
+print(b.shape) # (2, 3) → 2 rows, 3 columns
 
 # Reshaping
-c = b.reshape(3, 2)  # Now 3 rows, 2 columns
-print(c.shape)  # (3, 2)
+c = b.reshape(3, 2) # Now 3 rows, 2 columns
+print(c.shape) # (3, 2)
 ```
 
 ---
@@ -160,13 +160,13 @@ Broadcasting allows NumPy to perform arithmetic operations between arrays of dif
 import numpy as np
 
 arr = np.array([[1, 2, 3],
-                [4, 5, 6]])     # Shape (2, 3)
+        [4, 5, 6]])   # Shape (2, 3)
 
-row = np.array([10, 20, 30])    # Shape (3,)
+row = np.array([10, 20, 30])  # Shape (3,)
 
-result = arr + row              # Broadcasting adds row to EACH row of arr
+result = arr + row       # Broadcasting adds row to EACH row of arr
 # [[11, 22, 33],
-#  [14, 25, 36]]
+# [14, 25, 36]]
 ```
 
 ---
@@ -181,17 +181,17 @@ Pandas is a Python library for working with structured data (think Excel tables 
 import pandas as pd
 
 data = {
-    'Name':  ['Alice', 'Bob', 'Charlie'],
-    'Age':   [25, 30, 28],
-    'Score': [85.0, 90.5, 78.0]
+  'Name': ['Alice', 'Bob', 'Charlie'],
+  'Age':  [25, 30, 28],
+  'Score': [85.0, 90.5, 78.0]
 }
 
 df = pd.DataFrame(data)
 print(df)
-#       Name  Age  Score
-# 0    Alice   25   85.0
-# 1      Bob   30   90.5
-# 2  Charlie   28   78.0
+#    Name Age Score
+# 0  Alice  25  85.0
+# 1   Bob  30  90.5
+# 2 Charlie  28  78.0
 ```
 
 ---
@@ -205,11 +205,11 @@ import pandas as pd
 import numpy as np
 
 df = pd.DataFrame({'name': ['Alice', 'Bob', 'Charlie'],
-                   'score': [85, np.nan, 90]})
+          'score': [85, np.nan, 90]})
 
 # Detect missing values
-print(df.isnull())          # Shows True where NaN exists
-print(df.isnull().sum())    # Count of NaN per column
+print(df.isnull())     # Shows True where NaN exists
+print(df.isnull().sum())  # Count of NaN per column
 
 # Option 1: Drop rows with NaN
 df_dropped = df.dropna()
@@ -232,12 +232,12 @@ df['score'].fillna(0, inplace=True)
 df = pd.DataFrame({'score': [85, 90, 78]}, index=['Alice', 'Bob', 'Charlie'])
 
 # loc — by label
-print(df.loc['Alice'])     # Gets row for Alice
+print(df.loc['Alice'])   # Gets row for Alice
 
 # iloc — by position
-print(df.iloc[0])          # Gets the first row (index 0)
+print(df.iloc[0])     # Gets the first row (index 0)
 
 # Slicing
-print(df.loc['Alice':'Bob'])   # Rows from Alice to Bob (inclusive)
-print(df.iloc[0:2])            # Rows 0 and 1 (exclusive end)
+print(df.loc['Alice':'Bob'])  # Rows from Alice to Bob (inclusive)
+print(df.iloc[0:2])      # Rows 0 and 1 (exclusive end)
 ```

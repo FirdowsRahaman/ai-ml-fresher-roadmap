@@ -4,7 +4,7 @@ This module covers the practical engineering skills AI/ML freshers are expected 
 
 ---
 
-## 🚀 Section 1: What is MLOps?
+## Section 1: What is MLOps?
 
 ### Q1: What is MLOps? Why is it important?
 **Answer:**
@@ -54,18 +54,18 @@ import numpy as np
 import joblib
 
 app = FastAPI()
-model = joblib.load("spam_classifier.joblib")  # Load your trained model
+model = joblib.load("spam_classifier.joblib") # Load your trained model
 
 class EmailRequest(BaseModel):
-    text: str
+  text: str
 
 @app.post("/predict")
 def predict_spam(request: EmailRequest):
-    # Simple feature: word count (in real life, use TF-IDF or embeddings)
-    features = [[len(request.text.split())]]
-    prediction = model.predict(features)[0]
-    label = "SPAM" if prediction == 1 else "NOT SPAM"
-    return {"label": label}
+  # Simple feature: word count (in real life, use TF-IDF or embeddings)
+  features = [[len(request.text.split())]]
+  prediction = model.predict(features)[0]
+  label = "SPAM" if prediction == 1 else "NOT SPAM"
+  return {"label": label}
 
 # Run with: uvicorn main:app --reload
 # Test at: http://localhost:8000/docs
@@ -89,10 +89,10 @@ REST (Representational State Transfer) is the standard way to design APIs on the
 import requests
 
 response = requests.post(
-    "http://localhost:8000/predict",
-    json={"text": "Congratulations! You won a free iPhone. Click now!"}
+  "http://localhost:8000/predict",
+  json={"text": "Congratulations! You won a free iPhone. Click now!"}
 )
-print(response.json())  # {"label": "SPAM"}
+print(response.json()) # {"label": "SPAM"}
 ```
 
 ---
@@ -106,8 +106,8 @@ Docker is a tool that packages your application and all its dependencies (Python
 **The "Works on my machine" problem:**
 ```
 Developer: "My model works perfectly! 98% accuracy!"
-       ↓
-Server:    "ModuleNotFoundError: No module named 'sklearn'"
+    ↓
+Server:  "ModuleNotFoundError: No module named 'sklearn'"
 ```
 
 Docker solves this by saying: *"If it works in my Docker container, it will work on ANY machine running Docker — your laptop, a server, or the cloud."*
@@ -115,16 +115,16 @@ Docker solves this by saying: *"If it works in my Docker container, it will work
 **Simple Docker workflow for ML:**
 ```dockerfile
 # Dockerfile — Recipe for your container
-FROM python:3.11-slim          # Start from Python image
+FROM python:3.11-slim     # Start from Python image
 
-WORKDIR /app                   # Set working directory
+WORKDIR /app          # Set working directory
 
-COPY requirements.txt .        # Copy dependencies list
-RUN pip install -r requirements.txt  # Install them
+COPY requirements.txt .    # Copy dependencies list
+RUN pip install -r requirements.txt # Install them
 
-COPY . .                       # Copy your code + model
+COPY . .            # Copy your code + model
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]  # Start the server
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"] # Start the server
 ```
 
 ```bash
@@ -141,14 +141,14 @@ docker run -p 8000:8000 my-ml-model
 - **Docker Container**: A running instance of an image (like an object from a class). You can run many containers from one image.
 
 ```
-Image (Blueprint):   "python-3.11 + scikit-learn + FastAPI + my model code"
-   ↓ docker run
+Image (Blueprint):  "python-3.11 + scikit-learn + FastAPI + my model code"
+  ↓ docker run
 Container (Running): An active instance serving predictions on port 8000
 ```
 
 ---
 
-## 📊 Section 4: Version Control & Experiment Tracking
+## Section 4: Version Control & Experiment Tracking
 
 ### Q7: Why is Git important in ML projects?
 **Answer:**
@@ -160,13 +160,13 @@ Git is a version control system that tracks changes to your code files over time
 
 ```bash
 # Common Git commands every ML fresher must know
-git init                         # Initialize git in your project
-git add train.py model.py        # Stage files for commit
-git commit -m "Add early stopping to training loop"  # Save snapshot
-git push origin main             # Upload to GitHub
+git init             # Initialize git in your project
+git add train.py model.py    # Stage files for commit
+git commit -m "Add early stopping to training loop" # Save snapshot
+git push origin main       # Upload to GitHub
 
-git checkout -b experiment-new-features  # Create new branch
-git merge experiment-new-features        # Merge back when ready
+git checkout -b experiment-new-features # Create new branch
+git merge experiment-new-features    # Merge back when ready
 ```
 
 ---
@@ -186,27 +186,27 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 with mlflow.start_run():
-    # Log parameters
-    mlflow.log_param("n_estimators", 100)
-    mlflow.log_param("max_depth", 5)
+  # Log parameters
+  mlflow.log_param("n_estimators", 100)
+  mlflow.log_param("max_depth", 5)
 
-    # Train model
-    model = RandomForestClassifier(n_estimators=100, max_depth=5)
-    model.fit(X_train, y_train)
+  # Train model
+  model = RandomForestClassifier(n_estimators=100, max_depth=5)
+  model.fit(X_train, y_train)
 
-    # Log metric
-    acc = accuracy_score(y_test, model.predict(X_test))
-    mlflow.log_metric("accuracy", acc)
+  # Log metric
+  acc = accuracy_score(y_test, model.predict(X_test))
+  mlflow.log_metric("accuracy", acc)
 
-    # Save model
-    mlflow.sklearn.log_model(model, "model")
+  # Save model
+  mlflow.sklearn.log_model(model, "model")
 
 # View all experiments: mlflow ui (opens web dashboard)
 ```
 
 ---
 
-## 🔍 Section 5: Data Quality & Model Monitoring
+## Section 5: Data Quality & Model Monitoring
 
 ### Q9: What is Data Drift? Why does it cause models to fail over time?
 **Answer:**
@@ -238,16 +238,16 @@ In ML:
 
 ```
 Code Push to GitHub
-       ↓
+    ↓
 [CI Pipeline Runs]:
-  1. Run unit tests
-  2. Train model on fresh data
-  3. Evaluate: accuracy > 90%? ✅
-  4. Test API endpoints ✅
-       ↓
+ 1. Run unit tests
+ 2. Train model on fresh data
+ 3. Evaluate: accuracy > 90%? 
+ 4. Test API endpoints 
+    ↓
 [CD Pipeline]:
-  5. Build Docker image
-  6. Push to container registry
-  7. Deploy to production server
-  8. Send Slack notification ✅
+ 5. Build Docker image
+ 6. Push to container registry
+ 7. Deploy to production server
+ 8. Send Slack notification 
 ```
