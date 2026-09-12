@@ -2,50 +2,6 @@
 
 # AI/ML Fresher Roadmap
 
-### From Python Fundamentals to AI Engineering
-
-A structured, practical learning path for aspiring AI/ML engineers.
-
-Learn the fundamentals. Build real projects.
-Understand modern Generative AI. Prepare for interviews.
-
-Python • Machine Learning • Deep Learning • NLP • Computer Vision
-Generative AI • LLMs • RAG • MLOps
-
----
-
-## Roadmap at a Glance
-
-FOUNDATIONS
-Python → Math & Statistics
-
-             ↓
-
-MACHINE LEARNING
-Classical ML → Deep Learning
-
-             ↓
-
-AI SPECIALIZATION
-NLP → Computer Vision
-
-             ↓
-
-GENERATIVE AI
-LLMs → Prompting → Embeddings → RAG
-
-             ↓
-
-ENGINEERING
-APIs → Docker → MLflow → CI/CD
-
-             ↓
-
-CAREER READY
-Projects → Coding → System Thinking → Interviews
-
----
-
 ## What You Will Learn
 
 ```mermaid
