@@ -106,13 +106,13 @@ Learn how agents interact with APIs, databases, and the outside world.
 Collaborative multi-agent workflows and standardized tool integration.  
 `CrewAI` `AutoGen` `Google ADK Subagents` `Model Context Protocol (MCP)`
 
-### [10 — Agent Evaluation, Safety & Production](./10_agent_evaluation_and_safety.md)
-Building safe, reliable, and observable agentic systems.  
-`LLM-as-a-Judge` `Tracing & Observability` `Prompt Injection` `Guardrails`
+### [10 — Agent Evaluation, Safety, Governance & Cloud FinOps](./10_agent_evaluation_and_safety.md)
+Building safe, enterprise-compliant, and cost-controlled agentic systems.  
+`Multi-Tier Guardrails` `AI Governance (EU AI Act & NIST RMF)` `Red Teaming (PyRIT/Garak)` `Cloud Safety & FinOps` `Tracing`
 
-### [11 — MLOps & AI Engineering](./11_mlops_and_ai_engineering.md)
-Learn how to package, track, deploy, monitor, and A/B test models in production and cloud.  
-`FastAPI` `Docker` `MLflow` `DVC` `Feature Stores (Feast)` `Drift Detection (PSI)` `A/B Testing` `Cloud (AWS/GCP)`
+### [11 — MLOps, AI Engineering & Cloud Safety](./11_mlops_and_ai_engineering.md)
+Learn how to package, track, deploy, monitor, A/B test, and financially protect models in cloud production.  
+`FastAPI` `Docker` `MLflow` `DVC` `Feature Stores (Feast)` `Drift (PSI)` `A/B Testing` `FinOps & Spot Instances` `AWS/GCP`
 
 ### [12 — Practical Scenarios & Coding](./12_practical_scenarios_and_coding.md)
 Hands-on coding exercises, edge cases, and real-world system debugging.  
