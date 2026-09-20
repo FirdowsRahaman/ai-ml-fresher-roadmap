@@ -396,4 +396,6 @@ Enterprises rely on automated kill-switches rather than manual email notificatio
   - When the warning is caught, trigger an immediate emergency checkpoint save, flush weights, and exit gracefully.
   - An Auto-Scaling Fleet automatically spins up a new Spot instance and resumes training from the exact saved checkpoint.
 
+---
 
+[← Previous: Module 10 - Agent Evaluation, Safety & Governance](./10_agent_evaluation_and_safety.md) | [Next: Module 12 - Practical Scenarios & System Troubleshooting →](./12_practical_scenarios.md)

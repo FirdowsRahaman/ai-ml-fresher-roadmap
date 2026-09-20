@@ -42,10 +42,11 @@ flowchart LR
 
     subgraph S5["5. Production & Career"]
         K["MLOps, Drift & Cloud"]
-        L["Scenarios & Interview Kits"]
+        L["Practical Scenarios & System Troubleshooting"]
+        M["Hands-On Coding & Algorithm Challenges"]
     end
 
-    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L
+    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
 
     classDef foundation fill:#E3F2FD,stroke:#1E88E5,stroke-width:2px,color:#0D47A1;
     classDef ml fill:#E8F5E9,stroke:#43A047,stroke-width:2px,color:#1B5E20;
@@ -57,7 +58,7 @@ flowchart LR
     class C,D ml;
     class E,F ai;
     class G,H,I,J agent;
-    class K,L prod;
+    class K,L,M prod;
 
     style S1 fill:#F8FAFC,stroke:#93C5FD,stroke-width:1px,stroke-dasharray: 3 3;
     style S2 fill:#F8FAFC,stroke:#86EFAC,stroke-width:1px,stroke-dasharray: 3 3;
@@ -114,9 +115,13 @@ Building safe, enterprise-compliant, and cost-controlled agentic systems.
 Learn how to package, track, deploy, monitor, A/B test, and financially protect models in cloud production.  
 `FastAPI` `Docker` `MLflow` `DVC` `Feature Stores (Feast)` `Drift (PSI)` `A/B Testing` `FinOps & Spot Instances` `AWS/GCP`
 
-### [12 — Practical Scenarios & Coding](./12_practical_scenarios_and_coding.md)
-Hands-on coding exercises, edge cases, and real-world system debugging.  
-`Data Leakage` `Preprocessing` `Imbalanced Data` `Distribution Shift` `System Thinking`
+### [12 — Practical Problem-Solving & Real-World Scenarios](./12_practical_scenarios.md)
+Real-world troubleshooting, edge cases, trade-offs, and system debugging.  
+`Data Leakage` `Imbalanced Data` `Distribution Shift & PSI` `Catastrophic Forgetting` `System Thinking`
+
+### [13 — Hands-On Coding Challenges & Algorithms from Scratch](./13_practical_coding_challenges.md)
+Vectorized implementations, algorithm coding, edge cases, and complexity analysis.  
+`Vectorized Linear Regression` `Softmax & Cross-Entropy` `K-Means from Scratch` `BM25 Engine` `Resilient API Client`
 
 ---
 
@@ -174,13 +179,13 @@ A winning portfolio demonstrates that you can build **both locally on consumer h
 | **Week 3** | NLP, Computer Vision & Production GenAI | [Module 05 (NLP & CV)](./05_nlp_and_computer_vision.md) • [Module 06 (GenAI & Advanced RAG)](./06_genai_llms_and_rag.md) |
 | **Week 4** | Autonomous Agents & Orchestration | [Module 07 (Agent Fundamentals)](./07_ai_agents_fundamentals.md) • [Module 08 (Tools & LangGraph)](./08_tools_and_orchestration.md) |
 | **Week 5** | Multi-Agent Systems, MCP & Evaluation | [Module 09 (Multi-Agent & MCP)](./09_multi_agent_systems_and_mcp.md) • [Module 10 (Evals & Safety)](./10_agent_evaluation_and_safety.md) |
-| **Week 6** | Production MLOps & Interview Mastery | [Module 11 (MLOps & Cloud)](./11_mlops_and_ai_engineering.md) • [Module 12 (Scenarios)](./12_practical_scenarios_and_coding.md) • [Interview Kits](./interview/ml_questions.md) |
+| **Week 6** | Production MLOps, Scenarios & Algorithms | [Module 11 (MLOps & Cloud)](./11_mlops_and_ai_engineering.md) • [Module 12 (Scenarios)](./12_practical_scenarios.md) • [Module 13 (Coding)](./13_practical_coding_challenges.md) • [Interview Kits](./interview/ml_questions.md) |
 
 ---
 
 ## Progress Checklist
 
-Track your completion through the 12 core roadmap milestones:
+Track your completion through the 13 core roadmap milestones:
 
 - [ ] **Milestone 01:** Python, NumPy, Pandas, SQL joins & ETL pipelines
 - [ ] **Milestone 02:** Linear algebra, probability distributions & hypothesis testing
@@ -193,7 +198,8 @@ Track your completion through the 12 core roadmap milestones:
 - [ ] **Milestone 09:** Multi-Agent collaboration (CrewAI, AutoGen, Google ADK) & Model Context Protocol (MCP)
 - [ ] **Milestone 10:** LLM-as-a-judge, Tracing (LangSmith), Prompt Injection & Guardrails
 - [ ] **Milestone 11:** FastAPI model serving, Docker, MLflow, DVC, Feature Stores & Cloud (AWS/GCP)
-- [ ] **Milestone 12:** Debugging data leakage, production shifts & interview question kits
+- [ ] **Milestone 12:** Debugging data leakage, distribution shifts, RAG hallucinations & edge cases
+- [ ] **Milestone 13:** Hands-on algorithms from scratch (NumPy vectorized ML, K-Means, BM25, resilient APIs)
 
 ---
 
