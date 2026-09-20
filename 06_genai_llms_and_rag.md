@@ -241,6 +241,48 @@ Naive RAG (simple chunking → embed → vector search → generate) fails frequ
    - **Answer Relevance:** Does the answer directly address the user query?
    - **Context Precision & Recall:** Did retrieval grab the exact information needed without unnecessary noise?
 
+```mermaid
+flowchart TD
+    QUERY(["User Query"]) --> QT["1. Query Transformation<br/>(HyDE / Multi-Query Expansion)"]
+
+    subgraph RETRIEVAL["2. Hybrid Retrieval (Sparse + Dense)"]
+        direction LR
+        BM25["BM25 Lexical Search<br/>(Keywords / Exact IDs)"]
+        DENSE["Vector Search (HNSW)<br/>(Dense Semantic Embeddings)"]
+    end
+
+    QT --> BM25
+    QT --> DENSE
+
+    BM25 --> RRF["Reciprocal Rank Fusion (RRF)<br/>Merge Candidates (Top 50)"]
+    DENSE --> RRF
+
+    RRF --> RERANK["3. Cross-Encoder Reranker<br/>(Cohere / BGE Deep Cross-Attention)"]
+    RERANK -->|Top 3-5 Chunks| LLM["4. LLM Generation & Grounding<br/>(Grounded Response + Citations)"]
+
+    subgraph EVAL["5. RAGAS Quality Guardrail"]
+        direction LR
+        F["Faithfulness"]
+        AR["Answer Relevance"]
+        CP["Context Precision"]
+    end
+
+    LLM --> EVAL
+    EVAL --> ANS(["Final Verified Answer"])
+
+    classDef user fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef step fill:#EDE9FE,stroke:#7C3AED,stroke-width:1.5px,color:#4C1D95;
+    classDef search fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#92400E;
+    classDef rerank fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
+    classDef eval fill:#DCFCE7,stroke:#16A34A,stroke-width:1.5px,color:#15803D;
+
+    class QUERY user;
+    class QT,LLM step;
+    class BM25,DENSE,RRF search;
+    class RERANK rerank;
+    class F,AR,CP,ANS eval;
+```
+
 ---
 
 ## 14. LLM Inference Optimization & Latency Budgets

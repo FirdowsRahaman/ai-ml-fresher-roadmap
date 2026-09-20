@@ -4,7 +4,7 @@ This module covers the basics of Natural Language Processing (NLP) and Computer 
 
 ---
 
-## 🗣️ Section 1: Natural Language Processing (NLP) Basics
+## Section 1: Natural Language Processing (NLP) Basics
 
 ### Q1: What is NLP (Natural Language Processing)?
 
@@ -101,7 +101,7 @@ But a word can also be split into subwords:
 
 This is called **subword tokenization**.
 
-📥 What happens when we send different types of input?
+ What happens when we send different types of input?
 
 Different modalities are processed differently.
 
@@ -134,7 +134,7 @@ So:
 
 Do **not** assume that every modality is converted into ordinary text tokens.
 
-📤 What about the output?
+ What about the output?
 
 The output depends on what the model is generating.
 
@@ -158,7 +158,7 @@ Image-generation process
  ↓
 Image representation
  ↓
-🖼️ Generated image
+ Generated image
 
 The final output is an image, not a sequence of text tokens.
 
@@ -189,7 +189,7 @@ INPUT ───────────┼── Vision encoder ──→ Visual
 
 **Text is commonly represented using text tokens. Other modalities use model-specific representations, which may sometimes also be called tokens.**
 
-💰 Why Tokens Matter in Practice
+ Why Tokens Matter in Practice
 
 For text-based LLM APIs, usage and billing are commonly measured using **input tokens** and **output tokens**.
 
@@ -224,7 +224,7 @@ If asked whether an image is "a token," say:
 **"An image is not a text token. A multimodal model may convert the image into patches, features, or visual tokens internally, depending on its architecture."**
 ---
 
-#### 📥 Input Tokens — What the model READS
+#### Input Tokens — What the model READS
 
 | What you send in | Token Type | Example |
 
@@ -258,7 +258,7 @@ You type: "Describe this image → [photo attached]"
 
 ---
 
-#### 📤 Output Tokens — What the model GENERATES
+#### Output Tokens — What the model GENERATES
 
 | What the model outputs | Token Type | Example |
 
@@ -322,7 +322,7 @@ Model generates: "Artificial Intelligence is the simulation..."
 
 ---
 
-#### 💰 Why Tokens Matter in Practice (API Billing)
+#### Why Tokens Matter in Practice (API Billing)
 
 When you call any LLM API (OpenAI, Gemini, Claude), **you pay per token** — input AND output separately:
 
@@ -406,7 +406,7 @@ Similar items → similar vectors. Different items → different vectors.
 
 ---
 
-#### 🖼️ Image Embeddings
+#### Image Embeddings
 
 An image encoder (like a CNN or Vision Transformer) looks at the entire image and compresses it into a single vector that captures what is in the image.
 
@@ -430,7 +430,7 @@ An image encoder (like a CNN or Vision Transformer) looks at the entire image an
 
 ---
 
-#### 🔊 Audio Embeddings
+#### Audio Embeddings
 
 Audio is first converted into a visual representation (spectrogram), then an encoder compresses it into a vector capturing the sound's meaning, tone, or speaker identity.
 
@@ -456,7 +456,7 @@ Audio is first converted into a visual representation (spectrogram), then an enc
 
 ---
 
-#### 🎥 Video Embeddings
+#### Video Embeddings
 
 Video is a sequence of image frames over time. Video encoders process both the **visual content** AND **temporal changes** (how scenes evolve) to produce an embedding.
 
@@ -488,11 +488,11 @@ The most important modern development is that some multimodal embedding models, 
 
 Text: "a dog playing fetch" → [0.7, 0.3, -0.2, 0.8, ...]
 
-Image: [Photo of dog + ball] → [0.69, 0.31, -0.21, 0.79, ...] ← Very close! 🎯
+Image: [Photo of dog + ball] → [0.69, 0.31, -0.21, 0.79, ...] ← Very close! 
 
 Text: "a red sports car"  → [0.1, -0.5, 0.9, 0.2, ...]
 
-Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close! 🎯
+Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close! 
 
 ```
 
@@ -500,9 +500,9 @@ Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close!
 
 - **Text-to-Image search** — Type "sunset over mountains" → Find all matching photos in your database.
 
-- 🖼️ **Image-to-Text search** — Upload a photo of a shoe → Find similar products on an e-commerce site.
+-  **Image-to-Text search** — Upload a photo of a shoe → Find similar products on an e-commerce site.
 
-- 🎵 **Audio-to-Text search** — Hum a tune → Find the matching song.
+-  **Audio-to-Text search** — Hum a tune → Find the matching song.
 
 #### Summary Table: Embeddings Across All Modalities
 
@@ -584,7 +584,7 @@ Cupertino  → LOCATION
 
 ---
 
-## 👁️ Section 2: Computer Vision Basics
+## Section 2: Computer Vision Basics
 
 ### Q6: What is Computer Vision?
 
@@ -704,7 +704,7 @@ model.fc = nn.Linear(model.fc.in_features, 2)
 
 ---
 
-## 🔄 Section 3: Key NLP Concepts
+## Section 3: Key NLP Concepts
 
 ### Q10: What is the Bag of Words (BoW) model?
 

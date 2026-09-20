@@ -230,7 +230,7 @@ print(f"Testing samples: {len(X_test)}")
 
 ---
 
-## 📈 Section 4: Time Series Analysis
+## Section 4: Time Series Analysis
 
 ### Q13: How is Time Series data different from regular Tabular data?
 **Answer:**
@@ -247,7 +247,7 @@ Regular tabular data (cross-sectional data) assumes that each row is independent
 
 ---
 
-## ⚖️ Section 5: Ethics, Bias & Fairness in AI
+## Section 5: Ethics, Bias & Fairness in AI
 
 ### Q15: How does a machine learning model become biased?
 **Answer:**
@@ -261,7 +261,7 @@ High overall accuracy is not enough. You must evaluate the model's accuracy (or 
 
 ---
 
-## 🎯 Section 6: Recommendation & Ranking Systems (MNC Standard)
+## Section 6: Recommendation & Ranking Systems (MNC Standard)
 
 ### Q17: What is the classic Two-Stage Recommendation Architecture?
 **Answer:**

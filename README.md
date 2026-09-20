@@ -18,17 +18,52 @@ Generative AI • LLMs • RAG • AI Agents • MCP • MLOps • Cloud
 
 ```mermaid
 flowchart LR
-    A[Python, SQL & Data] --> B[Math & Statistics]
-    B --> C[Classical ML, Time Series & RecSys]
-    C --> D[Deep Learning & RL]
-    D --> E[NLP & Computer Vision]
-    E --> F[Advanced RAG, LLMs & Serving]
-    F --> G[AI Agents Fundamentals]
-    G --> H[Tools & Orchestration]
-    H --> I[Multi-Agent & MCP]
-    I --> J[Agent Evaluation & Safety]
-    J --> K[MLOps, Drift, Feature Stores & Cloud]
-    K --> L[Scenarios & Interview Kits]
+    subgraph S1["1. Foundations"]
+        A["Python, SQL & Data"]
+        B["Math & Statistics"]
+    end
+
+    subgraph S2["2. Machine Learning"]
+        C["Classical ML, RecSys & Time Series"]
+        D["Deep Learning & RL"]
+    end
+
+    subgraph S3["3. AI Specialization"]
+        E["NLP & Computer Vision"]
+        F["Advanced RAG, LLMs & Serving"]
+    end
+
+    subgraph S4["4. Autonomous Agents"]
+        G["AI Agents Fundamentals"]
+        H["Tools & Orchestration (ADK)"]
+        I["Multi-Agent & MCP"]
+        J["Agent Evaluation & Safety"]
+    end
+
+    subgraph S5["5. Production & Career"]
+        K["MLOps, Drift & Cloud"]
+        L["Scenarios & Interview Kits"]
+    end
+
+    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L
+
+    classDef foundation fill:#E3F2FD,stroke:#1E88E5,stroke-width:2px,color:#0D47A1;
+    classDef ml fill:#E8F5E9,stroke:#43A047,stroke-width:2px,color:#1B5E20;
+    classDef ai fill:#FFF3E0,stroke:#FB8C00,stroke-width:2px,color:#E65100;
+    classDef agent fill:#F3E5F5,stroke:#8E24AA,stroke-width:2px,color:#4A148C;
+    classDef prod fill:#ECEFF1,stroke:#546E7A,stroke-width:2px,color:#263238;
+
+    class A,B foundation;
+    class C,D ml;
+    class E,F ai;
+    class G,H,I,J agent;
+    class K,L prod;
+
+    style S1 fill:#F8FAFC,stroke:#93C5FD,stroke-width:1px,stroke-dasharray: 3 3;
+    style S2 fill:#F8FAFC,stroke:#86EFAC,stroke-width:1px,stroke-dasharray: 3 3;
+    style S3 fill:#F8FAFC,stroke:#FDBA74,stroke-width:1px,stroke-dasharray: 3 3;
+    style S4 fill:#F8FAFC,stroke:#D8B4FE,stroke-width:1px,stroke-dasharray: 3 3;
+    style S5 fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1px,stroke-dasharray: 3 3;
 ```
 
 ---
@@ -108,7 +143,7 @@ Looking for deeper theoretical or practical references? Check out our hand-picke
 
 A winning portfolio demonstrates that you can build **both locally on consumer hardware ($0 cloud spend)** and **at scale across cloud environments (AWS, GCP, Big Tech)**:
 
-### 💻 Track 1: 100% Local Projects ($0 Cloud Cost — Run on Laptop)
+### Track 1: 100% Local Projects ($0 Cloud Cost — Run on Laptop)
 | Project | Problem Solved & Local Architecture | Key Local Stack | Detailed Blueprint |
 |---|---|---|---|
 | **Private Desktop AI Copilot** | Air-gapped offline assistant: local GGUF quantization, embedded in-memory vector store, and DuckDB SQL engine. | Ollama, Llama 3.2, ChromaDB, DuckDB, LangGraph | [View Local Blueprint →](./PROJECTS.md#-local-project-1-private-air-gapped-desktop-rag--multi-tool-agent) |
@@ -116,7 +151,7 @@ A winning portfolio demonstrates that you can build **both locally on consumer h
 | **Autograd Engine & Transformer** | Built from scratch in pure Python/NumPy: reverse-mode autodiff, multi-head self-attention, and training on CPU. | Pure Python, NumPy (Zero ML libraries) | [View Local Blueprint →](./PROJECTS.md#-local-project-3-autograd-engine--character-level-transformer-from-scratch) |
 | **Full-Lifecycle Local MLOps** | Complete ML lifecycle: Bayesian tuning (Optuna), local experiment tracking (MLflow + SQLite), Dockerized FastAPI, and Pytest. | Scikit-Learn, MLflow, Optuna, Docker, FastAPI | [View Local Blueprint →](./PROJECTS.md#-local-project-4-full-lifecycle-local-mlops-pipeline-with-mlflow-optuna--docker) |
 
-### ☁️ Track 2: Cloud & Big Tech Enterprise Projects
+### Track 2: Cloud & Big Tech Enterprise Projects
 | Cloud / Big Tech Target | Problem Solved & Cloud Architecture | Key Cloud Stack | Detailed Blueprint |
 |---|---|---|---|
 | **AWS (Bedrock / Textract)** | **Serverless IDP Pipeline:** End-to-end event-driven invoice/contract parsing with automated PII masking and vector audit. | Amazon Bedrock, Textract, Comprehend, OpenSearch, Lambda | [View Cloud Blueprint →](./PROJECTS.md#️-project-5-aws-enterprise-serverless-intelligent-document-processing-idp-pipeline) |
@@ -126,7 +161,7 @@ A winning portfolio demonstrates that you can build **both locally on consumer h
 | **Stripe / FinTech / AWS** | **Real-Time Fraud Prevention Pipeline:** Handling extreme class imbalance (<0.1% fraud), Feast Feature Store, and Evidently drift-triggered CI/CD. | Feast, XGBoost, Evidently AI, MLflow, AWS Kinesis | [View Cloud Blueprint →](./PROJECTS.md#️-project-9-fintech--stripe--aws-real-time-fraud-prevention-with-feature-store--drift-monitoring) |
 | **AI Infrastructure** | **Low-Latency LLM Serving Engine:** High-throughput serving via vLLM (PagedAttention), 2-tier semantic caching, and OpenTelemetry tracing. | vLLM, Redis, OpenTelemetry, Phoenix, PyTorch | [View Cloud Blueprint →](./PROJECTS.md#-project-10-ai-infrastructure-high-throughput-enterprise-llm-serving-with-vllm--semantic-caching) |
 
-> 📖 **Full Implementation Guides & Resume CAR Bullet Points:** See the complete blueprints in **[PROJECTS.md](./PROJECTS.md)**.
+>  **Full Implementation Guides & Resume CAR Bullet Points:** See the complete blueprints in **[PROJECTS.md](./PROJECTS.md)**.
 
 ---
 

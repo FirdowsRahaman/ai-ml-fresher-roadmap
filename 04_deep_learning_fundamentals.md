@@ -70,7 +70,7 @@ A neural network is organized into three types of layers:
 
 ---
 
-## ⚡ Section 2: Activation Functions
+## Section 2: Activation Functions
 
 ### Q4: What is an Activation Function? Why is it needed?
 **Answer:**
@@ -241,7 +241,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 ---
 
-## 🤖 Section 4: Reinforcement Learning (RL)
+## Section 4: Reinforcement Learning (RL)
 
 ### Q12: What is Reinforcement Learning and how does it work?
 **Answer:**

@@ -4,7 +4,7 @@ While AI/ML interviews test heavy theory and system design, almost every technic
 
 ---
 
-## 🐍 Section 1: Python Core & Algorithmic Thinking
+## Section 1: Python Core & Algorithmic Thinking
 
 ### Q1: Two Sum Problem (Optimized $O(N)$)
 **Problem:** Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
@@ -49,7 +49,7 @@ print(chars) # Output: ['o', 'l', 'l', 'e', 'h']
 
 ---
 
-## 🐼 Section 2: Pandas Data Wrangling (Take-Home & Screenings)
+## Section 2: Pandas Data Wrangling (Take-Home & Screenings)
 
 ### Q3: Imputing Missing Values by Group
 **Problem:** You have employee data with missing salaries (`NaN`). Fill missing values with the **median salary of their respective department**.
@@ -93,7 +93,7 @@ print(summary)
 
 ---
 
-## 📐 Section 3: Machine Learning Algorithms from Scratch (NumPy)
+## Section 3: Machine Learning Algorithms from Scratch (NumPy)
 
 ### Q5: Implement Vectorized Cosine Similarity without Scikit-Learn
 **Problem:** Compute cosine similarity between matrix $A$ ($N \times D$) and vector $B$ ($D$).
@@ -141,7 +141,7 @@ print("Stable Probabilities:", stable_softmax(large_logits))
 
 ---
 
-## 💡 Top Coding Interview Tips
+## Top Coding Interview Tips
 1. **Always State Time & Space Complexity:** State your Big-$O$ before writing code and confirm it after you finish.
 2. **Handle Edge Cases Out Loud:** Check for empty arrays, division by zero, duplicate keys, and negative numbers.
 3. **Avoid Python Loops for Data:** Whenever possible in Pandas/NumPy, use vectorized operations instead of `.iterrows()` or `.apply()`.

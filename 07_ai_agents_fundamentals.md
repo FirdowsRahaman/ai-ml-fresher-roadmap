@@ -4,7 +4,7 @@ This module covers the core concepts, architectures, and interview questions rel
 
 ---
 
-## 🤖 Section 1: What is an AI Agent?
+## Section 1: What is an AI Agent?
 
 ### Q1: What is the fundamental difference between an LLM, a Chain, and an AI Agent?
 **Answer:**
@@ -14,17 +14,33 @@ This module covers the core concepts, architectures, and interview questions rel
 | **Chain** | A deterministic, hard-coded sequence of calls (e.g., Prompt A → Model → Parse → Prompt B). | Developer defines exact path; zero autonomy. | Standard RAG pipeline. |
 | **AI Agent** | An autonomous system that uses an LLM to decide its *own* execution path, choose tools, and repeat steps until a goal is met. | Model dynamically decides steps, loops, and termination. | An agent that searches the web, tests Python code, fixes errors, and emails a report. |
 
-```
-Chain:  [Input] ────────► [Step 1] ────────► [Step 2] ────────► [Output]
-                               (Hard-coded path)
+```mermaid
+flowchart TD
+    subgraph Chain["Deterministic Chain (Fixed Path)"]
+        direction LR
+        C_IN["User Input"] --> C1["Step 1: Prompt"] --> C2["Step 2: Parse"] --> C_OUT["Static Output"]
+    end
 
-Agent:  [Goal]  ────────► [Think] ◄───┐
-                            │         │ (Autonomous Loop)
-                            ▼         │
-                         [Action] ────┘
-                            │ (When goal achieved)
-                            ▼
-                         [Finish]
+    subgraph Agent["Autonomous AI Agent (Dynamic Loop)"]
+        direction TB
+        A_GOAL["User Goal"] --> A_THINK["Reason & Plan (LLM)"]
+        A_THINK -->|Selects Tool| A_ACT["Execute Action (Tool Call)"]
+        A_ACT -->|Tool Result| A_OBS["Observe Feedback"]
+        A_OBS -->|Iterate / Course-correct| A_THINK
+        A_THINK -->|Goal Met| A_DONE["Final Resolution"]
+    end
+
+    classDef chainStyle fill:#F1F5F9,stroke:#64748B,stroke-width:1.5px,color:#334155;
+    classDef inputStyle fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef thinkStyle fill:#F3E8FF,stroke:#9333EA,stroke-width:2px,color:#6B21A8;
+    classDef actStyle fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef doneStyle fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class C_IN,C1,C2,C_OUT chainStyle;
+    class A_GOAL inputStyle;
+    class A_THINK thinkStyle;
+    class A_ACT,A_OBS actStyle;
+    class A_DONE doneStyle;
 ```
 
 ---
@@ -41,7 +57,7 @@ A production AI Agent consists of four main pillars:
 
 ---
 
-## 🔄 Section 2: The ReAct Framework & The Agent Loop
+## Section 2: The ReAct Framework & The Agent Loop
 
 ### Q3: What is the ReAct framework, and why is it superior to pure reasoning or pure acting?
 **Answer:**
@@ -49,6 +65,24 @@ A production AI Agent consists of four main pillars:
 - **Pure Reasoning (Chain-of-Thought):** The model hallucinates facts because it cannot access external, real-time ground truth.
 - **Pure Acting:** The model blindly triggers tools without reflecting on intermediate results, leading to catastrophic failure on complex multi-step tasks.
 - **ReAct Advantage:** The model explains *why* it is selecting a tool, runs the tool, reads the real result, and course-corrects dynamically.
+
+```mermaid
+flowchart LR
+    A["1. Thought<br/>(Reason about state)"] -->|Decide Tool| B["2. Action<br/>(Invoke Tool/API)"]
+    B -->|Return Value| C["3. Observation<br/>(Read Environment)"]
+    C -->|Update Memory| A
+    A -->|Goal Accomplished| D["4. Final Answer<br/>(Respond to User)"]
+
+    classDef thought fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef obs fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef final fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class A thought;
+    class B action;
+    class C obs;
+    class D final;
+```
 
 ---
 
@@ -130,7 +164,7 @@ print(f"\nResult: {result}")
 
 ---
 
-## 🧠 Section 3: Memory & State Management
+## Section 3: Memory & State Management
 
 ### Q5: How is Memory structured in production agents?
 **Answer:**
@@ -141,7 +175,7 @@ print(f"\nResult: {result}")
 
 ---
 
-## 🗺️ Section 4: Planning, Reflection & Edge Cases
+## Section 4: Planning, Reflection & Edge Cases
 
 ### Q6: What is the difference between Single-Path and Multi-Path Planning?
 **Answer:**
@@ -165,7 +199,7 @@ print(f"\nResult: {result}")
 
 ---
 
-## 🚀 Key Takeaways for Interviews
+## Key Takeaways for Interviews
 - An agent differs from an LLM by maintaining an **autonomous observe-reason-act loop**.
 - **ReAct** combines thought and action to prevent both pure hallucinations and unguided tool calls.
 - Production agents require strict limits on iterations, token budgets, and structured memory layers.

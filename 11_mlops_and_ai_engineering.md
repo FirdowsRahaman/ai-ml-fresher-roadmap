@@ -37,7 +37,7 @@ This module covers the practical engineering skills AI/ML freshers are expected 
 
 ---
 
-## 🐍 Section 2: Model Deployment Basics
+## Section 2: Model Deployment Basics
 
 ### Q3: What is an API? How do you serve an ML model as an API?
 **Answer:**
@@ -97,7 +97,7 @@ print(response.json()) # {"label": "SPAM"}
 
 ---
 
-## 🐳 Section 3: Docker for ML
+## Section 3: Docker for ML
 
 ### Q5: What is Docker? Why is it used in ML deployments?
 **Answer:**
@@ -236,25 +236,43 @@ In ML:
 - **CI (Continuous Integration)**: Every time a data scientist pushes new code or a retrained model, automated tests run to check if accuracy hasn't dropped and the API still works correctly.
 - **CD (Continuous Deployment)**: If all tests pass, the new model version is automatically deployed to production — no manual steps.
 
-```
-Code Push to GitHub
-    ↓
-[CI Pipeline Runs]:
- 1. Run unit tests
- 2. Train model on fresh data
- 3. Evaluate: accuracy > 90%? 
- 4. Test API endpoints 
-    ↓
-[CD Pipeline]:
- 5. Build Docker image
- 6. Push to container registry
- 7. Deploy to production server
- 8. Send Slack notification 
+```mermaid
+flowchart TD
+    PUSH(["1. Code / Model Push to GitHub"]) --> CI
+
+    subgraph CI["Continuous Integration (CI Pipeline)"]
+        direction TB
+        T1["Run Unit & Schema Tests"] --> T2["Retrain Model on Validated Slice"]
+        T2 --> T3{"Quality Gate:<br/>Metric > Baseline & PSI < 0.1?"}
+        T3 -->|Pass| T4["Validate Inference Endpoints"]
+    end
+
+    subgraph CD["Continuous Deployment (CD Pipeline)"]
+        direction TB
+        B1["Build & Tag Docker Image"] --> B2["Push to Container Registry"]
+        B2 --> B3["Canary Rollout (5% Traffic)"]
+        B3 --> B4["Promote to 100% Production"]
+    end
+
+    T4 --> CD
+    T3 -->|Fail: Quality Drop| ALERT(["Halt Pipeline & Alert Slack"])
+
+    classDef trigger fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef step fill:#F1F5F9,stroke:#64748B,stroke-width:1.5px,color:#334155;
+    classDef gate fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef success fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+    classDef fail fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
+
+    class PUSH trigger;
+    class T1,T2,T4,B1,B2 step;
+    class T3 gate;
+    class B3,B4 success;
+    class ALERT fail;
 ```
 
 ---
 
-## 🗂️ Section 5: Data Version Control (DVC)
+## Section 5: Data Version Control (DVC)
 
 ### Q11: What is DVC and why don't we just use Git for datasets?
 **Answer:**
@@ -266,7 +284,7 @@ Git is amazing for tracking code (which is just text), but it crashes if you try
 
 ---
 
-## ☁️ Section 6: Cloud Platforms for ML
+## Section 6: Cloud Platforms for ML
 
 ### Q12: Why do ML engineers use the cloud instead of their laptops?
 **Answer:**
@@ -284,7 +302,7 @@ For freshers, deploying a simple model to an **AWS EC2 instance** (a virtual ser
 
 ---
 
-## 📊 Section 7: Statistical Drift Detection & Model Decay (MNC Standard)
+## Section 7: Statistical Drift Detection & Model Decay (MNC Standard)
 
 ### Q14: How do you statistically detect Data Drift in production?
 **Answer:**
@@ -302,7 +320,7 @@ You cannot simply "eyeball" features. Industry MLOps pipelines (using tools like
 
 ---
 
-## 🏪 Section 8: Feature Stores & Training-Serving Skew
+## Section 8: Feature Stores & Training-Serving Skew
 
 ### Q15: What is Training-Serving Skew, and why do companies use Feature Stores (e.g., Feast)?
 **Answer:**
@@ -318,7 +336,7 @@ A Feature Store (like **Feast**, Tecton, or AWS Feature Store) acts as a central
 
 ---
 
-## 🧪 Section 9: ML Online Experimentation & Safe Deployments
+## Section 9: ML Online Experimentation & Safe Deployments
 
 ### Q16: How do you design an A/B Test for a new Machine Learning model?
 **Answer:**

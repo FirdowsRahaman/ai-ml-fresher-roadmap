@@ -4,7 +4,7 @@ This module covers basic Python and data science questions that freshers are com
 
 ---
 
-## 🐍 Section 1: Python Basics
+## Section 1: Python Basics
 
 ### Q1: What is Python? Why is it popular in AI/ML?
 **Answer:**
@@ -113,7 +113,7 @@ print(b) # [1, 2, 3, 4, 5]  ← 4 and 5 are added individually
 
 ---
 
-## 🔢 Section 2: NumPy Basics
+## Section 2: NumPy Basics
 
 ### Q7: What is NumPy? Why is it used in ML?
 **Answer:**
@@ -171,7 +171,7 @@ result = arr + row       # Broadcasting adds row to EACH row of arr
 
 ---
 
-## 🐼 Section 3: Pandas Basics
+## Section 3: Pandas Basics
 
 ### Q10: What is Pandas? What is a DataFrame?
 **Answer:**
@@ -188,7 +188,7 @@ data = {
 
 df = pd.DataFrame(data)
 print(df)
-#    Name Age Score
+#   Name Age Score
 # 0  Alice  25  85.0
 # 1   Bob  30  90.5
 # 2 Charlie  28  78.0
@@ -244,7 +244,7 @@ print(df.iloc[0:2])      # Rows 0 and 1 (exclusive end)
 
 ---
 
-## 🗄️ Section 4: SQL & Data Engineering Basics
+## Section 4: SQL & Data Engineering Basics
 
 ### Q13: Why is SQL important for Machine Learning?
 **Answer:**

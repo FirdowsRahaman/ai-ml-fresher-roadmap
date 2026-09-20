@@ -4,7 +4,7 @@ This module covers how autonomous agents interact with external systems using **
 
 ---
 
-## 🛠️ Section 1: Tools & Function Calling Mechanics
+## Section 1: Tools & Function Calling Mechanics
 
 ### Q1: How does Function Calling work under the hood in modern LLMs?
 **Answer:**
@@ -14,16 +14,24 @@ LLMs cannot directly invoke code or send HTTP requests. Instead, **Function Call
 3. **Client Execution:** Your backend application intercepts this JSON, runs the actual Python/API code locally, and captures the return value.
 4. **Tool Observation:** You append a `tool` role message containing the function's output to the conversation history and send it back to the LLM for a final conversational answer.
 
-```
-User Prompt ──► [LLM Brain] ──► Generates JSON: `{"name": "fetch_stock", "args": {"ticker": "AAPL"}}`
-                                           │
-                                           ▼ (Your Application intercepts)
-                               Executes: `fetch_stock("AAPL")` -> "$230.50"
-                                           │
-[LLM Brain] ◄── Appends Tool Response ─────┘
-     │
-     ▼
-Final User Output: "Apple's current stock price is $230.50."
+```mermaid
+flowchart TD
+    U["User Prompt"] --> A["LLM Brain"]
+    A -->|1. Emits JSON Tool Call| B["Client Runtime Intercept"]
+    B -->|2. Invokes Local Code| C["Tool / API Execution<br/>fetch_stock('AAPL')"]
+    C -->|3. Tool Returns Data| D["Append Tool Observation"]
+    D -->|4. Feed Back Context| A
+    A -->|5. Final Synthesis| E["Deliver Answer to User"]
+
+    classDef user fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef llm fill:#F3E8FF,stroke:#9333EA,stroke-width:2px,color:#6B21A8;
+    classDef runtime fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef tool fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class U,E user;
+    class A llm;
+    class B,D runtime;
+    class C tool;
 ```
 
 ---
@@ -61,7 +69,7 @@ tools = [
 
 ---
 
-## 🕸️ Section 2: Orchestration: LangChain vs. LangGraph
+## Section 2: Orchestration: LangChain vs. LangGraph
 
 ### Q3: Why do Directed Acyclic Graphs (DAGs) fail for real-world agents, and why is LangGraph needed?
 **Answer:**
@@ -72,22 +80,23 @@ Traditional pipelines (like early LangChain Chains or Airflow) are **DAGs** (Dir
   - **Nodes:** Python functions that receive the current state, perform work, and return updated state.
   - **Edges:** Deterministic or conditional routing functions determining which node executes next based on state data.
 
-```
-          ┌──────────────┐
-          │  User Input  │
-          └──────┬───────┘
-                 ▼
-          ┌──────────────┐
-     ┌───►│  Agent Node  │
-     │    └──────┬───────┘
-     │           │
-     │     [Needs Tool?]
-     │     /          \
-     │   (Yes)        (No)
-     │   /              \
-┌────┴───────┐      ┌────▼───────┐
-│ Tool Node  │      │ Final Node │
-└────────────┘      └────────────┘
+```mermaid
+flowchart TD
+    START(["Start / User Input"]) --> AGENT["Agent Reasoning Node"]
+    AGENT --> COND{"Needs Tool?"}
+    COND -->|Yes: Tool Call Emitted| TOOL["Tool Execution Node"]
+    TOOL -->|Appends Output to State| AGENT
+    COND -->|No: Task Complete| FINISH(["Final Response Node"])
+
+    classDef startEnd fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef agent fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef cond fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef tool fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class START,FINISH startEnd;
+    class AGENT agent;
+    class COND cond;
+    class TOOL tool;
 ```
 
 ---
@@ -135,7 +144,7 @@ def route_step(state: AgentState) -> str:
 
 ---
 
-## ⚡ Section 3: Google Agent Development Kit (ADK)
+## Section 3: Google Agent Development Kit (ADK)
 
 ### Q5: What is Google Agent Development Kit (ADK) and how does it simplify agent orchestration?
 **Answer:**
@@ -170,7 +179,7 @@ root_agent = Agent(
 
 ---
 
-## 🛑 Section 4: Human-in-the-Loop (HITL) & Safety Interrupts
+## Section 4: Human-in-the-Loop (HITL) & Safety Interrupts
 
 ### Q6: What is Human-in-the-Loop (HITL) and how is it implemented in agent graphs?
 **Answer:**
@@ -181,7 +190,7 @@ When agents perform high-stakes operations (e.g., executing SQL `DELETE`, sendin
 
 ---
 
-## 🚀 Key Takeaways for Interviews
+## Key Takeaways for Interviews
 - Function Calling is an API contract: the LLM creates the JSON plan, the client executes it.
 - **LangGraph** enables cyclical loops and state persistence for non-linear agents.
 - **Google ADK** brings code-first engineering, built-in visual debugging (`adk web`), and one-click cloud deployment.

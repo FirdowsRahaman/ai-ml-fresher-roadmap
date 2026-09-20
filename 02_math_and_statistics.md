@@ -4,7 +4,7 @@ This module covers the basic math and statistics concepts freshers should know f
 
 ---
 
-## 📐 Section 1: Linear Algebra Basics
+## Section 1: Linear Algebra Basics
 
 ### Q1: What is a Vector? What is a Matrix?
 **Answer:**

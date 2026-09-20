@@ -4,7 +4,7 @@ Deploying an autonomous agent into production introduces unique challenges: non-
 
 ---
 
-## ⚖️ Section 1: Agent Evaluation & LLM-as-a-Judge
+## Section 1: Agent Evaluation & LLM-as-a-Judge
 
 ### Q1: Why do traditional ML metrics fail for evaluating AI Agents?
 **Answer:**
@@ -54,7 +54,7 @@ Provide a brief 2-sentence rationale for each criterion, followed by your scores
 
 ---
 
-## 🔍 Section 2: Observability & Tracing
+## Section 2: Observability & Tracing
 
 ### Q4: What is Tracing, and why is it mandatory for production agents?
 **Answer:**
@@ -64,17 +64,29 @@ When a user complains that an agent gave a wrong answer or timed out after 30 se
   - Exact prompt versions and token counts (calculating dollar cost per user session).
   - The exact parameters passed to tools and the raw data returned.
 
-```
-Request: "Analyze Q3 sales" (Total: 4.2s, $0.03)
- ├── LLM Call: Intent Classification (0.4s, 120 tokens)
- ├── Tool Call: query_sql_db("SELECT * FROM sales...") (1.2s)
- ├── LLM Call: Synthesis & Reasoning (2.1s, 850 tokens)
- └── Guardrail Check: Input/Output Scanner (0.5s)
+```mermaid
+flowchart TD
+    ROOT["Root Span: User Request<br/>'Analyze Q3 sales' (4.2s | $0.03)"]
+    
+    ROOT --> SPAN1["Span 1: Intent Classification<br/>(LLM Call | 0.4s | 120 tokens)"]
+    ROOT --> SPAN2["Span 2: Tool Execution<br/>(query_sql_db | 1.2s | SQL Return)"]
+    ROOT --> SPAN3["Span 3: Synthesis & Reasoning<br/>(LLM Call | 2.1s | 850 tokens)"]
+    ROOT --> SPAN4["Span 4: Guardrail Check<br/>(Input/Output Scanner | 0.5s)"]
+
+    classDef rootStyle fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef llmStyle fill:#E0F2FE,stroke:#0284C7,stroke-width:1.5px,color:#0369A1;
+    classDef toolStyle fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#92400E;
+    classDef guardStyle fill:#DCFCE7,stroke:#16A34A,stroke-width:1.5px,color:#15803D;
+
+    class ROOT rootStyle;
+    class SPAN1,SPAN3 llmStyle;
+    class SPAN2 toolStyle;
+    class SPAN4 guardStyle;
 ```
 
 ---
 
-## 🛡️ Section 3: Agent Safety & Security
+## Section 3: Agent Safety & Security
 
 ### Q5: What is the difference between Direct and Indirect Prompt Injection?
 **Answer:**
@@ -96,7 +108,7 @@ Guardrails (e.g., NeMo Guardrails, Llama Guard) act as a deterministic firewall 
 
 ---
 
-## 🚀 Key Takeaways for Interviews
+## Key Takeaways for Interviews
 - Evaluate agents across both **trajectory efficiency** and **final output groundedness**.
 - Observability via **distributed tracing** is essential for diagnosing latency and token costs.
 - Guard against **indirect prompt injection** by isolating tool inputs and sandboxing execution environments.

@@ -4,7 +4,7 @@ This module explores how to coordinate **teams of specialized AI agents** to sol
 
 ---
 
-## 👥 Section 1: Why Multi-Agent Systems?
+## Section 1: Why Multi-Agent Systems?
 
 ### Q1: Why use multiple specialized agents instead of one large generalist agent?
 **Answer:**
@@ -18,26 +18,47 @@ Giving a single agent 30 different tools and a 20-page system prompt inevitably 
 
 ### Q2: What are the three primary Multi-Agent architectures?
 **Answer:**
-```
-1. Sequential Pipeline:
-   [User Input] ──► [Researcher Agent] ──► [Writer Agent] ──► [Editor Agent] ──► [Output]
+```mermaid
+flowchart TD
+    subgraph S1["1. Sequential Pipeline"]
+        direction LR
+        P_IN["User Input"] --> P_RES["Researcher Agent"] --> P_WRT["Writer Agent"] --> P_EDT["Editor Agent"] --> P_OUT["Final Article"]
+    end
 
-2. Hierarchical (Supervisor):
-                     ┌──────────────────┐
-                     │ Supervisor Agent │◄────────┐
-                     └────────┬─────────┘         │
-             ┌────────────────┼────────────────┐  │ (Delegates & Evaluates)
-             ▼                ▼                ▼  │
-      [Worker Agent A] [Worker Agent B] [Worker Agent C]
+    subgraph S2["2. Hierarchical Supervisor Pattern"]
+        direction TB
+        SUP["Supervisor Agent<br/>(Planner & Coordinator)"]
+        W1["Researcher Subagent"]
+        W2["Code Executor Subagent"]
+        W3["Reviewer Subagent"]
+        
+        SUP -->|Delegates Task| W1
+        SUP -->|Delegates Task| W2
+        SUP -->|Delegates Task| W3
+        W1 -->|Returns Artifact| SUP
+        W2 -->|Returns Artifact| SUP
+        W3 -->|Returns Artifact| SUP
+    end
 
-3. Collaborative Chat (AutoGen):
-      [Agent 1: Coder] ◄──────────────► [Agent 2: Code Reviewer / Tester]
-                            (Dynamic Dialogue Loop)
+    subgraph S3["3. Collaborative Dialogue (AutoGen)"]
+        direction LR
+        AG1["Coder Agent"] <-->|Dynamic Peer Critique & QA| AG2["Tester Agent"]
+    end
+
+    classDef seqStyle fill:#E0F2FE,stroke:#0284C7,stroke-width:1.5px,color:#0369A1;
+    classDef supStyle fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef workerStyle fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#92400E;
+    classDef autoStyle fill:#DCFCE7,stroke:#16A34A,stroke-width:1.5px,color:#15803D;
+
+    class P_IN,P_RES,P_WRT,P_EDT,P_OUT seqStyle;
+    class SUP supStyle;
+    class W1,W2,W3 workerStyle;
+    class AG1,AG2 autoStyle;
 ```
 
 ---
 
-## 🤖 Section 2: Implementing Multi-Agent Teams
+## Section 2: Implementing Multi-Agent Teams
 
 ### Q3: How do you implement a role-playing Multi-Agent system (CrewAI pattern)?
 **Answer:**
@@ -105,7 +126,7 @@ root_agent = Agent(
 
 ---
 
-## 🔌 Section 3: The Model Context Protocol (MCP)
+## Section 3: The Model Context Protocol (MCP)
 
 ### Q5: What is MCP (Model Context Protocol), and what problem does it solve?
 **Answer:**
@@ -118,17 +139,40 @@ Before MCP, every AI company and agent framework had to write custom, ad-hoc glu
 - Instead of the model connecting directly to APIs, external systems expose an **MCP Server**.
 - Any **MCP Client** (Claude Desktop, IDEs, custom agents) can plug into any MCP server instantly without rewriting code.
 
-```
-[Agent / MCP Client] 
-        │  (Standardized JSON-RPC via stdio / SSE)
-        ▼
-   [MCP Server] 
-   ├── Exposes Tools (e.g., query_postgres, run_sql)
-   ├── Exposes Resources (e.g., file contents, schema metadata)
-   └── Exposes Prompts (pre-defined templates)
-        │
-        ▼
-[Postgres Database / GitHub / File System]
+```mermaid
+flowchart TD
+    CLIENT["Host / MCP Client<br/>(Claude Desktop, IDE, Custom Agent)"]
+    
+    subgraph PROTOCOL["JSON-RPC 2.0 Transport (stdio / SSE)"]
+        SERVER["MCP Server"]
+        T1["Tools: query_postgres(), execute_sql()"]
+        T2["Resources: schemas, docs, repo files"]
+        T3["Prompts: predefined template workflows"]
+    end
+
+    subgraph BACKENDS["External Systems & Enterprise Data"]
+        DB[("PostgreSQL / Snowflake")]
+        FS[("Local File System / Git")]
+        API["Third-Party REST APIs"]
+    end
+
+    CLIENT <-->|Standardized Protocol| SERVER
+    SERVER --- T1
+    SERVER --- T2
+    SERVER --- T3
+    T1 --> DB
+    T2 --> FS
+    T3 --> API
+
+    classDef client fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef server fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef feature fill:#F1F5F9,stroke:#64748B,stroke-width:1px,color:#334155;
+    classDef back fill:#E0F2FE,stroke:#0284C7,stroke-width:1.5px,color:#0369A1;
+
+    class CLIENT client;
+    class SERVER server;
+    class T1,T2,T3 feature;
+    class DB,FS,API back;
 ```
 
 ---
@@ -152,13 +196,13 @@ def get_current_temperature(city: str) -> str:
 
 # When executed, the server listens via stdio (standard input/output):
 # if __name__ == "__main__":
-#     mcp.run()
+#    mcp.run()
 ```
 > **Why it matters:** Once this server runs, any agent compliant with MCP can discover `get_current_temperature` dynamically, read its JSON schema, and execute it securely.
 
 ---
 
-## 🚀 Key Takeaways for Interviews
+## Key Takeaways for Interviews
 - Multi-agent systems prevent context saturation by assigning **narrow goals and small tool sets** to specialized agents.
 - **Supervisor patterns** are standard for enterprise workflows requiring quality review and delegation.
 - **MCP** is replacing bespoke API integrations with an open JSON-RPC standard for tools and contextual resources.
