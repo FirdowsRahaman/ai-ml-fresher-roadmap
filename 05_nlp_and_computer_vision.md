@@ -1,759 +1,353 @@
-# Module 05: NLP & Computer Vision for Freshers
+# Module 05: Natural Language Processing (NLP) & Computer Vision
 
-This module covers the basics of Natural Language Processing (NLP) and Computer Vision — two of the most common application areas in AI/ML engineering.
-
----
-
-## Section 1: Natural Language Processing (NLP) Basics
-
-### Q1: What is NLP (Natural Language Processing)?
-
-**Answer:**
-
-NLP is the branch of AI that helps computers **understand, interpret, and generate human language** (text and speech).
-
-**Real-World Examples:**
-
-- Google Translate (language translation)
-
-- ChatGPT (text generation and conversation)
-
-- Gmail's Smart Reply (suggesting short replies)
-
-- Siri / Alexa (understanding voice commands)
-
-- Amazon reviews sentiment analysis (positive/negative/neutral)
+This module covers the core concepts, classical foundations, deep learning architectures, and modern multi-modal systems for **Natural Language Processing (NLP)** and **Computer Vision (CV)**. Freshers are expected to understand both the statistical feature engineering methods and the modern transfer learning and vision-language models.
 
 ---
 
-### Q2: What is a Token? What is Tokenization?
+## Section 1: Classical NLP Foundations
 
+### Q1: What is NLP, and what are the standard text preprocessing steps?
 **Answer:**
+Natural Language Processing (NLP) is the discipline of computational linguistics and machine learning that enables software to analyze, understand, and generate human language.
 
-A **Token** is the smallest meaningful unit that a language model processes. A token is roughly equivalent to a word or a piece of a word.
+**Standard Text Preprocessing Pipeline:**
+1. **Lowercasing & Normalization:** Standardizing `"Apple"` and `"apple"` to ensure identical token indices.
+2. **Noise Removal:** Stripping HTML tags, markdown formatting, emojis, and punctuation via regex.
+3. **Tokenization:** Splitting continuous string sequences into discrete units (words, subwords, or characters).
+4. **Stopword Removal:** Eliminating high-frequency, low-information words (`"the"`, `"is"`, `"at"`, `"which"`). *Note:* In modern transformer models, stopwords are preserved because self-attention requires complete syntactic structure.
+5. **Stemming vs. Lemmatization:**
+   - **Stemming:** A crude rule-based heuristic that chops off word suffixes (e.g., Porter Stemmer: `"studies"` → `"studi"`, `"caring"` → `"car"`). Fast but often produces non-words.
+   - **Lemmatization:** A vocabulary- and morphological analysis-driven process that maps words back to their dictionary base form or lemma (e.g., WordNet: `"better"` → `"good"`, `"running"` → `"run"`). Accurate but computationally heavier.
 
-**Tokenization** is the process of breaking raw text into tokens before feeding it into an ML model.
+---
 
-```
-
-Sentence: "I love machine learning!"
-
-Word Tokenization:    ["I", "love", "machine", "learning", "!"]
-
-Subword Tokenization:  ["I", "love", "mach", "##ine", "learn", "##ing", "!"]
-
-Character Tokenization: ["I", " ", "l", "o", "v", "e", ...]
-
-```
-
-**Why tokens, not words?**
-
-- "unhappiness" → ["un", "happi", "ness"] — Subword tokens handle rare or complex words without needing a vocabulary of millions of words.
-
-- Most modern LLMs (GPT, BERT, LLaMA) use **subword tokenization** (BPE or WordPiece).
+### Q2: What is the Bag-of-Words (BoW) model, and what are its limitations?
+**Answer:**
+The **Bag-of-Words (BoW)** model is a simple vectorization technique that represents text as a fixed-length vector of word frequencies, discarding grammar, sentence structure, and word order.
 
 ```python
+from sklearn.feature_extraction.text import CountVectorizer
 
-# Example using HuggingFace tokenizer
+corpus = [
+    "Machine learning is fascinating.",
+    "Deep learning is a subset of machine learning."
+]
 
-from transformers import AutoTokenizer
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(corpus)
 
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-
-tokens = tokenizer.tokenize("Machine learning is fascinating!")
-
-print(tokens) # ['machine', 'learning', 'is', 'fascinating', '!']
-
-print(f"Number of tokens: {len(tokens)}") # 5
-
+print("Vocabulary:", vectorizer.get_feature_names_out())
+print("BoW Vectors:\n", X.toarray())
 ```
+
+**Limitations of BoW:**
+- **Sparse Representation:** Large vocabularies ($V = 50,000+$) yield extremely sparse vectors where 99.9% of entries are zero.
+- **Out-of-Vocabulary (OOV) Fragility:** Cannot encode unseen words at test time.
+- **Zero Semantic Meaning:** The vectors for `"automobile"` and `"car"` are completely orthogonal ($d_{\cos} = 0$).
+- **Loss of Sequential Context:** `"Not bad, very good"` and `"Not good, very bad"` produce identical BoW representations despite opposite meanings.
 
 ---
 
-Q2b: In General — What ARE Tokens for Inputs and Outputs?
-
+### Q3: How does TF-IDF improve upon Bag-of-Words?
 **Answer:**
+**TF-IDF (Term Frequency-Inverse Document Frequency)** penalizes ubiquitous words that appear across all documents (e.g., `"document"`, `"system"`) while boosting words that carry high discriminative power for a specific text:
 
-A **token** is primarily a unit used to represent text for a language model. A tokenizer breaks text into tokens before the model processes it.
+$$\text{TF-IDF}(t, d, D) = \text{TF}(t, d) \times \text{IDF}(t, D)$$
 
-A token can be:
-
-A complete word
-
-Part of a word (a **subword**)
-
-Punctuation
-
-Another small piece of text
-
-For example:
-
-"Machine learning is fascinating!"
-
-Possible tokens:
-["Machine", "learning", "is", "fascinating", "!"]
-
-But a word can also be split into subwords:
-
-"unhappiness"
-   ↓
-["un", "happi", "ness"]
-
-This is called **subword tokenization**.
-
- What happens when we send different types of input?
-
-Different modalities are processed differently.
-
-TEXT
-"What is in this image?"
-    ↓
-  Text Tokenizer
-    ↓
-  Text Tokens
-
-
-IMAGE
-[photo of a cat]
-    ↓
-Vision Encoder / Image Processor
-    ↓
-Image patches / visual representations
-
-The multimodal model can then combine these representations.
-
-So:
-
-**Text → tokenizer → text tokens**
-
-**Image → vision encoder → visual representations**
-
-**Audio → audio encoder → audio representations**
-
-**Video → video encoder → video representations**
-
-Do **not** assume that every modality is converted into ordinary text tokens.
-
- What about the output?
-
-The output depends on what the model is generating.
-
-For a text-generation model:
-
-Model
- ↓
-Output text tokens
- ↓
-"Artificial Intelligence is..."
-
-The model generates text tokens, typically one token at a time.
-
-This is called **autoregressive generation**.
-
-But if the model generates an image:
-
-Model
- ↓
-Image-generation process
- ↓
-Image representation
- ↓
- Generated image
-
-The final output is an image, not a sequence of text tokens.
-
-Similarly, a speech-generation system can produce audio, and a video-generation system can produce video.
-
-Some multimodal models may internally use terms such as **image tokens**, **audio tokens**, or **visual tokens**. These are model-specific representations and should not be confused with text subword tokens.
-
- Simple Mental Model
-
-         ┌── Text tokenizer ──→ Text tokens
-         │
-INPUT ───────────┼── Vision encoder ──→ Visual representation
-         │
-         ├── Audio encoder ──→ Audio representation
-         │
-         └── Video encoder ──→ Video representation
-                   ↓
-                Multimodal Model
-                   ↓
-             ┌────────────┼────────────┐
-             ↓      ↓      ↓
-          Text output  Image output Audio/Video
-          (text tokens) (image)   (generated media)
-
-**Key idea:**
-
-**Token is not a universal synonym for every kind of AI data.**
-
-**Text is commonly represented using text tokens. Other modalities use model-specific representations, which may sometimes also be called tokens.**
-
- Why Tokens Matter in Practice
-
-For text-based LLM APIs, usage and billing are commonly measured using **input tokens** and **output tokens**.
-
-For example:
-
-Your prompt:
-"Summarize this document..."
-    ↓
-Input text tokens
-
-Model generates:
-"The document explains..."
-    ↓
-Output text tokens
-
-Providers can also have model-specific usage or pricing rules for images, audio, and video.
-
-There is no universal rule such as:
-
-"One image = 500 tokens"
-
-"10 seconds of audio = 500 tokens"
-
-"5 seconds of video = 5,000 tokens"
-
-The exact accounting depends on the model, provider, modality, resolution, sampling, and architecture.
-
-**Interview tip:**
-
-If asked whether an image is "a token," say:
-
-**"An image is not a text token. A multimodal model may convert the image into patches, features, or visual tokens internally, depending on its architecture."**
----
-
-#### Input Tokens — What the model READS
-
-| What you send in | Token Type | Example |
-
-|---|---|---|
-
-| Text (question, prompt) | Text Tokens | "What is AI?" → ~4 tokens |
-
-| Image | Image Patch Tokens | 512×512 photo → ~680 tokens |
-
-| Audio clip | Audio Frame Tokens | 10 seconds of speech → ~500 tokens |
-
-| Video | Video Frame Tokens | 10-second video → ~5,000+ tokens |
-
-| Code | Code Tokens (same as text) | 100 lines of Python → ~700 tokens |
-
-```
-
-You type: "Describe this image → [photo attached]"
-
-      ↓             ↓
-
-    Text Tokens      Image Patch Tokens
-
-    (\~5 tokens)        (\~500 tokens)
-
-      ↓
-
-   Total Input = \~505 tokens fed into the model
-
-```
-
----
-
-#### Output Tokens — What the model GENERATES
-
-| What the model outputs | Token Type | Example |
-
-|---|---|---|
-
-| Text reply (GPT, Gemini) | Text Tokens | 200-word answer → ~270 tokens |
-
-| Generated image (DALL-E) | Image Patch Tokens | 1024×1024 image decoded from patch tokens |
-
-| Speech (ElevenLabs) | Audio Tokens | 5 seconds of speech → ~250 audio tokens |
-
-| Generated video (Sora) | Video Tokens | 5-second clip decoded from video tokens |
-
-| Code (GitHub Copilot) | Code Tokens | A function decoded as text tokens |
-
-```
-
-Model generates: "Artificial Intelligence is the simulation..."
-
-           ↓
-
-   Output Text Tokens — produced ONE BY ONE, left to right
-
-   "Artificial" → "Intel" → "ligence" → "is" → ...
-
-   (Called AUTOREGRESSIVE generation — one token at a time)
-
-```
-
----
-
-#### Universal Mental Model (Works for ALL Modalities)
-
-```
-
-┌──────────────────────────────────────────────────────────────┐
-
-│           ANY AI MODEL              │
-
-│                               │
-
-│  INPUT (Any type)       OUTPUT (Any type)      │
-
-│  ──────────────────      ──────────────────      │
-
-│  Text  → Tokens ──┐     ┌── Tokens → Text       │
-
-│  Image → Tokens ──┤     ├── Tokens → Image      │
-
-│  Audio → Tokens ──┤ MODEL  ├── Tokens → Audio      │
-
-│  Video → Tokens ──┘ ─────► └── Tokens → Video      │
-
-│                               │
-
-│ Everything becomes tokens IN. Everything comes out as tokens│
-
-└──────────────────────────────────────────────────────────────┘
-
-```
-
----
-
-#### Why Tokens Matter in Practice (API Billing)
-
-When you call any LLM API (OpenAI, Gemini, Claude), **you pay per token** — input AND output separately:
-
-```
-
-Example API call to GPT-4o:
-
-Your prompt:  "Summarize this document..." → 1,500 input tokens
-
-Attached image: [chart photo]        →  500 input tokens
-
-Model's reply: "The document covers..."   →  300 output tokens
-
-                     ────────────────────
-
-Total billed:                 2,300 tokens
-
-Cost (approximate):
-
-Input : 2,000 tokens × $5/million = $0.010
-
-Output:  300 tokens × $15/million = $0.005
-
-Total :               \~$0.015 per call
-
-```
-
-**Key rules for interviews:**
-
-- Output tokens are **3–5× more expensive** than input tokens.
-
-- The **context window** = the maximum (input + output) tokens the model handles in one go.
-
-- RAG exists partly because you can't fit a 500-page document into the context window — so you only retrieve the relevant 3–5 chunks (a few hundred tokens) instead!
-
----
-
-### Q3: What is Embedding? What is a Word Embedding?
-
-**Answer:**
-
-An **Embedding** is a numerical **vector representation** of data—such as text, images, audio, or other content—designed to capture useful relationships such as similarity.
-
-- Words with similar meaning get similar vector representations.
-
-- The computer can then do math on these vectors.
-
-```
-
-"King"  → [0.8, 0.2, -0.5, 0.9, ...]
-
-"Queen" → [0.75, 0.3, -0.4, 0.85, ...]  ← Similar to King!
-
-"Apple" → [-0.3, 0.9, 0.1, -0.5, ...]  ← Very different from King/Queen
-
-```
-
-**Famous example:** `King - Man + Woman ≈ Queen`
-
-**Popular embedding models:**
-
-- Word2Vec (classic)
-
-- GloVe (classic)
-
-- Sentence-BERT / text-embedding-ada-002 (modern, for entire sentences)
-
----
-
-### Q3b: If Embeddings exist for Text — What about Images, Audio, and Video?
-
-**Answer:**
-
-Embeddings are NOT just for text! **Any type of data can be converted into a vector (embedding)**. This is the core idea that makes modern multimodal AI possible.
-
-The concept is always the same regardless of the data type:
-
-> **Raw data** (pixels / sound waves / video frames) → **Encoder Model** → **Vector of numbers** (Embedding)
-
-Similar items → similar vectors. Different items → different vectors.
-
----
-
-#### Image Embeddings
-
-An image encoder (like a CNN or Vision Transformer) looks at the entire image and compresses it into a single vector that captures what is in the image.
-
-```
-
-[Photo of a Cat] → Image Encoder → [0.82, -0.3, 0.55, 0.91, ...] (512 numbers)
-
-[Photo of a Dog] → Image Encoder → [0.79, -0.2, 0.51, 0.88, ...] (512 numbers) ← Close to cat!
-
-[Photo of a Car] → Image Encoder → [-0.4, 0.8, -0.2, -0.6, ...] (512 numbers) ← Far from cat/dog
-
-```
-
-**Popular image embedding models:**
-
-- **CLIP (OpenAI)** — Creates embeddings for BOTH images and text in the same shared space! This allows you to search images using text descriptions.
-
-- **ResNet, EfficientNet** — CNN-based image encoders.
-
-**Use Cases:** Image similarity search, reverse image search (like Google Lens), visual product recommendations.
-
----
-
-#### Audio Embeddings
-
-Audio is first converted into a visual representation (spectrogram), then an encoder compresses it into a vector capturing the sound's meaning, tone, or speaker identity.
-
-```
-
-[Audio: "Hello, how are you?"] → Audio Encoder → [0.3, 0.7, -0.1, ...]
-
-[Audio: "Hello, how are you?"] → Audio Encoder → [0.31, 0.68, -0.12, ...] ← Same phrase, same speaker → similar!
-
-[Audio: Dog barking]      → Audio Encoder → [-0.5, 0.2, 0.9, ...]  ← Very different!
-
-```
-
-**Popular audio embedding models:**
-
-- **Whisper (OpenAI)** — Primarily a speech-to-text / speech-recognition model; it should not be described as a general-purpose audio embedding model.
-
-- **wav2vec 2.0 (Meta)** — Raw audio → embeddings for speech recognition.
-
-- **CLAP** — Audio-language contrastive model (like CLIP but for audio+text).
-
-**Use Cases:** Music recommendation (Spotify), speaker recognition, sound classification.
-
----
-
-#### Video Embeddings
-
-Video is a sequence of image frames over time. Video encoders process both the **visual content** AND **temporal changes** (how scenes evolve) to produce an embedding.
-
-```
-
-[Video: Person waving hello] → Video Encoder → [0.5, 0.3, 0.8, -0.2, ...]
-
-[Video: Person waving bye]  → Video Encoder → [0.48, 0.31, 0.77, -0.18, ...] ← Similar gesture!
-
-[Video: Car crash]      → Video Encoder → [-0.3, 0.9, -0.5, 0.6, ...]  ← Very different!
-
-```
-
-**Popular video embedding models:**
-
-- **VideoMAE, TimeSFormer** — For video understanding.
-
-- **Video-language and multimodal embedding models** — can produce representations useful for video understanding or retrieval; exact capabilities depend on the model and API.
-
-**Use Cases:** YouTube video recommendations, video content moderation, sports analytics.
-
----
-
-#### The Big Picture — Multimodal Embeddings (Everything in One Space!)
-
-The most important modern development is that some multimodal embedding models, such as **CLIP**, are trained to align representations from different modalities in a shared vector space.
-
-```
-
-Text: "a dog playing fetch" → [0.7, 0.3, -0.2, 0.8, ...]
-
-Image: [Photo of dog + ball] → [0.69, 0.31, -0.21, 0.79, ...] ← Very close! 
-
-Text: "a red sports car"  → [0.1, -0.5, 0.9, 0.2, ...]
-
-Image: [Photo of red Ferrari] → [0.11, -0.51, 0.88, 0.21, ...] ← Very close! 
-
-```
-
-**This enables:**
-
-- **Text-to-Image search** — Type "sunset over mountains" → Find all matching photos in your database.
-
--  **Image-to-Text search** — Upload a photo of a shoe → Find similar products on an e-commerce site.
-
--  **Audio-to-Text search** — Hum a tune → Find the matching song.
-
-#### Summary Table: Embeddings Across All Modalities
-
-| Data Type | Input | Encoder Type | Embedding Use Case |
-
-|---|---|---|---|
-
-| **Text** | Words / sentences | BERT, GPT, Word2Vec | Semantic search, chatbots, RAG |
-
-| **Image** | Pixels (H × W × 3) | CNN, ViT, CLIP | Image search, face recognition |
-
-| **Audio** | Sound waveform | Wav2Vec, Whisper | Music recommendation, speech recognition |
-
-| **Video** | Frames over time | VideoMAE, Gemini | Video recommendation, action detection |
-
-| **Code** | Code text | CodeBERT, GitHub Copilot | Code search, bug detection |
-
-| **Multimodal** | Text + Image + Audio | CLIP, Gemini, GPT-4o | Cross-modal search, visual Q&A |
-
----
-
-### Q4: What is Sentiment Analysis?
-
-**Answer:**
-
-Sentiment Analysis classifies text as **Positive, Negative, or Neutral** to understand the emotional tone.
-
-**Use Cases:**
-
-- Analyzing product reviews on Amazon/Flipkart.
-
-- Monitoring brand reputation on Twitter/X.
-
-- Customer satisfaction scoring in support tickets.
+1. **Term Frequency (TF):** Relative frequency of term $t$ in document $d$:
+   $$\text{TF}(t, d) = \frac{\text{Count of } t \text{ in } d}{\text{Total words in } d}$$
+2. **Inverse Document Frequency (IDF):** Measure of how rare term $t$ is across the entire corpus $D$:
+   $$\text{IDF}(t, D) = \log\left(\frac{N}{|\{d \in D : t \in d\}|}\right)$$
 
 ```python
-
-from transformers import pipeline
-
-# Pre-built sentiment analysis pipeline
-
-sentiment = pipeline("sentiment-analysis")
-
-result = sentiment("I absolutely loved this product, it works perfectly!")
-
-print(result) # [{'label': 'POSITIVE', 'score': 0.9998}]
-
-result2 = sentiment("The delivery was delayed and the product was broken.")
-
-print(result2) # [{'label': 'NEGATIVE', 'score': 0.9993}]
-
-```
-
----
-
-### Q5: What is Named Entity Recognition (NER)?
-
-**Answer:**
-
-NER identifies and classifies **named entities** (real-world objects) in text such as people, organizations, locations, dates, and monetary values.
-
-**Example:**
-
-```
-
-Input: "Apple Inc. was founded by Steve Jobs in Cupertino in 1976."
-
-NER Output:
-
-Apple Inc. → ORGANIZATION
-
-Steve Jobs → PERSON
-
-Cupertino  → LOCATION
-
-1976    → DATE
-
-```
-
----
-
-## Section 2: Computer Vision Basics
-
-### Q6: What is Computer Vision?
-
-**Answer:**
-
-Computer Vision is the branch of AI that enables computers to **understand and interpret images and videos** — like how humans use their eyes and brain together.
-
-**Real-World Examples:**
-
-- Face recognition (iPhone Face ID)
-
-- Detecting objects in autonomous vehicles (pedestrians, traffic lights, cars)
-
-- Medical image analysis (detecting tumors in X-rays)
-
-- Quality control in manufacturing (detecting defects on products)
-
----
-
-### Q7: What is a CNN (Convolutional Neural Network)?
-
-**Answer:**
-
-A CNN is a type of neural network specially designed for processing images. Instead of looking at an entire image at once, it scans the image with small filters to detect local patterns like edges, corners, textures, and shapes.
-
-```
-
-Input Image
-
- ↓
-
-[Convolutional Layer] ← Detects edges and basic patterns
-
- ↓
-
-[Pooling Layer]    ← Reduces size, keeps important info
-
- ↓
-
-[Convolutional Layer] ← Detects more complex patterns
-
- ↓
-
-[Fully Connected]   ← Makes the final classification
-
- ↓
-
-Output: "Cat" / "Dog" / ...
-
-```
-
-**Popular CNN architectures:** VGG16, ResNet, MobileNet, EfficientNet.
-
----
-
-### Q8: What is Transfer Learning? Why is it useful for freshers and small teams?
-
-**Answer:**
-
-Transfer Learning means taking a model already pre-trained on a large dataset and **reusing it** for your own smaller task, instead of training from scratch.
-
-**Analogy:** You already learned to ride a bicycle → learning a motorcycle is much easier because many skills transfer over.
-
-**In practice:**
-
-1. Take a ResNet50 model trained on ImageNet (1.4 million images, 1000 classes).
-
-2. Replace the final classification layer with your own (e.g., 2 classes: cat vs dog).
-
-3. Train only the new final layer on your small dataset (even 500 images can work well!).
-
-```python
-
-from torchvision import models
-
-import torch.nn as nn
-
-# Load pretrained model
-
-model = models.resnet50(pretrained=True)
-
-# Freeze all layers (don't update these weights)
-
-for param in model.parameters():
-
-param.requires\_grad = False
-
-# Replace the final layer for your task (2 classes)
-
-model.fc = nn.Linear(model.fc.in_features, 2)
-
-# Only the final layer will be trained
-
-```
-
-**Why useful for freshers?**
-
-- You don't need massive data or computing power.
-
-- State-of-the-art results with minimal code.
-
----
-
-### Q9: What is the difference between Image Classification, Object Detection, and Image Segmentation?
-
-**Answer:**
-
-| Task | What it does | Output | Example |
-
-|---|---|---|---|
-
-| **Image Classification** | Labels the entire image with one class | "Cat" | Is this photo a cat or dog? |
-
-| **Object Detection** | Finds where objects are + classifies them | Bounding boxes + labels | Draws a box around each car in a traffic camera |
-
-| **Image Segmentation** | Labels every single pixel of the image | Pixel-level mask | Outlines exact shape of road, sky, buildings for a self-driving car |
-
----
-
-## Section 3: Key NLP Concepts
-
-### Q10: What is the Bag of Words (BoW) model?
-
-**Answer:**
-
-Bag of Words is one of the simplest ways to convert text into numbers for ML. It creates a vector where each number represents the **count of how many times each word appears** in the document.
-
-```
-
-Vocabulary: ["good", "bad", "movie", "great", "acting"]
-
-Sentence 1: "good movie great acting" → [1, 0, 1, 1, 1]
-
-Sentence 2: "bad movie bad acting"   → [0, 2, 1, 0, 1]
-
-```
-
-**Limitation:** BoW ignores word order and meaning. "I like dogs, not cats" and "I like cats, not dogs" would produce the same vector!
-
----
-
-### Q11: What is TF-IDF?
-
-**Answer:**
-
-TF-IDF (Term Frequency-Inverse Document Frequency) is an improvement over BoW. It gives **higher scores to words that appear frequently in a specific document but rarely in other documents** — highlighting words that are uniquely important to that document.
-
-- Common words like "the", "is", "a" appear in all documents → get low TF-IDF score.
-
-- Specific words like "machine", "gradient", "neural" in an ML article → get high TF-IDF score.
-
-```python
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 corpus = [
-
-"machine learning is great",
-
-"deep learning is a subset of machine learning",
-
-"I enjoy learning new things"
-
+    "Artificial intelligence drives autonomous driving cars.",
+    "Stock market volatility affects investor intelligence.",
+    "Autonomous cars use deep learning algorithms."
 ]
 
-vectorizer = TfidfVectorizer()
+tfidf = TfidfVectorizer()
+X_tfidf = tfidf.fit_transform(corpus)
+print("TF-IDF Shape:", X_tfidf.shape)
+```
 
-X = vectorizer.fit_transform(corpus)
+---
 
-print(vectorizer.get_feature_names_out())
+### Q4: What are Sentiment Analysis and Named Entity Recognition (NER)?
+**Answer:**
+- **Sentiment Analysis:** Sequence classification mapping input text into sentiment polarities (Positive, Negative, Neutral) or fine-grained emotional categories.
+- **Named Entity Recognition (NER):** A token-level classification task (using BIO tagging: Beginning, Inside, Outside) identifying real-world entities:
 
 ```
+"Satya Nadella, CEO of Microsoft, visited Zurich in 2026."
+ [B-PER] [I-PER]   O   [B-ORG]       O    [B-LOC]  [B-DATE]
+```
+
+```python
+from transformers import pipeline
+
+# Zero-setup HuggingFace pipelines
+ner_pipe = pipeline("ner", grouped_entities=True)
+entities = ner_pipe("Satya Nadella, CEO of Microsoft, visited Zurich.")
+for ent in entities:
+    print(f"{ent['word']} -> {ent['entity_group']} ({ent['score']:.2f})")
+```
+
+---
+
+## Section 2: Word & Sentence Embeddings
+
+### Q5: What is Word2Vec, and how do CBOW and Skip-gram differ?
+**Answer:**
+**Word2Vec (Mikolov et al., 2013)** introduced dense, continuous low-dimensional vector spaces ($D \approx 100\text{--}300$) where semantically related words are located physically close together, demonstrating linear algebraic properties:
+
+$$\vec{v}_{\text{King}} - \vec{v}_{\text{Man}} + \vec{v}_{\text{Woman}} \approx \vec{v}_{\text{Queen}}$$
+
+| Property | Continuous Bag of Words (CBOW) | Continuous Skip-gram |
+|---|---|---|
+| **Objective** | Predict the **target word** given context words. | Predict **context words** given a single target word. |
+| **Input $\to$ Output** | $w_{t-2}, w_{t-1}, w_{t+1}, w_{t+2} \to w_t$ | $w_t \to w_{t-2}, w_{t-1}, w_{t+1}, w_{t+2}$ |
+| **Training Speed** | Fast ($k$ times faster), efficient on large datasets. | Slower to train due to multiple context predictions. |
+| **Data Efficiency** | Better for frequent words; smooths over representations. | Superior performance on **infrequent, rare words**. |
+
+---
+
+### Q6: Why did static embeddings (Word2Vec, GloVe) get replaced by Contextual Embeddings?
+**Answer:**
+Static embeddings assign a **single, fixed vector** to each word in the vocabulary, regardless of the sentence context:
+- In Word2Vec, the word `"bank"` has one unchanging vector representation.
+- In reality, `"river bank"` and `"investment bank"` have totally different semantic meanings (polysemy).
+- **Contextual Embeddings (BERT, RoBERTa):** The embedding of a token is computed dynamically via bidirectional Multi-Head Self-Attention over all surrounding tokens in the sentence. `"bank"` in a financial document receives an embedding completely distinct from `"bank"` in a geographic document.
+
+---
+
+## Section 3: Computer Vision & Convolutional Neural Networks (CNNs)
+
+### Q7: How do computers represent images, and why do Standard Dense Networks fail on image data?
+**Answer:**
+A digital color image is stored as a 3D NumPy tensor of shape $(\text{Height}, \text{Width}, \text{Channels})$, where each pixel channel holds an integer from $0$ to $255$ (Red, Green, Blue).
+
+**Why Fully Connected (Dense) Layers Fail for Vision:**
+1. **Parameter Explosion:** A modest $1000 \times 1000 \times 3$ image flattened into a dense layer with $1000$ hidden units creates $3,000,000 \times 1,000 = 3\text{ Billion}$ weights for a single layer, causing instant Out-Of-Memory (OOM) and massive overfitting.
+2. **Loss of Spatial Topology:** Flattening a 2D image into a 1D vector strips adjacent spatial correlations (pixels close to each other horizontally and vertically belong to the same object).
+3. **Lack of Translation Invariance:** If a cat appears in the top-left corner versus bottom-right, a dense network treats them as completely distinct feature weights.
+
+---
+
+### Q8: What are the fundamental layers of a CNN?
+**Answer:**
+CNNs resolve the parameter explosion through **Local Receptive Fields**, **Weight Sharing**, and **Spatial Subsampling**:
+
+```mermaid
+flowchart LR
+    IN["Input Image<br/>(224x224x3 RGB)"] --> CONV1["Conv Layer 1<br/>(Edges & Gradients)"]
+    CONV1 --> POOL1["MaxPooling 1<br/>(Spatial Downsampling)"]
+    POOL1 --> CONV2["Conv Layer 2<br/>(Textures & Patterns)"]
+    CONV2 --> POOL2["MaxPooling 2<br/>(High-Level Features)"]
+    POOL2 --> FC["Dense / Flatten Layer<br/>(Feature Vector)"]
+    FC --> OUT(["Softmax Output<br/>(Class Probabilities)"])
+
+    classDef input fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef conv fill:#EDE9FE,stroke:#7C3AED,stroke-width:1.5px,color:#4C1D95;
+    classDef pool fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#92400E;
+    classDef dense fill:#F1F5F9,stroke:#64748B,stroke-width:1.5px,color:#334155;
+    classDef out fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class IN input;
+    class CONV1,CONV2 conv;
+    class POOL1,POOL2 pool;
+    class FC dense;
+    class OUT out;
+```
+
+1. **Convolutional Layer:** Applies $K$ learnable filters (kernels, e.g., $3 \times 3$) that slide across the input tensor computing dot products.
+   - **Stride ($S$):** The step size of kernel shifts across pixels.
+   - **Padding ($P$):** Adding zero-value borders around the image. With `"same"` padding, output spatial dimensions equal input dimensions:
+     $$W_{\text{out}} = \left\lfloor \frac{W_{\text{in}} - K + 2P}{S} \right\rfloor + 1$$
+2. **Activation (ReLU):** Introduces non-linearity $f(x) = \max(0, x)$ to model complex boundaries.
+3. **Pooling Layer (MaxPooling / AvgPooling):** Downsamples spatial resolution (e.g., $2 \times 2$ pool with stride 2 cuts height and width in half), reducing parameter count and conferring translation tolerance.
+4. **Fully Connected / Global Average Pooling (GAP):** Condenses 2D spatial feature maps into a 1D vector passed to the output classification layer.
+
+---
+
+### Q9: Why was ResNet (Residual Networks) revolutionary, and what is a Residual Skip Connection?
+**Answer:**
+Before ResNet (He et al., 2015), stacking more layers caused **degradation**: as depth exceeded 20 layers, training error actually *worsened* because vanishing and exploding gradients prevented backpropagation signals from reaching early layers.
+
+**The Residual Block Innovation:**
+Instead of forcing layers to fit an underlying mapping $\mathcal{H}(x)$, ResNet forces them to fit a **residual mapping** $\mathcal{F}(x) = \mathcal{H}(x) - x$:
+
+$$\mathcal{H}(x) = \mathcal{F}(x) + x$$
+
+```
+   Input x ────────┐ (Identity Shortcut / Skip Connection)
+      │            │
+   [Weight Layer]  │
+      │            │
+   [ReLU]          │
+      │            │
+   [Weight Layer]  │
+      │            │
+      ▼            ▼
+   Addition: F(x) + x
+      │
+   [ReLU]
+      │
+    Output
+```
+
+**Why It Solves Vanishing Gradients:**
+During backpropagation, the gradient with respect to input $x$ is:
+
+$$\frac{\partial \mathcal{H}}{\partial x} = \frac{\partial \mathcal{F}}{\partial x} + 1$$
+
+The **$+1$ term** acts as an uninterrupted gradient superhighway: even if the weights' gradient $\frac{\partial \mathcal{F}}{\partial x}$ approaches zero, the gradient signal flows back unimpeded through the identity path $+1$. This enabled training networks with **152+ layers**.
+
+---
+
+### Q10: How do you implement PyTorch Transfer Learning with frozen backbones?
+**Answer:**
+```python
+import torch
+import torch.nn as nn
+from torchvision import models
+
+# 1. Load pre-trained ResNet-50 trained on ImageNet (1.4M images, 1000 classes)
+model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+
+# 2. Freeze all convolutional backbone weights (disable backprop updates)
+for param in model.parameters():
+    param.requires_grad = False
+
+# 3. Replace the final fully connected classification head for your custom task (e.g., 2 classes: Cat vs Dog)
+in_features = model.fc.in_features
+model.fc = nn.Sequential(
+    nn.Linear(in_features, 256),
+    nn.ReLU(),
+    nn.Dropout(p=0.3),
+    nn.Linear(256, 2)  # Binary output logits
+)
+
+# 4. Only parameters of model.fc have requires_grad=True and will be trained
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+print(f"Trainable parameters: {sum(p.numel() for p in model.fc.parameters())}")
+```
+
+---
+
+## Section 4: Vision Tasks Hierarchy: Classification, Detection & Segmentation
+
+### Q11: What is the technical difference between Classification, Object Detection, and Segmentation?
+**Answer:**
+
+```mermaid
+flowchart TD
+    IMG["Raw Input Image"] --> C1["1. Image Classification<br/>What is in the image?<br/>Output: Class Label ('Dog')"]
+    IMG --> C2["2. Object Detection<br/>Where are the objects?<br/>Output: Bounding Boxes + Labels [x, y, w, h, class]"]
+    IMG --> C3["3. Semantic Segmentation<br/>Classify every pixel<br/>Output: Pixel-level category mask (road, car, sky)"]
+    IMG --> C4["4. Instance Segmentation<br/>Separate individual objects<br/>Output: Unique pixel mask per individual instance"]
+
+    classDef input fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef task1 fill:#DCFCE7,stroke:#16A34A,stroke-width:1.5px,color:#15803D;
+    classDef task2 fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#92400E;
+    classDef task3 fill:#EDE9FE,stroke:#7C3AED,stroke-width:1.5px,color:#4C1D95;
+    classDef task4 fill:#FEE2E2,stroke:#EF4444,stroke-width:1.5px,color:#991B1B;
+
+    class IMG input;
+    class C1 task1;
+    class C2 task2;
+    class C3 task3;
+    class C4 task4;
+```
+
+| Dimension | Image Classification | Object Detection | Semantic Segmentation | Instance Segmentation |
+|---|---|---|---|---|
+| **Goal** | Assign single global label. | Localize multiple objects. | Label every pixel by class. | Label every pixel + identify instances. |
+| **Output** | Single class ID + score. | Bounding boxes $[x, y, w, h] + \text{class}$. | Mask where pixels = class ID. | Mask where pixels = unique instance ID. |
+| **Key Metric** | Accuracy, Top-5 Error. | mAP (mean Average Precision @ IoU). | mIoU (mean Intersection over Union). | Mask AP. |
+| **SOTA Models** | ConvNeXt, ViT, EfficientNet. | YOLOv8 / YOLOv11, RT-DETR. | DeepLabV3+, SegFormer, UNet. | Mask R-CNN, Segment Anything (SAM). |
+
+---
+
+### Q12: How does Intersection over Union (IoU) evaluate Object Detection bounding boxes?
+**Answer:**
+**Intersection over Union (IoU)**, also called the Jaccard Index, measures the spatial overlap between the model's predicted bounding box ($B_p$) and the human ground-truth box ($B_{gt}$):
+
+$$\text{IoU} = \frac{\text{Area of Overlap}(B_p \cap B_{gt})}{\text{Area of Union}(B_p \cup B_{gt})}$$
+
+- **$\text{IoU} = 1.0$:** Perfect overlap.
+- **$\text{IoU} \ge 0.5$:** Standard benchmark threshold to classify a prediction as a **True Positive (TP)**.
+- **$\text{IoU} < 0.5$:** Classified as a **False Positive (FP)**.
+
+---
+
+## Section 5: Multimodal Alignment: Vision-Language & Audio
+
+### Q13: How does CLIP (Contrastive Language-Image Pre-training) align text and images in a shared space?
+**Answer:**
+Introduced by Radford et al. (OpenAI, 2021), **CLIP** revolutionized multimodal AI by training an Image Encoder (ViT or ResNet) and a Text Encoder (Transformer) simultaneously on 400 million $(image, text)$ pairs scraped from the web.
+
+```mermaid
+flowchart TD
+    subgraph TEXT_PATH["Text Processing Pipeline"]
+        T_IN["Text Description:<br/>'A golden retriever catching a frisbee'"] --> T_ENC["Text Encoder<br/>(Transformer)"]
+        T_ENC --> T_VEC["Normalized Text Vector<br/>(d-dimensional)"]
+    end
+
+    subgraph IMAGE_PATH["Image Processing Pipeline"]
+        I_IN["Image Input:<br/>[Photo of Dog with Frisbee]"] --> I_ENC["Image Encoder<br/>(Vision Transformer / ViT)"]
+        I_ENC --> I_VEC["Normalized Image Vector<br/>(d-dimensional)"]
+    end
+
+    T_VEC --> SIM{"Cosine Similarity & InfoNCE Loss<br/>dot(T_VEC, I_VEC)"}
+    I_VEC --> SIM
+
+    SIM -->|Maximize Diagonal Alignment| SHARED[("Shared Multimodal Embedding Space<br/>Zero-Shot Classification & Cross-Modal Search")]
+
+    classDef text fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef image fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef sim fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
+    classDef shared fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#15803D;
+
+    class T_IN,T_ENC,T_VEC text;
+    class I_IN,I_ENC,I_VEC image;
+    class SIM sim;
+    class SHARED shared;
+```
+
+**The Contrastive Objective (InfoNCE):**
+Given a batch of $N$ image-text pairs:
+1. Compute the $N \times N$ matrix of cosine similarities between all $N$ image embeddings and all $N$ text embeddings.
+2. Maximize the cosine similarity of the $N$ correct diagonal pairs $(I_i, T_i)$.
+3. Minimize the cosine similarity of the $N^2 - N$ incorrect off-diagonal pairs $(I_i, T_j \text{ where } i \ne j)$.
+
+**Zero-Shot Classification via CLIP:**
+Instead of training a custom classifier, you pass an image into the image encoder and pass candidate prompt templates (e.g., `"a photo of a {dog}"`, `"a photo of a {cat}"`) into the text encoder. The class with the highest cosine similarity is the predicted label!
+
+---
+
+### Q14: How are Vision Transformers (ViT) different from CNNs?
+**Answer:**
+Vision Transformers (Dosovitskiy et al., 2020) apply standard Transformer encoders directly to images without using convolutional filters:
+1. **Patch Extraction:** Split an image (e.g., $224 \times 224$) into non-overlapping $16 \times 16$ pixel patches.
+2. **Linear Projection:** Flatten each patch into a vector and project to dimension $D$ (analogous to word token embeddings).
+3. **Position Embeddings:** Add 1D learnable position embeddings so self-attention understands spatial locations.
+4. **Trade-offs vs. CNNs:**
+   - **Inductive Bias:** CNNs have built-in inductive biases (**locality** and **translation equivariance**). ViTs have *no* locality bias and must learn spatial relationships entirely from data.
+   - **Data Appetite:** ViT underperforms CNNs on small datasets (<100k images), but vastly outperforms CNNs when pre-trained on massive datasets (JFT-300M, LAION-5B) because self-attention has global receptive fields from layer 1.
+
+---
+
+## Key Takeaways for Interviews
+- **TF-IDF** balances term frequency against corpus rarity, providing a baseline lexical weighting technique.
+- **Skip-connections in ResNet** solve vanishing gradients by adding identity shortcuts ($\mathcal{F}(x) + x$), enabling deep model convergence.
+- **IoU** measures bounding box overlap, while **mAP** evaluates object detectors across confidence thresholds.
+- **CLIP** aligns visual and textual modalities into a single shared hypersphere, powering modern zero-shot search and multimodal GenAI.
+
+---
+
+[← Previous: Module 04 - Deep Learning Fundamentals](./04_deep_learning_fundamentals.md) | [Next: Module 06 - Generative AI, LLMs & Advanced RAG →](./06_genai_llms_and_rag.md)
