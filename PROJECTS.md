@@ -1,231 +1,230 @@
-# 🚀 Real-World Big Tech & Cloud Enterprise AI/ML Projects
+# 🚀 Real-World AI/ML Portfolio Projects (Local & Cloud Tracks)
 
-A generic "PDF Chatbot" or "Iris classification script" will **not** get you an interview at top tech companies or cloud giants (Google Cloud / GCP, AWS, Meta, Microsoft). Hiring managers look for projects that solve **complex enterprise problems**, use **production cloud services (Bedrock, Vertex AI, SageMaker, BigQuery)**, handle **real-world scale (latency SLAs, token budgets, drift, security)**, and demonstrate **system thinking**.
+A generic "Iris classifier" or standard "PDF Chatbot" will **not** get you noticed by hiring managers. Companies look for projects that solve **domain-specific problems**, handle **real-world trade-offs (latency, cost, drift, imbalance, privacy)**, and demonstrate **system thinking**.
 
-Here are 6 battle-tested, enterprise-grade portfolio projects mirroring the exact solutions built by **GCP, AWS, and Big Tech** engineering teams.
+> 💡 **No Cloud Budget? No Problem!**  
+> You do **not** need an expensive cloud account or paid API keys to build impressive portfolio projects. We organize these projects into two distinct tracks:
+> 1. **Track 1: 100% Local Projects ($0 Cloud Cost)** — Run entirely on your personal laptop/CPU using free open-source tools (Ollama, DuckDB, ChromaDB, Local Google ADK `adk web`, Scikit-Learn, and MLflow).
+> 2. **Track 2: Big Tech & Cloud Enterprise Projects** — Architecture blueprints mirroring how **AWS, Google Cloud (GCP), Meta, and Stripe** build scalable production systems.
 
 ---
 
-## ☁️ Project 1 (AWS Enterprise): Serverless Intelligent Document Processing (IDP) Pipeline
+# 💻 Track 1: 100% Local Projects (Zero Cloud / Zero Cost)
+
+Build, run, and test these projects directly on your laptop without entering a credit card or paying cloud bills.
+
+---
+
+## 📌 Local Project 1: Fully Local Private RAG Assistant (Zero-Cloud / 100% Offline)
+> **Real-World Problem:** Healthcare, legal, and defense organizations cannot upload proprietary documents to external cloud APIs (OpenAI/Anthropic) due to HIPAA, GDPR, and data sovereignty laws.  
+> **Key Skills:** Ollama (Local LLM), ChromaDB / FAISS, Sentence-Transformers, FastAPI, Streamlit  
+> **Cost:** **$0.00** (Runs 100% offline on consumer laptop CPU/Apple Silicon)
+
+### 💡 The Problem
+Build an enterprise document QA assistant that answers queries over private corporate policies and technical manuals with **zero data ever leaving the local machine**.
+
+### 🏗️ Local Architecture & Implementation
+```
+[Local PDF Documents] ──► [pdfplumber / PyPDF]
+                                │ (Recursive Character Chunking: 500 chars, 50 overlap)
+                                ▼
+                   [Local Sentence-Transformers]
+                   (all-MiniLM-L6-v2 running locally on CPU)
+                                │
+                                ▼
+                     [Local ChromaDB / FAISS]
+                     (Stored on local disk in ./chroma_db)
+                                │
+     User Query ────────► [FastAPI Backend]
+                                │
+                                ▼
+                   [Local Similarity Search]
+                   (Top 4 chunks retrieved via Cosine Distance)
+                                │
+                                ▼
+                     [Ollama Local Runtime]
+                     (llama3.2:3b or mistral:7b running locally)
+                                │
+                                ▼
+                     [Streamlit Web Interface]
+                     (Real-time token streaming to user)
+```
+
+1. **Local LLM Engine:** Install and run **Ollama** locally (`ollama run llama3.2:3b`). It exposes a local HTTP endpoint at `http://localhost:11434`.
+2. **Local Embeddings:** Use Hugging Face's `sentence-transformers/all-MiniLM-L6-v2` locally via Python to generate 384-dimensional embeddings on CPU in milliseconds.
+3. **Embedded Vector Store:** Store vectors locally in **ChromaDB** (`chromadb.PersistentClient(path="./local_db")`), requiring zero external server setup.
+4. **Interactive UI & Serving:** Build a clean **Streamlit** or **FastAPI** web interface that streams tokens directly to the user at human reading speed.
+
+### 📊 Interview Talking Points
+- **Zero Data Leakage:** Highlight how this architecture complies with air-gapped security requirements.
+- **Quantization:** Explain why a 4-bit quantized model (`q4_K_M`) fits comfortably in 4GB of laptop RAM without requiring a $2,000 GPU.
+- **Latency:** Explain local inference throughput (achieving 25–35 tokens/sec on Apple M-series or modern Intel/AMD CPUs).
+
+---
+
+## 📌 Local Project 2: End-to-End Local MLOps Pipeline with DuckDB, MLflow & Drift Detection
+> **Real-World Problem:** How to run a complete enterprise MLOps lifecycle (ETL, training, experiment tracking, drift detection, containerization) without paid cloud services like SageMaker or Snowflake.  
+> **Key Skills:** DuckDB (Local SQL ETL), Scikit-Learn, XGBoost, Local MLflow, Evidently AI, Docker  
+> **Cost:** **$0.00** (Runs entirely locally)
+
+### 💡 The Problem
+Predict customer churn or fraud on a large tabular dataset (100,000+ rows). You need automated feature extraction, model versioning, production monitoring, and containerized deployment on your machine.
+
+### 🏗️ Local Architecture & Implementation
+1. **Local High-Speed ETL (DuckDB):**
+   - Query raw CSV/Parquet files directly using **DuckDB** in Python without setting up a heavy SQL database server:
+     ```python
+     import duckdb
+     df = duckdb.query("""
+         SELECT user_id, 
+                avg(amount) as avg_tx, 
+                count(*) as tx_count 
+         FROM 'data/*.parquet' 
+         GROUP BY user_id
+     """).df()
+     ```
+2. **Local Experiment Tracking (MLflow UI):**
+   - Run a self-hosted MLflow server backed by local SQLite:
+     ```bash
+     mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --port 5000
+     ```
+   - Track parameters, training/validation metrics, and model artifacts (`mlflow.sklearn.log_model`).
+3. **Automated Drift Monitoring (Evidently AI):**
+   - Simulate a production data shift (e.g., month-over-month data).
+   - Generate an automated **Evidently AI HTML Report** calculating the **Population Stability Index (PSI)** and **Kolmogorov-Smirnov (KS)** test on key features.
+4. **Local Container Deployment (Docker + FastAPI):**
+   - Package the best model from the local MLflow registry into a **Docker container** running a **FastAPI** `/predict` endpoint with auto-generated Swagger documentation at `localhost:8000/docs`.
+
+### 📊 Interview Talking Points
+- **Point-in-Time Correctness:** How you prevented data leakage during local feature engineering.
+- **Model Governance:** How MLflow's local registry tracks champion vs. challenger models.
+- **Drift Action Threshold:** Explain why $\text{PSI} \ge 0.25$ triggers a retrain alert in your pipeline.
+
+---
+
+## 📌 Local Project 3: Local Multi-Agent Task Assistant with Google ADK (`adk web`) & FastMCP
+> **Real-World Problem:** Orchestrating specialized agent teams to inspect local files, run calculations, and query local databases with full visual debugging and zero cloud dependencies.  
+> **Key Skills:** Google Agent Development Kit (`google-adk`), FastMCP, SQLite, Python File Tools  
+> **Cost:** **$0.00**
+
+### 💡 The Problem
+Developers and analysts need an AI assistant that can inspect local code repositories, run unit tests, and query local databases autonomously without trusting sensitive company code to third-party SaaS tools.
+
+### 🏗️ Architecture & Implementation
+1. **Google ADK Orchestration:**
+   - Define a code-first multi-agent system using `google-adk`:
+     - **Root Agent:** Understands the user's objective and delegates tasks.
+     - **DB Subagent:** Queries a local `sales.db` SQLite database using SQL tools.
+     - **File Subagent:** Reads, analyzes, and formats local markdown/code files.
+2. **Local MCP Tool Server (FastMCP):**
+   - Implement a standalone Python **FastMCP Server** exposing secure local tools over standard input/output (stdio):
+     ```python
+     from mcp.server.fastmcp import FastMCP
+     import sqlite3
+
+     mcp = FastMCP("Local Data Server")
+
+     @mcp.tool()
+     def query_local_db(query: str) -> list:
+         """Execute read-only SQL queries on local SQLite database."""
+         conn = sqlite3.connect("company.db")
+         return conn.execute(query).fetchall()
+     ```
+3. **Visual Trajectory Debugging (`adk web`):**
+   - Launch the built-in graphical interface using:
+     ```bash
+     adk web
+     ```
+   - Inspect the visual execution tree: see every thought, tool call argument, and observation in real time.
+
+### 📊 Interview Talking Points
+- **ADK Subagent Pattern:** Why delegating to specialized subagents prevents prompt bloat and hallucination.
+- **MCP Decoupling:** How MCP standardizes tools so any local agent can query files and databases cleanly.
+
+---
+
+# ☁️ Track 2: Big Tech & Cloud Enterprise Projects (AWS / GCP / Meta)
+
+Architectural blueprints mirroring the actual production systems deployed by cloud giants and Tier-1 tech companies.
+
+---
+
+## ☁️ Project 4 (AWS Enterprise): Serverless Intelligent Document Processing (IDP) Pipeline
 > **Big Tech Problem:** How AWS Bedrock & Enterprise Solutions teams process millions of unstructured invoices, clinical trials, and legal contracts with zero manual data entry.  
-> **Target Roles:** AI Engineer, Cloud ML Engineer, Solutions Architect (AWS)  
 > **Key Cloud Stack:** Amazon Bedrock (Claude 3.5 Sonnet / Nova), AWS Textract, OpenSearch Serverless, AWS Comprehend (PII), AWS Lambda, EventBridge, DynamoDB
 
 ### 💡 The Problem
-Fortune 500 banks and healthcare providers process hundreds of thousands of multi-page invoices, insurance claims, and loan agreements daily. Standard OCR yields messy text, manual review is prohibitively slow, and naive LLM prompts hallucinate financial figures and leak PII (HIPAA/GDPR compliance risks).
+Process hundreds of thousands of multi-page invoices, insurance claims, and loan agreements daily. Standard OCR yields messy text, manual review is slow, and naive LLMs hallucinate numbers and leak PII (HIPAA/GDPR compliance risks).
 
-### 🏗️ Cloud Architecture & Workflow
-```
-[User / ERP Upload] ──► [Amazon S3 Bucket]
-                              │ (S3 Event Notification)
-                              ▼
-                      [AWS EventBridge]
-                              │
-                              ▼
-                      [AWS Lambda Orchestrator]
-                              │
-          ┌───────────────────┴───────────────────┐
-          ▼                                       ▼
-  [AWS Textract Layout]                 [AWS Comprehend PII]
-  (Extracts key-values & tables)         (Detects & masks SSN, names, cards)
-          │                                       │
-          └───────────────────┬───────────────────┘
-                              ▼
-                 [Amazon Bedrock Extraction]
-                 (Claude 3.5 Sonnet with Pydantic JSON schema)
-                              │
-          ┌───────────────────┴───────────────────┐
-          ▼                                       ▼
-  [Amazon DynamoDB]                     [OpenSearch Serverless]
-  (Structured entities for ERP)          (Vector index for natural language audit)
-```
-
-1. **Event-Driven Ingestion:** Documents uploaded to S3 trigger an event via **EventBridge** to an **AWS Lambda** worker.
-2. **Layout-Aware OCR:** **AWS Textract** extracts raw text while preserving tabular structures and key-value form fields.
-3. **Automated PII Masking:** **AWS Comprehend** scans for HIPAA/PII entities (SSNs, medical IDs, credit card numbers) and redacts them prior to model inference.
-4. **Structured JSON Extraction:** **Amazon Bedrock** runs Claude 3.5 Sonnet with strict JSON Schema constraints, transforming messy invoice tables into validated accounting payloads.
-5. **Storage & Audit Index:** Structured payloads are saved to **DynamoDB** for downstream ERP consumption, while semantic embeddings are indexed in **Amazon OpenSearch Serverless** for multi-document cross-audit.
-
-### 📊 Evaluation & Interview Talking Points
-- **Throughput & Cost:** Serverless event-driven architecture handles 10,000+ docs/hour with zero idle server cost.
-- **Accuracy:** Reached 99.2% entity extraction accuracy, reducing human-in-the-loop manual review by 88%.
-- **Compliance:** Explain how automated PII redaction via Comprehend prevents regulatory breaches before data touches LLM context windows.
+### 🏗️ Cloud Architecture
+- **Ingestion:** S3 event notification $\rightarrow$ **AWS EventBridge** $\rightarrow$ **AWS Lambda**.
+- **OCR & PII Masking:** **AWS Textract** (retaining table/form layouts) + **AWS Comprehend** (redacting PII before model inference).
+- **Extraction:** **Amazon Bedrock** (Claude 3.5 Sonnet with Pydantic JSON schema).
+- **Audit & Search:** Structured entities saved to **DynamoDB**; semantic embeddings indexed in **Amazon OpenSearch Serverless** for multi-document cross-audit.
 
 ---
 
-## ☁️ Project 2 (GCP Enterprise): Multimodal Video Intelligence & Semantic Search Engine
+## ☁️ Project 5 (GCP Enterprise): Multimodal Video Intelligence & Semantic Search Engine
 > **Big Tech Problem:** How Google Cloud (Vertex AI) enables media platforms, retail surveillance, and autonomous fleets to index and query petabytes of video using natural language.  
-> **Target Roles:** Machine Learning Engineer, Computer Vision Engineer, Vertex AI Specialist  
 > **Key Cloud Stack:** Google Cloud Vertex AI, Gemini 2.5 Flash, Vertex AI Multimodal Embeddings, BigQuery Vector Search, Cloud Storage, Cloud Run
 
 ### 💡 The Problem
-Media broadcast networks and security providers have thousands of hours of video footage. Tagging video manually is impossible, and traditional metadata search only searches file names. Users need to search semantic events: *"Find the exact timestamp where the delivery driver places the package behind the red pillar."*
+Query thousands of hours of video footage with natural language queries (*"Find the exact timestamp where the delivery driver places the package behind the red pillar"*) without manual human tagging.
 
-### 🏗️ Cloud Architecture & Workflow
-```
-[Raw Video Files] ──► [Google Cloud Storage (GCS)]
-                              │
-                              ▼
-                    [Vertex AI Video Pipeline]
-                    - Frame Sampling (1 fps) + Audio Whisper Transcripts
-                              │
-                              ▼
-             [Vertex AI Multimodal Embeddings API]
-             (Maps video frames + audio to 1408-dim vector space)
-                              │
-                              ▼
-             [BigQuery Vector Search (HNSW Index)]
-             (Indexes millions of multimodal vectors at petabyte scale)
-                              │
-     User Natural Language Query: "Delivery driver behind red pillar"
-                              │
-                              ▼
-                    [BigQuery Vector Search]
-                    (Sub-100ms Cosine Distance Lookup)
-                              │
-                              ▼
-                    [Gemini 2.5 Flash]
-                    (Synthesizes timestamp explanation & bounding box)
-```
-
-1. **Automated Ingestion & Frame Sampling:** Cloud Functions trigger on video uploads to GCS, extracting keyframes (1 fps) and synchronizing audio speech-to-text transcripts.
-2. **Multimodal Vectorization:** Frames and transcripts are passed to the **Vertex AI Multimodal Embeddings API**, mapping visual content and audio into a unified 1408-dimensional embedding space.
-3. **Petabyte-Scale Vector Indexing:** Embeddings are written to **BigQuery**, utilizing **BigQuery Vector Search (HNSW)** to perform sub-100ms approximate nearest neighbor search across billions of frame embeddings without spinning up dedicated vector databases.
-4. **Temporal Grounding:** Top matching video clips are verified by **Gemini 2.5 Flash** using native spatio-temporal video reasoning to pinpoint exact second markers.
-
-### 📊 Evaluation & Interview Talking Points
-- **BigQuery Vector Search vs Dedicated Vector DBs:** Explain why BigQuery Vector Search eliminates data movement pipelines for enterprises already storing telemetry in Google Cloud.
-- **Multimodal Alignment:** How visual embeddings and transcript text align in the same vector space.
-- **Retrieval Speed:** Sub-100ms vector lookup across 50,000 hours of video content.
+### 🏗️ Cloud Architecture
+- **Frame Sampling:** Cloud Functions extract keyframes (1 fps) and audio transcripts from Google Cloud Storage.
+- **Multimodal Embedding:** **Vertex AI Multimodal Embeddings API** maps frames and audio into a unified 1408-dimensional vector space.
+- **BigQuery Vector Search:** Millions of multimodal vectors indexed directly in **BigQuery (HNSW index)**, enabling sub-100ms vector lookup without dedicated vector DB servers.
+- **Temporal Verification:** **Gemini 2.5 Flash** reasons over top retrieved clips to output exact timestamp markers and bounding boxes.
 
 ---
 
-## 🤖 Project 3 (Google Ecosystem): Autonomous Operations & Support Copilot with Google ADK & MCP
-> **Big Tech Problem:** How Google builds enterprise agent systems with code-first software engineering, tool integration, and safe subagent delegation.  
-> **Target Roles:** AI Agent Engineer, AI Systems Developer, Full Stack AI Engineer  
-> **Key Cloud Stack:** Google Agent Development Kit (`google-adk`), Gemini 2.5 Pro, Model Context Protocol (FastMCP), Cloud Run, Docker
-
-### 💡 The Problem
-Enterprise customer operations involve complex, multi-system workflows: checking order databases, issuing refunds, diagnosing shipping delays, and updating CRM records. Monolithic agents hallucinate or fail because they attempt to juggle too many tools simultaneously without state validation.
-
-### 🏗️ Architecture & Implementation
-1. **Google ADK Hierarchical Orchestration:**
-   - Built with the code-first **Google Agent Development Kit (ADK)**.
-   - **Root Agent (Supervisor):** Classifies customer intent, enforces company business policies, and delegates tasks to specialized subagents.
-   - **Order Subagent:** Connects to ERP databases via SQL tools to verify order timestamps and delivery statuses.
-   - **Refund Subagent:** Evaluates refund eligibility against business rules and prepares financial transactions.
-2. **Standardized Tool Integration via Model Context Protocol (MCP):**
-   - The agent communicates with backend systems through a **FastMCP Server** (exposing tools via JSON-RPC 2.0).
-   - Tools are isolated: database mutation operations require explicit authorization tokens.
-3. **Human-in-the-Loop (HITL) Gate:**
-   - Any financial transaction over $100 or cancellation of high-tier subscriptions triggers an interrupt.
-   - The state is preserved, and a human agent reviews the proposed action via the **`adk web`** dashboard before execution.
-4. **Serverless Cloud Deployment:**
-   - Packaged and deployed to **Google Cloud Run** using `adk deploy cloud_run`.
-
-### 📊 Evaluation & Interview Talking Points
-- **Google ADK vs LangGraph:** Explain how Google ADK applies software engineering discipline (clean Python classes, `adk web` local visual debugging, first-class subagent delegation) compared to raw state-graph wiring.
-- **MCP Decoupling:** How MCP allowed swapping mock databases for production PostgreSQL without altering a single line of agent reasoning code.
-- **Containment:** Successfully automated 74% of tier-1 customer inquiries while maintaining 0 unauthorized financial transactions.
-
----
-
-## 🎯 Project 4 (Meta & Amazon): Two-Stage E-Commerce Recommendation & Ranking Engine
+## ☁️ Project 6 (Meta & Amazon): Two-Stage E-Commerce Recommendation & Ranking Engine
 > **Big Tech Problem:** How Amazon and Meta rank billions of items in feeds and shopping search under strict 40ms latency constraints.  
-> **Target Roles:** Machine Learning Engineer, Recommendation Systems Engineer, Applied Scientist  
 > **Key Cloud Stack:** PyTorch, Two-Tower DNN, FAISS (HNSW), LightGBM (LambdaMART), Redis, FastAPI, AWS EC2
 
 ### 💡 The Problem
-Recommending items from a catalog of 1,000,000+ products in real-time. Running a deep neural network across the full catalog causes unacceptable latency (>2,000ms), violating the **40ms p99 SLA**.
+Recommending items from a catalog of 1,000,000+ products in real-time under a strict **40ms p99 latency SLA**.
 
-### 🏗️ Architecture & Implementation
-1. **Stage 1 — Candidate Generation (Retrieval):**
-   - Train a **Two-Tower Neural Network** in PyTorch:
-     - *User Tower:* Encodes user demographics, recent interaction history, and device signals into a 64-dimensional embedding.
-     - *Item Tower:* Encodes product title, category, price, and merchant metrics into a 64-dimensional embedding.
-   - Store all item vectors in a **FAISS HNSW** index.
-   - At inference, the User Tower generates an embedding in 4ms, and FAISS retrieves the **top 300 candidates in <10ms**.
-2. **Stage 2 — Scoring & Ranking:**
-   - Pass top 300 candidates to a **LightGBM LambdaMART** learning-to-rank model.
-   - Features: Real-time context (time of day, cart value), cross-features (user CTR on item category), and discount percentage.
-   - Predicts expected user engagement: $\text{Score} = P(\text{Click}) \times P(\text{Purchase}) \times \text{Item Margin}$.
-3. **Stage 3 — Diversity & Guardrails:**
-   - Apply MMR (Maximal Marginal Relevance) to avoid filter bubbles and guarantee merchant diversity.
-4. **Serving Infrastructure:**
-   - Dockerized FastAPI service deployed on AWS EC2, caching hot user embeddings in Redis.
-
-### 📊 Evaluation & Interview Talking Points
-- **Metrics:** Evaluated retrieval with **Recall@300 (94%)** and ranking with **NDCG@10 (0.84)**.
-- **Latency Performance:** End-to-end inference executes in **27ms** at p99.
-- **Cold Start:** Addressed using content-based metadata fallback and multi-armed bandits ($\epsilon$-greedy).
+### 🏗️ Cloud Architecture
+- **Stage 1 (Retrieval):** Two-Tower Neural Network in PyTorch (User Tower + Item Tower) generating 64-dim embeddings; **FAISS HNSW** retrieves top 300 candidates in <10ms.
+- **Stage 2 (Ranking):** **LightGBM LambdaMART** scores candidates on $P(\text{Click}) \times P(\text{Purchase})$.
+- **Stage 3 (Diversity):** Maximal Marginal Relevance (MMR) prevents filter bubbles and guarantees merchant diversity.
+- **Serving:** Dockerized FastAPI service deployed on AWS EC2, caching hot embeddings in Redis (total p99 latency: **27ms**).
 
 ---
 
-## 🛡️ Project 5 (FinTech / Stripe / AWS): Real-Time Fraud Prevention with Feature Store & Drift Monitoring
-> **Big Tech Problem:** How financial institutions and cloud payment platforms (Stripe, PayPal, AWS Financial Services) detect fraud in streaming transactions while preventing model decay.  
-> **Target Roles:** MLOps Engineer, Production ML Engineer, Platform Engineer  
-> **Key Cloud Stack:** Feast (Feature Store), XGBoost, Evidently AI, MLflow, AWS Kinesis, Redis, Docker, GitHub Actions
-
-### 💡 The Problem
-Financial transactions exhibit extreme class imbalance (<0.1% fraudulent). Models suffer from **Training-Serving Skew** when batch SQL queries calculate features differently from real-time API code, and evolving fraud tactics cause silent **Concept Drift**.
-
-### 🏗️ Architecture & Implementation
-1. **Unified Feature Store (Feast):**
-   - **Offline Store (Amazon S3 / Snowflake):** Produces training datasets using **point-in-time joins** (time-travel) to prevent future data leakage.
-   - **Online Store (Redis):** Serves sub-5ms pre-aggregated features (`user_velocity_1h`, `foreign_country_flag`) to the inference API.
-2. **Cost-Sensitive Modeling:**
-   - Train an **XGBoost Classifier** with Focal Loss, optimized specifically for **PR-AUC (Precision-Recall AUC)** and Recall at fixed False Positive Rate (FPR < 0.5%).
-   - Track all experiments and model artifacts in **MLflow Model Registry**.
-3. **Automated Drift Detection & Retraining:**
-   - Incoming predictions stream to a monitoring worker.
-   - **Evidently AI** runs daily statistical checks:
-     - **Population Stability Index (PSI)** on transaction amounts and velocity features.
-     - **Kolmogorov-Smirnov (KS) Test** on continuous features.
-   - If $\text{PSI} \ge 0.25$, an automated **GitHub Actions CI/CD pipeline** triggers model retraining on fresh data, validates against the production Champion model, and deploys a Canary container to AWS.
-
-### 📊 Evaluation & Interview Talking Points
-- **Eliminating Skew:** How Feast's single source of truth eliminated feature calculation bugs between data science notebooks and Go/Java production microservices.
-- **Imbalance Mastery:** Why Accuracy and ROC-AUC are misleading for fraud, and how PR-AUC protected business revenue.
-- **Drift Self-Healing:** The automated alert-to-retraining lifecycle.
-
----
-
-## ⚡ Project 6 (AI Infrastructure): High-Throughput Enterprise LLM Serving with vLLM & Semantic Caching
+## ☁️ Project 7 (AI Infrastructure): High-Throughput Enterprise LLM Serving with vLLM & Semantic Caching
 > **Big Tech Problem:** How AI cloud infrastructure providers serve thousands of concurrent LLM requests under strict GPU memory limits and sub-second latency budgets.  
-> **Target Roles:** AI Infrastructure Engineer, LLM Platform Engineer, Core AI Engineer  
-> **Key Cloud Stack:** vLLM (PagedAttention), Llama 3.1 / Mistral, Redis Semantic Cache, OpenTelemetry, Arize Phoenix, Docker, AWS g5.2xlarge
+> **Key Cloud Stack:** vLLM (PagedAttention), Llama 3.1, Redis Semantic Cache, OpenTelemetry, Arize Phoenix, Docker, AWS g5.2xlarge
 
 ### 💡 The Problem
-Enterprise customer-facing applications receive 1,000+ queries per minute. Commercial API costs exceed $20,000/month, and peak p95 latency spikes over 3.5 seconds due to GPU memory fragmentation and KV cache explosion.
+Serve 1,000+ customer queries/minute with p95 latency < 500ms while reducing commercial API costs by over 70%.
 
-### 🏗️ Architecture & Implementation
-1. **Optimized Inference Engine (vLLM):**
-   - Deploy an open-weight LLM on a cloud GPU instance using **vLLM**.
-   - Leverage **PagedAttention** to allocate KV cache memory in non-contiguous physical blocks (similar to OS virtual memory), boosting concurrent batch capacity by 4x.
-2. **Two-Tier Latency Reduction:**
-   - **Semantic Response Cache (Redis):** Computes lightweight embeddings for incoming questions. If semantic similarity to a recent query exceeds 0.96, the cached response is served in **<15ms** ($0 token cost).
-   - **Prompt Caching:** Shares pre-computed KV caches for multi-page static system instructions, cutting Time-To-First-Token (TTFT) by 70%.
-3. **Distributed Telemetry & Cost Observability:**
-   - Instrument the serving gateway with **OpenTelemetry** exporting traces to **Arize Phoenix**.
-   - Monitor real-time operational metrics:
-     - **TTFT (Time-to-First-Token)** — Prefill latency.
-     - **TPOT (Time-per-Output-Token)** — Decode generation throughput.
-     - GPU VRAM utilization and token dollar savings.
-
-### 📊 Evaluation & Interview Talking Points
-- **Cost Efficiency:** Slashed monthly LLM infrastructure spend by 72% via semantic caching and vLLM continuous batching.
-- **Concurrency:** Scaled single GPU throughput from 8 req/s to 48 req/s without Out-Of-Memory (OOM) errors.
-- **Latency SLA:** Reduced p95 latency from 3.2s to 450ms.
+### 🏗️ Cloud Architecture
+- **Serving:** Self-hosted open-weight model deployed via **vLLM (PagedAttention)**, boosting batch concurrency by 4x without KV cache fragmentation.
+- **2-Tier Caching:** **Redis Semantic Cache** (serving identical questions in <15ms at $0 cost) + vLLM Prompt Caching (cutting TTFT by 70%).
+- **Observability:** **OpenTelemetry** exporting traces to **Arize Phoenix** to monitor TTFT, TPOT, and GPU VRAM saturation.
 
 ---
 
-## 📋 Big Tech & Cloud Alignment Matrix
+## 📋 Resume Project Comparison Matrix
 
-| Project | Cloud / Big Tech Target | Core Architecture | Key Differentiator |
-|---|---|---|---|
-| **Serverless IDP Pipeline** | **AWS (Bedrock / Textract)** | EventBridge $\rightarrow$ Lambda $\rightarrow$ Textract $\rightarrow$ Bedrock $\rightarrow$ OpenSearch | Serverless event-driven architecture + automated PII redaction |
-| **Multimodal Video Intelligence** | **GCP (Vertex AI / BigQuery)** | GCS $\rightarrow$ Vertex Multimodal Embeddings $\rightarrow$ BigQuery Vector Search $\rightarrow$ Gemini | Sub-100ms vector search across petabytes of video in BigQuery |
-| **Autonomous Operations Copilot** | **Google Cloud (Google ADK)** | Google ADK $\rightarrow$ Subagent Delegation $\rightarrow$ FastMCP $\rightarrow$ Cloud Run | Code-first software engineering + `adk web` debugging + MCP tools |
-| **Two-Stage Recommendation Engine**| **Meta / Amazon** | Two-Tower Embeddings $\rightarrow$ FAISS HNSW $\rightarrow$ LightGBM LambdaMART | Sub-30ms candidate retrieval + ranking at scale |
-| **Real-Time Fraud Pipeline** | **Stripe / FinTech / AWS** | Feast Feature Store $\rightarrow$ XGBoost PR-AUC $\rightarrow$ Evidently PSI Drift CI/CD | Eliminates training-serving skew + automated drift retraining |
-| **High-Throughput LLM Serving** | **AI Infra / Scale AI** | vLLM PagedAttention $\rightarrow$ Redis Semantic Cache $\rightarrow$ OpenTelemetry | 4x concurrency gains + TTFT/TPOT latency budget optimization |
+| Track | Project Name | Primary Stack | Cost | Best Suited For |
+|---|---|---|---|---|
+| **Local** | **Fully Local Private RAG** | Ollama, ChromaDB, Sentence-Transformers, Streamlit | **$0.00** | Privacy-first GenAI, Air-Gapped Systems, Healthcare/Legal |
+| **Local** | **End-to-End Local MLOps** | DuckDB, XGBoost, MLflow UI, Evidently AI, Docker | **$0.00** | Production ML, Data Engineering, MLOps Roles |
+| **Local** | **Local Multi-Agent Assistant** | Google ADK (`adk web`), FastMCP, SQLite, Python | **$0.00** | AI Agent Developer, Tool Engineering, Automation |
+| **Cloud** | **Serverless IDP Pipeline** | AWS Bedrock, Textract, Comprehend, OpenSearch | Cloud | AWS Solutions Architect, Enterprise Cloud AI |
+| **Cloud** | **Multimodal Video Intelligence** | GCP Vertex AI, BigQuery Vector Search, Gemini | Cloud | Computer Vision, Big Data AI, Media Platforms |
+| **Cloud** | **Two-Stage Recommendation Engine** | Two-Tower PyTorch, FAISS HNSW, LightGBM, Redis | Cloud | Meta, Amazon, Netflix, E-Commerce Ranking |
+| **Cloud** | **High-Throughput LLM Serving** | vLLM PagedAttention, Redis Semantic Cache, Phoenix | Cloud | AI Infrastructure Engineer, Platform Engineer |
+
+---
+
+## 💡 How to Present These Projects on Your Resume (CAR Framework)
+
+When writing resume bullet points and answering interview questions, use the **CAR (Context, Action, Result)** format:
+1. **Context:** State the problem and real-world constraint (*"Under HIPAA regulations..."*, *"Under a 40ms p99 SLA..."*).
+2. **Action:** Explain what you built and why (*"Architected a fully local RAG pipeline using Ollama and ChromaDB, eliminating external API calls..."*).
+3. **Result:** Provide measurable engineering outcomes (*"Achieved 100% data privacy with 28 tok/sec local inference speed on consumer hardware at $0 cloud cost"*).

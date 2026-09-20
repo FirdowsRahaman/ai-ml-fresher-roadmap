@@ -104,20 +104,26 @@ Looking for deeper theoretical or practical references? Check out our hand-picke
 
 ---
 
-## Real-World Big Tech & Cloud Enterprise Projects
+## Real-World Production Projects (Local & Cloud Tracks)
 
-Generic "PDF chatbots" and "Iris classifiers" get ignored by hiring managers. Stand out with production-grade projects that directly mirror the exact architectures built by **AWS, Google Cloud (GCP), Meta, and Stripe** enterprise engineering teams:
+Hiring managers want to see how you tackle real-world constraints (latency SLAs, drift, class imbalance, and data privacy). Whether you have zero cloud budget or want to target cloud enterprise roles, choose from two tracks:
 
-| Cloud / Big Tech Target | Problem Solved & Architecture | Key Tech Stack | Detailed Blueprint |
+### 💻 Track 1: 100% Local Projects ($0 Cloud Cost — Runs on Any Laptop)
+| Project | Problem Solved & Local Architecture | Key Tech Stack | Blueprint |
 |---|---|---|---|
-| **AWS (Bedrock / Textract)** | **Serverless Intelligent Document Processing (IDP):** End-to-end event-driven invoice/contract parsing with automated PII masking and vector audit. | Amazon Bedrock, Textract, Comprehend, OpenSearch Serverless, Lambda | [View Architecture →](./PROJECTS.md#️-project-1-aws-enterprise-serverless-intelligent-document-processing-idp-pipeline) |
-| **GCP (Vertex AI / BigQuery)** | **Multimodal Video Intelligence Engine:** Natural language search across petabytes of video footage with sub-100ms vector lookup. | Vertex AI Multimodal Embeddings, BigQuery Vector Search, Gemini 2.5 Flash | [View Architecture →](./PROJECTS.md#️-project-2-gcp-enterprise-multimodal-video-intelligence--semantic-search-engine) |
-| **Google Cloud (Google ADK)** | **Autonomous Operations Copilot:** Code-first multi-agent supervisor delegating to specialized subagents with Model Context Protocol (MCP) and Cloud Run. | Google ADK (`google-adk`), FastMCP, Gemini, Cloud Run, Docker | [View Architecture →](./PROJECTS.md#-project-3-google-ecosystem-autonomous-operations--support-copilot-with-google-adk--mcp) |
-| **Meta & Amazon** | **Two-Stage E-Commerce Recommendation Engine:** Real-time candidate retrieval (Two-Tower embeddings + FAISS HNSW) + LightGBM ranking under **<40ms SLA**. | PyTorch, FAISS, LightGBM, Redis, FastAPI | [View Architecture →](./PROJECTS.md#-project-4-meta--amazon-two-stage-e-commerce-recommendation--ranking-engine) |
-| **Stripe / FinTech / AWS** | **Real-Time Fraud Prevention Pipeline:** Handling extreme class imbalance (<0.1% fraud), Feast Feature Store (point-in-time correctness), and Evidently drift-triggered CI/CD retraining. | Feast, XGBoost, Evidently AI, MLflow, AWS Kinesis | [View Architecture →](./PROJECTS.md#️-project-5-fintech--stripe--aws-real-time-fraud-prevention-with-feature-store--drift-monitoring) |
-| **AI Infrastructure** | **Low-Latency LLM Serving Engine:** High-throughput serving via vLLM (PagedAttention), 2-tier semantic response caching (Redis), and OpenTelemetry latency tracing. | vLLM, Redis, OpenTelemetry, Phoenix, PyTorch | [View Architecture →](./PROJECTS.md#-project-6-ai-infrastructure-high-throughput-enterprise-llm-serving-with-vllm--semantic-caching) |
+| **Fully Local Private RAG** | **100% Offline Document QA:** Compliant with strict healthcare/legal privacy (zero data leaves your laptop). | Ollama (Llama 3.2), ChromaDB, Sentence-Transformers, Streamlit | [View Blueprint →](./PROJECTS.md#-local-project-1-fully-local-private-rag-assistant-zero-cloud--100-offline) |
+| **End-to-End Local MLOps** | **Complete ML Lifecycle on Laptop:** Local ETL, model tracking, automated drift reports, and Dockerized FastAPI. | DuckDB, XGBoost, Local MLflow UI, Evidently AI, Docker | [View Blueprint →](./PROJECTS.md#-local-project-2-end-to-end-local-mlops-pipeline-with-duckdb-mlflow--drift-detection) |
+| **Local Multi-Agent Assistant** | **Local Tool-Using Agents:** Multi-agent supervisor running locally with SQLite tools and visual execution tree debugging. | Google ADK (`adk web`), FastMCP, SQLite, Python | [View Blueprint →](./PROJECTS.md#-local-project-3-local-multi-agent-task-assistant-with-google-adk-adk-web--fastmcp) |
 
-> 📖 **Full Cloud Blueprints & Resume Talking Points:** See the comprehensive implementation guide in **[PROJECTS.md](./PROJECTS.md)**.
+### ☁️ Track 2: Big Tech & Cloud Enterprise Projects (AWS / GCP / Meta)
+| Cloud / Big Tech Target | Problem Solved & Architecture | Key Cloud Stack | Blueprint |
+|---|---|---|---|
+| **AWS (Bedrock / Textract)** | **Serverless Intelligent Document Processing (IDP):** Event-driven invoice/contract parsing with automated PII masking and vector audit. | Amazon Bedrock, Textract, Comprehend, OpenSearch Serverless, Lambda | [View Blueprint →](./PROJECTS.md#️-project-4-aws-enterprise-serverless-intelligent-document-processing-idp-pipeline) |
+| **GCP (Vertex AI / BigQuery)** | **Multimodal Video Intelligence Engine:** Natural language search across petabytes of video footage with sub-100ms vector lookup. | Vertex AI Multimodal Embeddings, BigQuery Vector Search, Gemini 2.5 Flash | [View Blueprint →](./PROJECTS.md#️-project-5-gcp-enterprise-multimodal-video-intelligence--semantic-search-engine) |
+| **Meta & Amazon** | **Two-Stage Recommendation Engine:** Real-time candidate retrieval (Two-Tower embeddings + FAISS HNSW) + LightGBM ranking under **<40ms SLA**. | PyTorch, FAISS, LightGBM, Redis, FastAPI | [View Blueprint →](./PROJECTS.md#️-project-6-meta--amazon-two-stage-e-commerce-recommendation--ranking-engine) |
+| **AI Infrastructure** | **Low-Latency LLM Serving Engine:** High-throughput serving via vLLM (PagedAttention), 2-tier semantic response caching (Redis), and OpenTelemetry latency tracing. | vLLM, Redis, OpenTelemetry, Phoenix, PyTorch | [View Blueprint →](./PROJECTS.md#️-project-7-ai-infrastructure-high-throughput-enterprise-llm-serving-with-vllm--semantic-caching) |
+
+> 📖 **Full Implementation Guides & Resume Bullet Points:** See the comprehensive blueprints in **[PROJECTS.md](./PROJECTS.md)**.
 
 ---
 
