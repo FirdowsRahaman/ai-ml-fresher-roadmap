@@ -238,3 +238,21 @@ import torch.optim as optim
 # Adam is the most commonly used optimizer for freshers
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 ```
+
+---
+
+## 🤖 Section 4: Reinforcement Learning (RL)
+
+### Q12: What is Reinforcement Learning and how does it work?
+**Answer:**
+Reinforcement Learning (RL) is a type of Machine Learning where an **Agent** learns to make decisions by performing actions in an **Environment** to maximize a cumulative **Reward**.
+Unlike Supervised Learning, there is no labeled dataset with the "correct" answers. The agent learns entirely through trial and error.
+
+**Key Concepts:**
+- **Agent:** The learner or decision-maker (e.g., a robot, a chess program).
+- **Environment:** Everything the agent interacts with (e.g., the maze, the chessboard).
+- **State:** The current situation or configuration of the environment (e.g., the layout of chess pieces).
+- **Action:** What the agent chooses to do (e.g., move a pawn).
+- **Reward:** The feedback from the environment (e.g., +1 for winning, -1 for losing).
+
+**Example:** AlphaGo, the AI that defeated the world champion at the board game Go, was trained using Reinforcement Learning by playing millions of games against itself.

@@ -227,3 +227,83 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"Training samples: {len(X_train)}")
 print(f"Testing samples: {len(X_test)}")
 ```
+
+---
+
+## 📈 Section 4: Time Series Analysis
+
+### Q13: How is Time Series data different from regular Tabular data?
+**Answer:**
+Regular tabular data (cross-sectional data) assumes that each row is independent of the others (e.g., predicting house prices based on size and location).
+**Time Series data** is ordered by time. The prediction for tomorrow depends heavily on what happened today, yesterday, and the day before.
+- *Examples:* Stock prices, weather forecasting, server load prediction.
+- *Key constraint:* You **cannot** randomly shuffle time series data for train/test split. You must split by time (e.g., train on 2020-2022, test on 2023).
+
+### Q14: What are the components of a Time Series?
+**Answer:**
+1. **Trend:** The overall long-term direction (e.g., global temperatures slowly rising).
+2. **Seasonality:** Repeating patterns at fixed intervals (e.g., ice cream sales peak every summer).
+3. **Noise (Residual):** Random variations that cannot be explained by trend or seasonality.
+
+---
+
+## ⚖️ Section 5: Ethics, Bias & Fairness in AI
+
+### Q15: How does a machine learning model become biased?
+**Answer:**
+Models don't have personal prejudices; they learn from data. If the historical data contains human biases, the model will learn and amplify them.
+- *Example:* If an HR resume-screening model is trained on data from a company that historically hired mostly men, the model will learn to penalize resumes from women.
+- *Example:* A facial recognition system trained primarily on lighter-skinned faces will perform poorly on darker-skinned faces.
+
+### Q16: How do you evaluate a model for fairness?
+**Answer:**
+High overall accuracy is not enough. You must evaluate the model's accuracy (or False Positive/Negative rates) across different demographic subgroups (e.g., race, gender, age). If a model is 95% accurate for Group A but only 60% accurate for Group B, it is biased and unsafe for production.
+
+---
+
+## 🎯 Section 6: Recommendation & Ranking Systems (MNC Standard)
+
+### Q17: What is the classic Two-Stage Recommendation Architecture?
+**Answer:**
+At scale (millions of users and billions of items like YouTube, Netflix, or Amazon), you cannot run a heavy deep neural network over every single item in the database in real-time within a 50ms SLA. Instead, companies use a **two-stage architecture**:
+
+```
+[10,000,000+ Items]
+         ↓
+  1. CANDIDATE GENERATION (Retrieval)
+     - Fast, high recall, low computation
+     - Techniques: Two-Tower Embeddings + Approximate Nearest Neighbors (ANN / FAISS)
+     - Output: Top ~200-500 candidates
+         ↓
+  2. SCORING & RANKING
+     - Precise, complex features (user history, real-time context, item metadata)
+     - Models: Deep Neural Networks (Wide & Deep, DCN, Multi-task ranking)
+     - Output: Scored items sorted by P(Click) or P(Purchase)
+         ↓
+  3. RE-RANKING & DIVERSITY
+     - Business rules, deduplication, freshness, and anti-filter-bubble diversity
+     - Output: Final Top 10-20 recommendations shown on user feed
+```
+
+### Q18: What is Collaborative Filtering vs. Content-Based Filtering?
+**Answer:**
+1. **Collaborative Filtering:**
+   - Recommends items based on user-item interaction history without needing to understand what the item is.
+   - *"Users who liked what you liked also liked this."*
+   - *Methods:* Matrix Factorization (SVD), Two-Tower User/Item Embeddings.
+   - *Limitation:* The **Cold-Start Problem** (cannot recommend new items or serve new users with no history).
+
+2. **Content-Based Filtering:**
+   - Recommends items based on item attributes and user profile features (e.g., genre, director, price, keywords).
+   - *"You watched an action movie with Tom Cruise; here is another action movie with Tom Cruise."*
+   - *Advantage:* Works well for new items immediately (no cold-start for items).
+   - *Limitation:* Never recommends outside the user's explicit profile (lacks serendipity).
+
+### Q19: What metrics are used to evaluate Recommendation & Ranking Systems?
+**Answer:**
+Traditional classification metrics (like accuracy) are unsuitable for feeds. Instead, companies use ranking metrics:
+1. **NDCG@K (Normalized Discounted Cumulative Gain):** Measures whether relevant items appear at the top of the list. Recommendations higher in the list get higher credit, with logarithmic decay for lower ranks.
+2. **MRR (Mean Reciprocal Rank):** Evaluates how quickly the user encounters the first relevant item ($1 / \text{rank of first clicked item}$).
+3. **Precision@K & Recall@K:** Of the top $K$ items shown, how many were relevant?
+4. **Online Metrics:** Click-Through Rate (CTR), Conversion Rate, Dwell Time, and Session Retention.
+

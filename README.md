@@ -9,40 +9,8 @@ A structured, practical learning path for aspiring AI/ML engineers.
 Learn the fundamentals. Build real projects.
 Understand modern Generative AI. Prepare for interviews.
 
-Python • Machine Learning • Deep Learning • NLP • Computer Vision
-Generative AI • LLMs • RAG • MLOps
-
----
-
-## Roadmap at a Glance
-
-FOUNDATIONS
-Python → Math & Statistics
-
-             ↓
-
-MACHINE LEARNING
-Classical ML → Deep Learning
-
-             ↓
-
-AI SPECIALIZATION
-NLP → Computer Vision
-
-             ↓
-
-GENERATIVE AI & AGENTS
-LLMs → RAG → Agent → Tools → Orchestration → Multi-Agent → MCP
-
-             ↓
-
-ENGINEERING & PRODUCTION
-Evaluation → Safety → APIs → Docker → CI/CD
-
-             ↓
-
-CAREER READY
-Projects → Coding → System Thinking → Interviews
+Python • SQL • Machine Learning • Deep Learning • NLP • Computer Vision
+Generative AI • LLMs • RAG • AI Agents • MCP • MLOps • Cloud
 
 ---
 
@@ -50,192 +18,145 @@ Projects → Coding → System Thinking → Interviews
 
 ```mermaid
 flowchart LR
-    A[Python & Data] --> B[Math & Statistics]
-    B --> C[Machine Learning]
-    C --> D[Deep Learning]
+    A[Python, SQL & Data] --> B[Math & Statistics]
+    B --> C[Classical ML, Time Series & RecSys]
+    C --> D[Deep Learning & RL]
     D --> E[NLP & Computer Vision]
-    E --> F[Generative AI, LLMs & RAG]
-    F --> G[AI Agents]
+    E --> F[Advanced RAG, LLMs & Serving]
+    F --> G[AI Agents Fundamentals]
     G --> H[Tools & Orchestration]
     H --> I[Multi-Agent & MCP]
-    I --> J[Evaluation & Production]
-    J --> K[MLOps & Engineering]
-    K --> L[Projects & Interviews]
+    I --> J[Agent Evaluation & Safety]
+    J --> K[MLOps, Drift, Feature Stores & Cloud]
+    K --> L[Scenarios & Interview Kits]
 ```
 
 ---
 
 ## Modules
 
-### 01 — Python & Data Stack
-Build the programming and data foundations required for ML.
-`Python` `NumPy` `Pandas` `Data Cleaning`
-[Start Module →](./01_python_and_data_stack.md)
+### [01 — Python & Data Stack](./01_python_and_data_stack.md)
+Build the programming, database, and data engineering foundations required for ML.  
+`Python` `NumPy` `Pandas` `SQL` `ETL Foundations` `Data Cleaning`
 
-### 02 — Math & Statistics
-Understand the mathematical intuition behind ML.
-`Vectors` `Probability` `Statistics` `Cosine Similarity`
-[Start Module →](./02_math_and_statistics.md)
+### [02 — Math & Statistics](./02_math_and_statistics.md)
+Understand the mathematical and statistical intuition behind ML algorithms.  
+`Vectors` `Linear Algebra` `Probability` `Descriptive & Inferential Stats` `Cosine Similarity`
 
-### 03 — Classical Machine Learning
-Learn the core algorithms of traditional AI.
-`Classification` `Regression` `Decision Trees` `Random Forest` `Evaluation Metrics`
-[Start Module →](./03_classical_machine_learning.md)
+### [03 — Classical Machine Learning & Recommendation Systems](./03_classical_machine_learning.md)
+Learn the core algorithms of traditional AI, forecasting, recommendation architectures, and ethics.  
+`Classification` `Regression` `Decision Trees` `Ensembles` `Time Series` `Recommendation Systems (Two-Tower/NDCG)` `AI Ethics`
 
-### 04 — Deep Learning Fundamentals
-Understand how neural networks learn.
-`Neural Networks` `Gradient Descent` `Backpropagation` `Loss Functions`
-[Start Module →](./04_deep_learning_fundamentals.md)
+### [04 — Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)
+Understand how neural networks learn, optimize, and make sequential decisions.  
+`Neural Networks` `Gradient Descent` `Backpropagation` `Loss Functions` `PyTorch` `Reinforcement Learning`
 
-### 05 — NLP & Computer Vision
-Specialized techniques for text and image data.
-`Tokens` `CNNs` `Transfer Learning` `Object Detection`
-[Start Module →](./05_nlp_and_computer_vision.md)
+### [05 — NLP & Computer Vision](./05_nlp_and_computer_vision.md)
+Specialized techniques for text, sequence, and image data.  
+`Tokens` `Transformers` `CNNs` `Transfer Learning` `Object Detection` `Vision-Language Models`
 
-### 06 — Generative AI, LLMs & RAG
-The most in-demand AI skills today.
-`LLMs` `Prompting` `Embeddings` `RAG` `Fine-Tuning`
-[Start Module →](./06_genai_llms_and_rag.md)
+### [06 — Generative AI, LLMs & Advanced RAG](./06_genai_llms_and_rag.md)
+The most in-demand AI skills today, from prompt engineering to low-latency LLM serving.  
+`LLMs` `Prompting` `Hybrid Search (BM25 + Dense)` `Cross-Encoder Rerank` `RAGAS` `KV Cache & vLLM`
 
-### 07 — AI Agents Fundamentals
-Understand the difference between an LLM and an Agent.
-`ReAct` `Agent Loop` `Memory` `Planning`
-[Start Module →](./07_ai_agents_fundamentals.md)
+### [07 — AI Agents Fundamentals](./07_ai_agents_fundamentals.md)
+Understand the difference between an LLM and an autonomous Agent.  
+`ReAct Loop` `Agent Architecture` `Working Memory` `Goal Planning`
 
-### 08 — Tools, Function Calling & Orchestration
-Learn how agents interact with the outside world.
-`Function Calling` `Tool Schemas` `LangChain` `LangGraph`
-[Start Module →](./08_tools_and_orchestration.md)
+### [08 — Tools, Function Calling & Orchestration](./08_tools_and_orchestration.md)
+Learn how agents interact with APIs, databases, and the outside world.  
+`Function Calling` `Tool Schemas` `LangGraph` `Google ADK` `Human-in-the-Loop`
 
-### 09 — Multi-Agent Systems & MCP
-Collaborative AI systems and secure tool integration.
-`CrewAI` `AutoGen` `Supervisor Architecture` `MCP`
-[Start Module →](./09_multi_agent_systems_and_mcp.md)
+### [09 — Multi-Agent Systems & MCP](./09_multi_agent_systems_and_mcp.md)
+Collaborative multi-agent workflows and standardized tool integration.  
+`CrewAI` `AutoGen` `Google ADK Subagents` `Model Context Protocol (MCP)`
 
-### 10 — Agent Evaluation, Safety & Production
-Building safe, reliable, and observable agents.
-`LLM-as-a-judge` `Tracing` `Prompt Injection` `Guardrails`
-[Start Module →](./10_agent_evaluation_and_safety.md)
+### [10 — Agent Evaluation, Safety & Production](./10_agent_evaluation_and_safety.md)
+Building safe, reliable, and observable agentic systems.  
+`LLM-as-a-Judge` `Tracing & Observability` `Prompt Injection` `Guardrails`
 
-### 11 — MLOps & AI Engineering
-Learn how to deploy and manage models in production.
-`APIs` `FastAPI` `Docker` `MLflow` `CI/CD`
-[Start Module →](./11_mlops_and_ai_engineering.md)
+### [11 — MLOps & AI Engineering](./11_mlops_and_ai_engineering.md)
+Learn how to package, track, deploy, monitor, and A/B test models in production and cloud.  
+`FastAPI` `Docker` `MLflow` `DVC` `Feature Stores (Feast)` `Drift Detection (PSI)` `A/B Testing` `Cloud (AWS/GCP)`
 
-### 12 — Practical Scenarios & Coding
-Hands-on coding exercises and real-world problem solving.
-`Data Leakage` `Preprocessing` `Model Evaluation` `System Thinking`
-[Start Module →](./12_practical_scenarios_and_coding.md)
+### [12 — Practical Scenarios & Coding](./12_practical_scenarios_and_coding.md)
+Hands-on coding exercises, edge cases, and real-world system debugging.  
+`Data Leakage` `Preprocessing` `Imbalanced Data` `Distribution Shift` `System Thinking`
 
 ---
 
-## What You'll Build
+## Interview Preparation & Practice Kits
 
-| Level | Project | What it teaches |
+Prepare for technical screenings, take-home assignments, and system design interviews:
+
+| Kit | Focus Areas | Link |
 |---|---|---|
-| Beginner | Tool-Calling AI Assistant | Function calling |
-| Beginner | Web Research Agent | Search + reasoning |
-| Intermediate | SQL Data Analyst Agent | Tools + SQL |
-| Intermediate | PDF Research Agent | RAG + agents |
-| Intermediate | Code Execution Agent | Tool execution |
-| Advanced | Multi-Agent Research System | Agent orchestration |
-| Advanced | MCP-Powered AI Assistant | MCP + tools |
-| Advanced | Agent Evaluation Framework | Evals + tracing |
-| Capstone | Enterprise AI Agent Platform | Agents + RAG + MCP + security + MLOps |
+| **Classical ML Interview Kit** | Core ML intuition, bias-variance, RecSys, drift diagnosis, A/B testing | [Open ML Questions →](./interview/ml_questions.md) |
+| **Generative AI & Agent Kit** | Advanced RAG, RAGAS, TTFT/TPOT, KV Cache, vLLM, agents, safety | [Open GenAI Questions →](./interview/genai_questions.md) |
+| **Coding & Algorithms Practice** | Vectorized NumPy/Pandas, custom ML algorithms, coding traps | [Open Coding Questions →](./interview/coding_questions.md) |
 
 ---
 
-## Who Is This For?
+## Curated Resources & Study Materials
 
-This roadmap is designed for:
-- Students starting AI/ML
-- Fresh graduates
-- Trainee AI/ML Engineers
-- Developers transitioning into AI/ML
-- Candidates preparing for AI/ML interviews
-
-No advanced ML experience is required.
+Looking for deeper theoretical or practical references? Check out our hand-picked collection of books, courses, and engineering blogs:
+- **[Recommended Resources Guide →](./resources/recommended_resources.md)**
 
 ---
 
-## Progress
+## Real-World Big Tech & Cloud Enterprise Projects
 
-### Foundations
-- [ ] Python & Data
-- [ ] Math & Statistics
+Generic "PDF chatbots" and "Iris classifiers" get ignored by hiring managers. Stand out with production-grade projects that directly mirror the exact architectures built by **AWS, Google Cloud (GCP), Meta, and Stripe** enterprise engineering teams:
 
-### Machine Learning
-- [ ] Classical ML
-- [ ] Deep Learning
-- [ ] NLP & Computer Vision
+| Cloud / Big Tech Target | Problem Solved & Architecture | Key Tech Stack | Detailed Blueprint |
+|---|---|---|---|
+| **AWS (Bedrock / Textract)** | **Serverless Intelligent Document Processing (IDP):** End-to-end event-driven invoice/contract parsing with automated PII masking and vector audit. | Amazon Bedrock, Textract, Comprehend, OpenSearch Serverless, Lambda | [View Architecture →](./PROJECTS.md#️-project-1-aws-enterprise-serverless-intelligent-document-processing-idp-pipeline) |
+| **GCP (Vertex AI / BigQuery)** | **Multimodal Video Intelligence Engine:** Natural language search across petabytes of video footage with sub-100ms vector lookup. | Vertex AI Multimodal Embeddings, BigQuery Vector Search, Gemini 2.5 Flash | [View Architecture →](./PROJECTS.md#️-project-2-gcp-enterprise-multimodal-video-intelligence--semantic-search-engine) |
+| **Google Cloud (Google ADK)** | **Autonomous Operations Copilot:** Code-first multi-agent supervisor delegating to specialized subagents with Model Context Protocol (MCP) and Cloud Run. | Google ADK (`google-adk`), FastMCP, Gemini, Cloud Run, Docker | [View Architecture →](./PROJECTS.md#-project-3-google-ecosystem-autonomous-operations--support-copilot-with-google-adk--mcp) |
+| **Meta & Amazon** | **Two-Stage E-Commerce Recommendation Engine:** Real-time candidate retrieval (Two-Tower embeddings + FAISS HNSW) + LightGBM ranking under **<40ms SLA**. | PyTorch, FAISS, LightGBM, Redis, FastAPI | [View Architecture →](./PROJECTS.md#-project-4-meta--amazon-two-stage-e-commerce-recommendation--ranking-engine) |
+| **Stripe / FinTech / AWS** | **Real-Time Fraud Prevention Pipeline:** Handling extreme class imbalance (<0.1% fraud), Feast Feature Store (point-in-time correctness), and Evidently drift-triggered CI/CD retraining. | Feast, XGBoost, Evidently AI, MLflow, AWS Kinesis | [View Architecture →](./PROJECTS.md#️-project-5-fintech--stripe--aws-real-time-fraud-prevention-with-feature-store--drift-monitoring) |
+| **AI Infrastructure** | **Low-Latency LLM Serving Engine:** High-throughput serving via vLLM (PagedAttention), 2-tier semantic response caching (Redis), and OpenTelemetry latency tracing. | vLLM, Redis, OpenTelemetry, Phoenix, PyTorch | [View Architecture →](./PROJECTS.md#-project-6-ai-infrastructure-high-throughput-enterprise-llm-serving-with-vllm--semantic-caching) |
 
-### Generative AI
-- [ ] LLM Fundamentals
-- [ ] Prompt Engineering
-- [ ] Embeddings
-- [ ] RAG
-- [ ] Fine-Tuning
-
-### AI Agents & Engineering
-- [ ] AI Agent Fundamentals
-- [ ] Tools & Function Calling
-- [ ] Multi-Agent Systems
-- [ ] Model Context Protocol (MCP)
-- [ ] Agent Evaluation & Tracing
-- [ ] Guardrails & Safety
-
-### MLOps
-- [ ] APIs
-- [ ] Docker
-- [ ] MLflow
-- [ ] CI/CD
-- [ ] Deployment
-
-### Projects
-- [ ] Tool-Calling AI Assistant
-- [ ] Web Research Agent
-- [ ] SQL Data Analyst Agent
-- [ ] PDF Research Agent
-- [ ] Code Execution Agent
-- [ ] Multi-Agent Research System
-- [ ] MCP-Powered AI Assistant
-- [ ] Agent Evaluation Framework
-- [ ] Enterprise AI Agent Platform
+> 📖 **Full Cloud Blueprints & Resume Talking Points:** See the comprehensive implementation guide in **[PROJECTS.md](./PROJECTS.md)**.
 
 ---
 
 ## Recommended 6-Week Study Plan
 
-### Week 1 — Python + Math Foundations
-- **Days 1–3: [Module 01 - Python & Data Stack](./01_python_and_data_stack.md)**
-- **Days 4–7: [Module 02 - Math & Statistics](./02_math_and_statistics.md)**
+| Week | Focus | Core Modules & Resources |
+|---|---|---|
+| **Week 1** | Python, SQL & Math Foundations | [Module 01 (Python & Data)](./01_python_and_data_stack.md) • [Module 02 (Math & Stats)](./02_math_and_statistics.md) |
+| **Week 2** | Classical ML, RecSys & Deep Learning | [Module 03 (Classical ML & RecSys)](./03_classical_machine_learning.md) • [Module 04 (Deep Learning)](./04_deep_learning_fundamentals.md) |
+| **Week 3** | NLP, Computer Vision & Production GenAI | [Module 05 (NLP & CV)](./05_nlp_and_computer_vision.md) • [Module 06 (GenAI & Advanced RAG)](./06_genai_llms_and_rag.md) |
+| **Week 4** | Autonomous Agents & Orchestration | [Module 07 (Agent Fundamentals)](./07_ai_agents_fundamentals.md) • [Module 08 (Tools & LangGraph)](./08_tools_and_orchestration.md) |
+| **Week 5** | Multi-Agent Systems, MCP & Evaluation | [Module 09 (Multi-Agent & MCP)](./09_multi_agent_systems_and_mcp.md) • [Module 10 (Evals & Safety)](./10_agent_evaluation_and_safety.md) |
+| **Week 6** | Production MLOps & Interview Mastery | [Module 11 (MLOps & Cloud)](./11_mlops_and_ai_engineering.md) • [Module 12 (Scenarios)](./12_practical_scenarios_and_coding.md) • [Interview Kits](./interview/ml_questions.md) |
 
-### Week 2 — Classical Machine Learning & Deep Learning
-- **Days 1–4: [Module 03 - Classical Machine Learning](./03_classical_machine_learning.md)**
-- **Days 5–7: [Module 04 - Deep Learning Fundamentals](./04_deep_learning_fundamentals.md)**
+---
 
-### Week 3 — NLP, CV & Generative AI
-- **Days 1–3: [Module 05 - NLP & Computer Vision](./05_nlp_and_computer_vision.md)**
-- **Days 4–7: [Module 06 - Generative AI, LLMs & RAG](./06_genai_llms_and_rag.md)**
+## Progress Checklist
 
-### Week 4 — Agents, Tools & Orchestration
-- **Days 1–3: [Module 07 - AI Agents Fundamentals](./07_ai_agents_fundamentals.md)**
-- **Days 4–7: [Module 08 - Tools, Function Calling & Orchestration](./08_tools_and_orchestration.md)**
+Track your completion through the 12 core roadmap milestones:
 
-### Week 5 — Multi-Agent Systems, MCP & Evaluation
-- **Days 1–4: [Module 09 - Multi-Agent Systems & MCP](./09_multi_agent_systems_and_mcp.md)**
-- **Days 5–7: [Module 10 - Agent Evaluation, Safety & Production](./10_agent_evaluation_and_safety.md)**
-
-### Week 6 — MLOps, Projects & Interview Prep
-- **Days 1–3: [Module 11 - MLOps & AI Engineering](./11_mlops_and_ai_engineering.md)**
-- **Days 4–7: [Module 12 - Practical Scenarios & Coding](./12_practical_scenarios_and_coding.md)**
+- [ ] **Milestone 01:** Python, NumPy, Pandas, SQL joins & ETL pipelines
+- [ ] **Milestone 02:** Linear algebra, probability distributions & hypothesis testing
+- [ ] **Milestone 03:** Supervised ML, Ensembles, Time Series, RecSys (Two-Tower/NDCG) & Ethics
+- [ ] **Milestone 04:** Neural networks, Backprop, PyTorch, Optimizers & Reinforcement Learning
+- [ ] **Milestone 05:** Tokenizers, Transformers, CNNs & Vision-Language models
+- [ ] **Milestone 06:** LLM architectures, Advanced RAG (Hybrid/Rerank), RAGAS & vLLM serving
+- [ ] **Milestone 07:** AI Agent loops, ReAct architecture, working memory & planning
+- [ ] **Milestone 08:** Function calling schemas, LangGraph & Google ADK orchestration
+- [ ] **Milestone 09:** Multi-Agent collaboration (CrewAI, AutoGen, Google ADK) & Model Context Protocol (MCP)
+- [ ] **Milestone 10:** LLM-as-a-judge, Tracing (LangSmith), Prompt Injection & Guardrails
+- [ ] **Milestone 11:** FastAPI model serving, Docker, MLflow, DVC, Feature Stores & Cloud (AWS/GCP)
+- [ ] **Milestone 12:** Debugging data leakage, production shifts & interview question kits
 
 ---
 
 ## Interview Tips for Freshers
 
 ### How to Structure Your Answer
-When you don't know the complete answer, don't panic.
+When you don't know the complete answer, don't panic:
 1. **Start with what you know.** Give the basic definition first.
 2. **Explain the intuition.** Use a simple analogy or example (*"Think of it like..."*).
 3. **Give a practical example.** Connect the concept to a real-world ML problem.
@@ -266,10 +187,13 @@ When you don't know the complete answer, don't panic.
 | **LLM** | A large language model trained to understand and generate language, typically using tokenized text during training and inference. |
 | **Token** | A unit of text produced by a tokenizer; it may be a word, subword, punctuation mark, or another text fragment. |
 | **Prompt** | The input instruction or context provided to a generative AI model. |
-| **Embedding** | A numerical vector representation designed to capture useful relationships in data. |
+| **Embedding** | A numerical vector representation designed to capture useful semantic relationships in data. |
 | **Hallucination** | When a generative AI model produces information that is incorrect, unsupported, or fabricated. |
 | **RAG** | Retrieval-Augmented Generation: retrieving relevant external information and providing it to a model as context for generation. |
 | **Vector Database** | A database designed to store and efficiently search vector representations, commonly using similarity search. |
+| **AI Agent** | An autonomous LLM-powered entity that observes, reasons, and executes actions using tools and memory to achieve goals. |
+| **MCP** | Model Context Protocol: an open standard for securely connecting AI assistants to data sources and execution tools. |
+| **Reinforcement Learning** | An ML paradigm where an agent learns decision policies through trial-and-error rewards and penalties. |
 | **Semantic Search** | Search based on meaning or similarity rather than only exact keyword matching. |
 | **Overfitting** | When a model fits training data too closely and performs poorly on unseen data. |
 | **Recall** | Of all actual positive cases, the proportion correctly identified as positive. |
@@ -281,40 +205,23 @@ When you don't know the complete answer, don't panic.
 | **Batch Size** | The number of training samples processed before a parameter update. |
 | **Dropout** | Randomly disabling some neural network units during training to help reduce overfitting. |
 | **Docker** | A technology for packaging applications and dependencies into portable containers. |
+| **DVC** | Data Version Control: an open-source tool for tracking datasets, model files, and pipelines alongside Git. |
 | **Data Leakage** | When information from outside the training process improperly influences model training. |
 | **Fine-Tuning** | Further training a pretrained model on a task- or domain-specific dataset. |
-| **Context Window** | The amount of input/output context a model can handle within a given interaction, subject to the model's limits. |
-| **Quantization** | Representing model parameters or computations with lower numerical precision to reduce memory and/or improve efficiency. |
-
----
-
-## Final Goal
-
-By the end of this roadmap, you should be able to:
-
-```mermaid
-flowchart LR
-    A["AI/ML Fundamentals"] --> B[Python & Data]
-    B --> C[ML Models]
-    C --> D[Deep Learning]
-    D --> E["NLP & Computer Vision"]
-    E --> F["Generative AI & LLMs"]
-    F --> G[AI Agents & Tools]
-    G --> H[Multi-Agent Systems]
-    H --> I[Evaluation & Deployment]
-    I --> J[Practical Problem Solving]
-    J --> K[Interview Ready]
-```
-
-> **The goal is not to memorize everything.** 
-> The goal is to understand the fundamentals well enough to explain them, implement them, and reason about when to use them.
+| **Context Window** | The amount of input/output context a model can handle within a given interaction, subject to model limits. |
+| **Quantization** | Representing model parameters or computations with lower numerical precision to reduce memory and speed inference. |
+| **Data Drift** | Change in the statistical distribution of input features between training baseline and live production data. |
+| **Concept Drift** | Change in the statistical relationship between input features and target labels, degrading model accuracy. |
+| **Feature Store** | Centralized platform providing consistent feature calculations and point-in-time correctness across training and inference. |
+| **Two-Tower Model** | An architecture with separate user and item encoders mapped to a shared embedding space for low-latency retrieval. |
+| **NDCG@K** | Normalized Discounted Cumulative Gain: a ranking metric measuring whether relevant items appear at the top of recommendations. |
+| **vLLM** | A high-throughput, low-latency LLM serving engine powered by PagedAttention for non-contiguous KV cache memory allocation. |
 
 ---
 
 ## Start Here
 
-- **If you're completely new to AI/ML:** 
- `Python` → `Math` → `Classical ML` → `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `AI Agents` → `Multi-Agent/MCP` → `MLOps` → `Practical Projects`
+- **If you are completely new to AI/ML:** Start at **[Module 01](./01_python_and_data_stack.md)** and follow the **6-Week Study Plan** sequentially.
+- **If you already have ML experience:** Jump straight to **[Module 06 (GenAI & RAG)](./06_genai_llms_and_rag.md)** or **[Module 07 (AI Agents)](./07_ai_agents_fundamentals.md)** and drill the **[Interview Kits](./interview/ml_questions.md)**.
 
-- **If you already know Python and basic ML:** 
- `Deep Learning` → `NLP/CV` → `GenAI/RAG` → `AI Agents` → `Multi-Agent/MCP` → `MLOps` → `Projects` → `Interview Practice`
+> **The goal is not to memorize everything.** Understand the fundamentals well enough to explain them, implement them, and reason about trade-offs.

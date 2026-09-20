@@ -215,3 +215,56 @@ Building a real-world LLM application is much more than just making an API call.
 4. **Memory:** Storing chat history (e.g., Redis) so the bot remembers the conversation context.
 5. **Tools/Agents:** Giving the LLM the ability to execute code, search the web, or query SQL databases automatically.
 6. **Evaluation & Guardrails:** Systems like Ragas to evaluate RAG accuracy, and guardrails to prevent the AI from generating inappropriate or harmful responses.
+
+---
+
+## 13. Advanced Production RAG (MNC Standard)
+
+### Q19: What are the limitations of Naive RAG, and how does Advanced RAG solve them?
+**Answer:**
+Naive RAG (simple chunking → embed → vector search → generate) fails frequently in production due to:
+- Missing exact keywords (e.g., part numbers, error codes, medical IDs).
+- Low precision from top-K cosine similarity (chunks with high similarity but irrelevant context).
+- Poorly phrased user queries.
+
+**Advanced Production RAG Architecture:**
+1. **Query Transformation (HyDE & Multi-Query):**
+   - **HyDE (Hypothetical Document Embeddings):** The LLM first generates a hypothetical ideal answer to the user's question, and we embed *that* answer to search the vector database. Searching answer-to-answer yields much higher retrieval relevance than question-to-answer.
+   - **Multi-Query Expansion:** Generating 3–5 variations of the user prompt to retrieve a broader candidate pool.
+2. **Hybrid Search (Sparse + Dense):**
+   - Combines **BM25** (lexical/keyword search for exact IDs and acronyms) with **Dense Embeddings** (semantic vector search).
+   - Results are merged using **Reciprocal Rank Fusion (RRF)**.
+3. **Cross-Encoder Reranking:**
+   - Vector similarity search is fast but coarse. We pass the top 30-50 retrieved chunks through a **Cross-Encoder Reranker** (e.g., Cohere Rerank, BGE-Reranker) that scores query-document pairs together with full cross-attention. We then feed only the top 3–5 highest-scoring chunks to the generator LLM.
+4. **RAGAS Evaluation Framework (The RAG Triad):**
+   - **Faithfulness:** Is the generated answer strictly grounded in the retrieved context? (Mitigates hallucinations).
+   - **Answer Relevance:** Does the answer directly address the user query?
+   - **Context Precision & Recall:** Did retrieval grab the exact information needed without unnecessary noise?
+
+---
+
+## 14. LLM Inference Optimization & Latency Budgets
+
+### Q20: What are TTFT and TPOT, and why do they matter in system design?
+**Answer:**
+When deploying LLMs in user-facing applications, latency is divided into two distinct phases:
+1. **TTFT (Time-to-First-Token) / Prefill Phase:**
+   - The time taken to process the entire input prompt and generate the very first output token.
+   - *Compute-bound:* Scales with prompt length ($O(N^2)$ attention or optimized matrix multiplications).
+2. **TPOT (Time-per-Output-Token) / Generation (Decode) Phase:**
+   - The time taken to emit each subsequent token (determines streaming speed).
+   - *Memory-bandwidth bound:* One token is generated per forward pass, requiring reading all model weights from GPU VRAM into compute cores for every single token.
+
+### Q21: What is the KV Cache, and why does GPU memory explode during long chats?
+**Answer:**
+During autoregressive decoding, generating token $t$ requires computing attention with all previous tokens $1 \dots t-1$. 
+To avoid recomputing Key and Value vectors for all past tokens at every step, we store them in GPU VRAM as the **KV Cache**.
+- *The Problem:* KV cache memory scales linearly with **Batch Size × Sequence Length × Hidden Dimension × Number of Layers**. For long context windows (32k+ tokens) or concurrent users, the KV cache quickly consumes tens of gigabytes of GPU VRAM, leading to Out-Of-Memory (OOM) errors.
+
+### Q22: How do modern serving engines (vLLM, TensorRT-LLM) optimize inference?
+**Answer:**
+1. **PagedAttention (vLLM):** Inspired by virtual memory in OS, it splits the KV cache into non-contiguous physical memory blocks (pages), eliminating memory fragmentation and boosting throughput by 2x–4x.
+2. **Continuous (Iteration-level) Batching:** Instead of waiting for an entire batch to finish before accepting new requests, finished sequences are evicted immediately and new requests join the running batch token-by-token.
+3. **Prompt Caching:** Storing KV caches of common system prompts or static document context so subsequent requests reuse them without recomputation.
+4. **Speculative Decoding:** A small, fast draft model predicts 4–5 candidate tokens, and the large model verifies them in a single parallel forward pass, cutting latency by 2x without quality loss.
+

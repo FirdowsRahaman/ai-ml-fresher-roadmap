@@ -251,3 +251,90 @@ Code Push to GitHub
  7. Deploy to production server
  8. Send Slack notification 
 ```
+
+---
+
+## 🗂️ Section 5: Data Version Control (DVC)
+
+### Q11: What is DVC and why don't we just use Git for datasets?
+**Answer:**
+Git is amazing for tracking code (which is just text), but it crashes if you try to commit a 50GB CSV file or a folder of 100,000 images.
+**DVC (Data Version Control)** solves this by acting like Git for massive datasets and models.
+- DVC stores the actual heavy files in cloud storage (AWS S3, Google Drive).
+- DVC creates a tiny `.dvc` text file that points to the exact version of the dataset in the cloud.
+- You commit this `.dvc` file to Git. Now your code and data are perfectly synced without breaking Git.
+
+---
+
+## ☁️ Section 6: Cloud Platforms for ML
+
+### Q12: Why do ML engineers use the cloud instead of their laptops?
+**Answer:**
+1. **Compute Power:** Deep learning requires GPUs. Cloud platforms let you rent powerful GPUs (like A100s) by the hour instead of buying a $10,000 computer.
+2. **Scalability:** If your ML API goes viral and receives 10,000 requests per minute, a cloud platform can automatically spin up 20 servers to handle the load, then scale back down to save money.
+
+### Q13: What are the main Cloud ML Services you should know?
+**Answer:**
+All major cloud providers have dedicated ML platforms that handle Jupyter notebooks, model training, and API deployment in one place:
+- **AWS:** Amazon SageMaker
+- **Google Cloud:** Vertex AI
+- **Microsoft Azure:** Azure Machine Learning
+
+For freshers, deploying a simple model to an **AWS EC2 instance** (a virtual server) using Docker and FastAPI is a standard, highly respected portfolio project.
+
+---
+
+## 📊 Section 7: Statistical Drift Detection & Model Decay (MNC Standard)
+
+### Q14: How do you statistically detect Data Drift in production?
+**Answer:**
+You cannot simply "eyeball" features. Industry MLOps pipelines (using tools like Evidently AI or Great Expectations) use formal statistical tests:
+1. **Population Stability Index (PSI):**
+   - Compares the distribution of a numerical or categorical feature between the training baseline and a recent production window (e.g., past 7 days).
+   - *Rule of Thumb:*
+     - $\text{PSI} < 0.1$: No significant change. Baseline is valid.
+     - $0.1 \le \text{PSI} < 0.25$: Moderate drift; flag for inspection.
+     - $\text{PSI} \ge 0.25$: Significant drift; trigger automated retraining pipeline.
+2. **Kolmogorov-Smirnov (K-S) Test:**
+   - A non-parametric test comparing the cumulative distributions of continuous features to check if they come from the same distribution.
+3. **Concept Drift Detection:**
+   - Track business metrics and model residuals. If input feature distributions appear stable (PSI < 0.1) but real-world accuracy or conversion drops by 15%, the underlying relationship has shifted (Concept Drift).
+
+---
+
+## 🏪 Section 8: Feature Stores & Training-Serving Skew
+
+### Q15: What is Training-Serving Skew, and why do companies use Feature Stores (e.g., Feast)?
+**Answer:**
+**Training-Serving Skew** is one of the most common and expensive bugs in production ML:
+- At training time, data scientists calculate features using Pandas SQL queries (e.g., `avg_order_value_last_30_days`).
+- At inference time in production, backend engineers re-implement the same feature calculation in Java/Go or FastAPI.
+- Even subtle discrepancies in timezone handling, null imputation, or window boundaries create mathematical differences between what the model learned and what it sees live.
+
+**How a Feature Store solves this:**
+A Feature Store (like **Feast**, Tecton, or AWS Feature Store) acts as a centralized "single source of truth" for feature definitions:
+1. **Offline Store (Snowflake/BigQuery/Parquet):** Provides high-throughput batch features with **point-in-time correctness** (time-travel joins) to prevent future data leaking into training sets.
+2. **Online Store (Redis/DynamoDB):** Provides ultra-low-latency (<10ms) lookup for the exact same features during real-time inference.
+
+---
+
+## 🧪 Section 9: ML Online Experimentation & Safe Deployments
+
+### Q16: How do you design an A/B Test for a new Machine Learning model?
+**Answer:**
+Deploying a new model directly to 100% of traffic based solely on high offline accuracy is dangerous. Top companies use a rigorous A/B testing framework:
+1. **Define Hypothesis & Metrics:**
+   - **Primary (Success) Metric:** The business KPI you aim to improve (e.g., Click-Through-Rate, Purchase Conversion).
+   - **Guardrail Metrics:** Non-negotiable system constraints that must *not* regress (e.g., p99 latency < 80ms, API error rate < 0.05%, user unsubscribe rate).
+2. **Traffic Randomization:** Randomly partition traffic by unique user ID (e.g., 50% to Champion model, 50% to Challenger model) to avoid cross-contamination.
+3. **Sample Size & Statistical Significance:** Run power analysis to determine how many days the test must run to achieve 95% statistical significance ($p < 0.05$) while accounting for weekend/weekday seasonality.
+
+### Q17: What are Shadow Deployments (Dark Traffic) and Canary Releases?
+**Answer:**
+- **Shadow Deployment (Dark Traffic):**
+  - Production requests are duplicated: sent to both the live Champion model and the new Challenger model.
+  - Only the Champion model's prediction is returned to the user.
+  - The Challenger model's predictions, latency, and memory footprint are logged and evaluated quietly in the background with **zero user risk**.
+- **Canary Release:**
+  - Route a tiny slice of live user traffic (e.g., 2% -> 10% -> 50% -> 100%) to the new model while continuously monitoring error rates and guardrails. If anomalies occur, automatically roll back instantly.
+

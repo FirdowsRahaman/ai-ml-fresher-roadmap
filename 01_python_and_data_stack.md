@@ -241,3 +241,27 @@ print(df.iloc[0])     # Gets the first row (index 0)
 print(df.loc['Alice':'Bob'])  # Rows from Alice to Bob (inclusive)
 print(df.iloc[0:2])      # Rows 0 and 1 (exclusive end)
 ```
+
+---
+
+## 🗄️ Section 4: SQL & Data Engineering Basics
+
+### Q13: Why is SQL important for Machine Learning?
+**Answer:**
+Before you can analyze data with Pandas or train a model with Scikit-Learn, you have to get the data out of the company's database. SQL (Structured Query Language) is the standard language for extracting and manipulating data in relational databases.
+- Most real-world ML datasets aren't CSV files on a laptop; they are tables in a database (like PostgreSQL, MySQL, or Snowflake).
+- Performing basic filtering, joining, and aggregation in SQL is often much faster and more memory-efficient than loading raw data into Python.
+
+### Q14: Explain the difference between INNER JOIN, LEFT JOIN, and RIGHT JOIN.
+**Answer:**
+Joins are used to combine rows from two or more tables based on a related column.
+- **INNER JOIN:** Returns only the records that have matching values in both tables.
+- **LEFT JOIN:** Returns all records from the left table, and the matched records from the right table. If there is no match, the result is NULL on the right side.
+- **RIGHT JOIN:** Returns all records from the right table, and the matched records from the left table.
+
+### Q15: What is an ETL Pipeline?
+**Answer:**
+ETL stands for **Extract, Transform, Load**. It is the core concept of Data Engineering.
+- **Extract:** Pull data from various sources (SQL databases, APIs, logs).
+- **Transform:** Clean the data, handle missing values, format dates, and join tables.
+- **Load:** Save the cleaned data into a Data Warehouse or a feature store where Data Scientists can easily access it for training models.
