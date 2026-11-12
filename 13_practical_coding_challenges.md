@@ -4,7 +4,7 @@ While conceptual and system design questions test high-level architecture, virtu
 
 ---
 
-## 🎯 The ML Live-Coding Interview Flow
+## The ML Live-Coding Interview Flow
 
 Follow this systematic 5-step approach during live coding rounds:
 

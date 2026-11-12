@@ -4,7 +4,7 @@ This module covers the most challenging, high-frequency **real-world scenario qu
 
 ---
 
-## 🧭 Production ML Troubleshooting Decision Tree
+## Production ML Troubleshooting Decision Tree
 
 When a model underperforms, crashes, or behaves unexpectedly in production, follow this structured diagnostic framework:
 

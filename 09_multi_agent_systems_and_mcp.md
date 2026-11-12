@@ -196,7 +196,7 @@ def get_current_temperature(city: str) -> str:
 
 # When executed, the server listens via stdio (standard input/output):
 # if __name__ == "__main__":
-#    mcp.run()
+# mcp.run()
 ```
 > **Why it matters:** Once this server runs, any agent compliant with MCP can discover `get_current_temperature` dynamically, read its JSON schema, and execute it securely.
 

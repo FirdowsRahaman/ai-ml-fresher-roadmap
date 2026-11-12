@@ -188,7 +188,7 @@ data = {
 
 df = pd.DataFrame(data)
 print(df)
-#   Name Age Score
+# Name Age Score
 # 0  Alice  25  85.0
 # 1   Bob  30  90.5
 # 2 Charlie  28  78.0
